@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_obat');
             $table->string('satuan');
+            $table->bigInteger('jumlah');
             $table->string('dosis');
             $table->timestamps();
         });
