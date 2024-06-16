@@ -24,7 +24,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Main/LandingPage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -36,13 +36,15 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('/dashboard')->group( function () {
+Route::prefix('/dashboard')->group(function () {
     Route::resource('/user', DashboardUserController::class);
     Route::resource('/pasien', DashboardPasienController::class);
     Route::resource('/dokter', DashboardDokterController::class);
@@ -50,8 +52,8 @@ Route::prefix('/dashboard')->group( function () {
     Route::resource('/kurir', DashboardKurirController::class);
     Route::resource('/operator', DashboardOperatorController::class);
     Route::resource('/obat', DashboardObatController::class);
-}); 
+});
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

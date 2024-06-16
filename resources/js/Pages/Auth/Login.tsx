@@ -1,97 +1,185 @@
-import { useEffect, FormEventHandler } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { useEffect, FormEventHandler } from "react";
+import GuestLayout from "@/Layouts/GuestLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import LoginImage from "../../../images/login.jpg";
 
-export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
+// mui
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+export default function Login({
+    status,
+    canResetPassword,
+}: {
+    status?: string;
+    canResetPassword: boolean;
+}) {
+    const defaultTheme = createTheme();
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
     useEffect(() => {
         return () => {
-            reset('password');
+            reset("password");
         };
     }, []);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('login'));
+        post(route("login"));
     };
 
     return (
         <GuestLayout>
             <Head title="Log in" />
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
+            <ThemeProvider theme={defaultTheme}>
+                <Grid container component="main" sx={{ height: "100vh" }}>
+                    <CssBaseline />
+                    <Grid
+                        item
+                        xs={false}
+                        sm={2}
+                        md={7}
+                        sx={{
+                            backgroundImage: `url(${LoginImage})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundColor: (t) =>
+                                t.palette.mode === "light"
+                                    ? t.palette.grey[50]
+                                    : t.palette.grey[900],
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                        }}
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ms-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    <Grid
+                        item
+                        xs={13}
+                        sm={8}
+                        md={5}
+                        component={Paper}
+                        elevation={6}
+                        sx={{
+                            padding: "16px",
+                        }}
+                        square
+                    >
+                        <Box
+                            sx={{
+                                my: 18,
+                                mx: 4,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "left",
+                            }}
                         >
-                            Forgot your password?
-                        </Link>
-                    )}
+                            <Typography className="!font-bold !text-2xl !mb-5">
+                                Login
+                            </Typography>
+                            <Typography className="text-gray-400 !mb-5">
+                                Login Into Your Account
+                            </Typography>
+                            <Box
+                                component="form"
+                                noValidate
+                                onSubmit={submit}
+                                sx={{ mt: 1 }}
+                            >
+                                <div className="mb-3">
+                                    <label
+                                        htmlFor="username"
+                                        className="block text-sm font-medium leading-6 text-gray-400"
+                                    >
+                                        Username
+                                    </label>
+                                    <div className="relative mt-2 rounded-md shadow-sm">
+                                        <div className="pointer-events-none absolute inset-y-0 flex items-center pl-3 pr-3">
+                                            <span className="text-gray-500">
+                                                <AccountCircleIcon></AccountCircleIcon>
+                                            </span>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            id="username"
+                                            className="block w-full rounded-md border-0 py-3 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            placeholder="enter your username"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="password"
+                                        className="block text-sm font-medium leading-6 text-gray-400"
+                                    >
+                                        Password
+                                    </label>
+                                    <div className="relative mt-2 rounded-md shadow-sm">
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <span className="text-gray-500 sm:text-sm">
+                                                <LockOpenIcon></LockOpenIcon>
+                                            </span>
+                                        </div>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            className="block w-full rounded-md border-0 py-3 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            placeholder="enter your password"
+                                        />
+                                    </div>
+                                </div>
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
-            </form>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2, padding: "16px" }}
+                                    className="!rounded-full !bg-cyan-600 !font-semibold"
+                                >
+                                    Log In
+                                </Button>
+                                <Grid
+                                    container
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <Grid item display={"flex"}>
+                                        <Typography
+                                            className="text-gray-400"
+                                            sx={{
+                                                mr: 1,
+                                            }}
+                                        >
+                                            Don't have an account?
+                                        </Typography>
+                                        <Link
+                                            href="/register"
+                                            className="text-blue-500"
+                                        >
+                                            {"Register"}
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </ThemeProvider>
         </GuestLayout>
     );
 }
