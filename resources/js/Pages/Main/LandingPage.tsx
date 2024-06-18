@@ -1,3 +1,4 @@
+import Footer from "@/Components/main/Footer";
 import Header from "@/Components/main/NavBar";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head } from "@inertiajs/react";
@@ -70,6 +71,7 @@ export default function LandingPage(): any {
                     </div>
                 </div>
             </div>
+            <Footer></Footer>
         </GuestLayout>
     );
 }
