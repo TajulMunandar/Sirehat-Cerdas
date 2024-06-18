@@ -161,15 +161,17 @@ export default function LandingPage(): any {
                                 </div>
                             </div>
                             <div className="px-6 pt-4 pb-2">
-                                <Button
-                                    className="!w-full !py-4 !mt-2 !font-bold !text-black !rounded-xl !bg-[#E3F2FF] hover:!bg-[#3473cc] hover:!text-[#ffffff] transition-colors duration-200"
-                                    style={{
-                                        textTransform: "capitalize",
-                                        fontFamily: "Poppins",
-                                    }}
-                                >
-                                    Cari Dokter
-                                </Button>
+                                <Link href="/tentang">
+                                    <Button
+                                        className="!w-full !py-4 !mt-2 !font-bold !text-black !rounded-xl !bg-[#E3F2FF] hover:!bg-[#3473cc] hover:!text-[#ffffff] transition-colors duration-200"
+                                        style={{
+                                            textTransform: "capitalize",
+                                            fontFamily: "Poppins",
+                                        }}
+                                    >
+                                        Cari Dokter
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>
