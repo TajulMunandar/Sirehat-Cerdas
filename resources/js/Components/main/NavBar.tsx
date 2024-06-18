@@ -34,16 +34,16 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
                     <Nav.Link className="me-2">
                         <Link
                             href="/"
-                            className="text-md decoration-transparent font-semibold"
+                            className="text-md decoration-transparent font-semibold hover:!text-[#1580EB] transition-colors duration-200"
                             style={linkStyle("/")}
                         >
                             Beranda
                         </Link>
                     </Nav.Link>
-                    <Nav.Link className="me-2">
+                    <Nav.Link className="me-2 ">
                         <Link
                             href="/tentang"
-                            className="text-md decoration-transparent font-semibold"
+                            className="text-md decoration-transparent font-semibold hover:!text-[#1580EB] transition-colors duration-200"
                             style={linkStyle("/tentang")}
                         >
                             Tentang
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
                     <Nav.Link className="me-2">
                         <Link
                             href="/layanan"
-                            className="text-md decoration-transparent font-semibold"
+                            className="text-md decoration-transparent font-semibold hover:!text-[#1580EB] transition-colors duration-200"
                             style={linkStyle("/layanan")}
                         >
                             Layanan
@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
                     <Nav.Link className="me-5">
                         <Link
                             href="/faq"
-                            className="text-md decoration-transparent font-semibold"
+                            className="text-md decoration-transparent font-semibold hover:!text-[#1580EB] transition-colors duration-200"
                             style={linkStyle("/faq")}
                         >
                             FAQ
