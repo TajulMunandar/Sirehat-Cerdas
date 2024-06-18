@@ -71,7 +71,14 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
                         href="/login"
                         className="text-md decoration-transparent text-white font-semibold"
                     >
-                        <Button className="px-5 py-2 !text-sm">Login</Button>
+                        <Button
+                            className="px-5 py-2 !text-sm"
+                            style={{
+                                fontFamily: "Poppins",
+                            }}
+                        >
+                            Login
+                        </Button>
                     </Link>
                 </Nav>
             </Navbar.Collapse>
