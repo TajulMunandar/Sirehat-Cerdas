@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_dokter')->constrained('dokters')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('id_registrasi')->constrained('registrasis')->onDelete('restrict')->onUpdate('cascade');
             $table->string('diagnosa');
-            $table->string('tindakan');
+            $table->boolean('tindakan');
             $table->timestamps();
         });
     }

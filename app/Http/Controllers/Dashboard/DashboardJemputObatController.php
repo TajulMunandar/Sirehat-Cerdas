@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\JemputObat;
+use Exception;
 use Illuminate\Http\Request;
 
 class DashboardJemputObatController extends Controller
@@ -12,7 +14,15 @@ class DashboardJemputObatController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $jemputobats = JemputObat::latest()->get();
+
+            return response()->json($jemputobats);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

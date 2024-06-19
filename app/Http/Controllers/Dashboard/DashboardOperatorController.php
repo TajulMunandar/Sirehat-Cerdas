@@ -16,7 +16,15 @@ class DashboardOperatorController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $operators = Operator::latest()->get();
+
+            return response()->json($operators);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

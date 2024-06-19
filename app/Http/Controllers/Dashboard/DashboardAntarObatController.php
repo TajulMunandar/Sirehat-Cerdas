@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\AntarObat;
+use App\Models\TransaksiObatOnline;
+use Exception;
 use Illuminate\Http\Request;
 
 class DashboardAntarObatController extends Controller
@@ -12,7 +15,15 @@ class DashboardAntarObatController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $antarobats = TransaksiObatOnline::where('status_antar', 1)->where('status_ambil', 1)->latest()->get();
+
+            return response()->json($antarobats);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**
@@ -28,7 +39,21 @@ class DashboardAntarObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            
+            $validatedData = $request->validate([
+                'id_to_online' => 'required',
+                'id_kurir' => 'required',
+                'status' => 'required'
+            ]);
+
+            AntarObat::create($validatedData);
+            
+            return response()->json('Sukses Create AntarObat');
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**

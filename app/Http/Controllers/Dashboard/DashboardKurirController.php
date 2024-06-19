@@ -17,7 +17,15 @@ class DashboardKurirController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $kurir = Kurir::latest()->get();
+
+            return response()->json($kurir);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

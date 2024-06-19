@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksi_obat_onlines', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_konsul')->constrained('konsultasi_onlines')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreignId('id_apoteker')->constrained('apotekers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('id_apoteker')->nullable()->constrained('apotekers')->onDelete('restrict')->onUpdate('cascade');
             $table->boolean('status_ambil');
             $table->boolean('status_antar');
             $table->timestamps();

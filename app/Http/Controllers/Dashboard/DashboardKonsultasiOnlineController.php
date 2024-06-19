@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
+use App\Models\KonsultasiOnline;
+use App\Models\TransaksiObatOnline;
+use App\Models\TransaksiObatOnlineDetail;
+use Exception;
 use Illuminate\Http\Request;
 
 class DashboardKonsultasiOnlineController extends Controller
@@ -12,7 +17,20 @@ class DashboardKonsultasiOnlineController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            
+            $konsultasis = [];
+            if(Auth()->user()->role == 1){
+                $konsultasis = KonsultasiOnline::where('id_dokter', Auth()->user()->dokter->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
+            }elseif(Auth()->user()->role == 4){
+                $konsultasis = KonsultasiOnline::where('id_pasien', Auth()->user()->pasien->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
+            }
+            
+            return response()->json($konsultasis);
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**
@@ -28,7 +46,21 @@ class DashboardKonsultasiOnlineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            
+            $validatedData = $request->validate([
+                'id_pasien' => 'required',
+                'id_dokter' => 'required',
+                'status_konsul' => 'required'
+            ]);
+
+            KonsultasiOnline::create($validatedData);
+            
+            return response()->json('Sukses Create Konsultasi');
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**
@@ -36,7 +68,15 @@ class DashboardKonsultasiOnlineController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+
+            $chats = Chat::where('id_konsul', $id)->get();
+            
+            return response()->json($chats);
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**
@@ -52,7 +92,42 @@ class DashboardKonsultasiOnlineController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+
+            $validatedData = $request->validate([
+                'status_konsul' => 'required',
+                'status_obat' => 'required',
+                'diagnosa' => 'required'
+            ]);
+
+            KonsultasiOnline::where('id', $id)->update($validatedData);
+
+            if($validatedData['status_obat'] == '1'){
+                
+
+                $transaksi_obat = TransaksiObatOnline::create([
+                    'id_konsul' => $id,
+                    'status_ambil' => 0,
+                    'status_antar' => 0,
+                ]);
+
+                foreach($request->id_obat as $key => $value) {
+
+                    TransaksiObatOnlineDetail::create([
+                        'ket' => $request->ket,
+                        'id_obat' => $value,
+                        'id_to_online' => $transaksi_obat->id
+                    ]);
+                }
+
+                return response()->json('Sukses Update Konsultasi Obat');
+            }
+
+            return response()->json('Sukses Update Konsultasi Tanpa Obat');
+
+        }catch(Exception $e){
+            return response()->json('Error' .$e);
+        }
     }
 
     /**

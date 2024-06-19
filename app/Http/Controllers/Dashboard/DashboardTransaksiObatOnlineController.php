@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\JemputObat;
+use App\Models\TransaksiObatOnline;
+use Exception;
 use Illuminate\Http\Request;
+
+use function Pest\Laravel\json;
 
 class DashboardTransaksiObatOnlineController extends Controller
 {
@@ -12,7 +17,15 @@ class DashboardTransaksiObatOnlineController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $transakasi_obats = TransaksiObatOnline::with(['konsultasionline:id,id_dokter,id_pasien','konsultasionline.dokter:id,nama,poli','konsultasionline.pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat','apoteker:id,nama'])->latest()->get();
+
+            return response()->json($transakasi_obats);
+
+        }catch(Exception $e){
+            return response()->json('Error' . $e);
+        }
     }
 
     /**
@@ -28,7 +41,20 @@ class DashboardTransaksiObatOnlineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+
+            $validatedData = $request->validate([
+                'id_apoteker' => 'required',
+                'status_ambil' => 'required'
+            ]);
+
+            TransaksiObatOnline::where('id', $request->id)->update($validatedData);
+
+            return response()->json('Sukses Create Transaksi Online');
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**
@@ -52,7 +78,35 @@ class DashboardTransaksiObatOnlineController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+
+            $validatedDataTransaksi = $request->validate([
+                'status_antar' => 'required',
+            ]);
+            
+            if($validatedDataTransaksi['status_antar'] == '0'){
+
+                $validatedDataJemput = $request->validate([
+                    'nama_pengambil' => 'required',
+                ]);
+
+                $validatedDataJemput['id_to_online'] = $id;
+
+                
+                TransaksiObatOnline::where('id', $request->id)->update($validatedDataTransaksi);
+                JemputObat::create($validatedDataJemput);
+                
+                return response()->json('Sukses Update Transaksi Jemput');
+            }
+            
+            
+            TransaksiObatOnline::where('id', $id)->update($validatedDataTransaksi);  
+            
+            return response()->json('Sukses Update Transaksi Antar');
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**

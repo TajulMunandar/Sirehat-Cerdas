@@ -16,7 +16,15 @@ class DashboardPasienController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $pasiens = Pasien::latest()->get();
+
+            return response()->json($pasiens);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

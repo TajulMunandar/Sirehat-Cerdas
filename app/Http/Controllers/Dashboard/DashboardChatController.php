@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
+use Exception;
 use Illuminate\Http\Request;
 
 class DashboardChatController extends Controller
@@ -28,7 +30,22 @@ class DashboardChatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            
+            $validatedData = $request->validate([
+                'id_konsul' => 'required',
+                'nama_pengirim' => 'required',
+                'chat' => 'required'
+            ]);
+
+
+            Chat::create($validatedData);
+            
+            return response()->json('Sukses Create Chat');
+            
+        }catch(Exception $e){
+            return response()->json('Error'. $e);
+        }
     }
 
     /**

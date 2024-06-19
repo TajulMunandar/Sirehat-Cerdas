@@ -15,7 +15,15 @@ class DashboardUserController extends Controller
      */
     public function index()
     {
-        
+        try{
+
+            $users = User::latest()->get();
+
+            return response()->json($users);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**
