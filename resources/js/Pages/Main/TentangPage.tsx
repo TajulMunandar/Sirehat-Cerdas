@@ -3,12 +3,9 @@ import Header from "@/Components/main/NavBar";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head } from "@inertiajs/react";
 
-import shield from "../../../images/tentang/chef/shield.png";
-import Location from "../../../images/tentang/chef/Location.png";
-import Mamang from "../../../images/tentang/chef/mamang.png";
-import Toko from "../../../images/tentang/chef/toko5.png";
-
 import "../../../css/style.css";
+import "../../../css/main.css";
+
 import Doctors from "@/Components/main/Doctor";
 
 export default function LandingPage(): any {
@@ -22,6 +19,24 @@ export default function LandingPage(): any {
         <GuestLayout>
             <Head title="Tentang" />
             <Header page={page}></Header>
+            <section id="hero" className="hero section">
+                <div className="container">
+                    <div className="row gy-4">
+                        <div
+                            className="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center"
+                            data-aos="zoom-out"
+                        >
+                            <h1>
+                                Puskesmas <span>Blang Cut</span>
+                            </h1>
+                            <p>
+                                We are team of talented designers making
+                                websites with Bootstrap
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <div className="container  my-5">
                 <p className="text-md text-[#1580EB] font-semibold text-center mb-0">
                     Tim Dokter
