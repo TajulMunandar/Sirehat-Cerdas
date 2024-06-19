@@ -44,26 +44,26 @@ class User extends Authenticatable
 
     public function Pasien()
     {
-        return $this->hasMany(Pasien::class);
+        return $this->hasOne(Pasien::class);
     }
 
     public function Apoteker()
     {
-        return $this->hasMany(Apoteker::class);
+        return $this->hasOne(Apoteker::class, 'id_user');
     }
 
     public function Dokter()
     {
-        return $this->hasMany(Dokter::class);
+        return $this->hasOne(Dokter::class, 'id_user');
     }
 
     public function Operator()
     {
-        return $this->hasMany(Operator::class);
+        return $this->hasOne(Operator::class);
     }
     
     public function Kurir()
     {
-        return $this->hasMany(Kurir::class);
+        return $this->hasOne(Kurir::class);
     }
 }

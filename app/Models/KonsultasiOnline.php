@@ -18,7 +18,7 @@ class KonsultasiOnline extends Model
 
     public function Dokter()
     {
-        return $this->belongsTo(Dokter::class, 'id_Dokter');
+        return $this->belongsTo(Dokter::class, 'id_dokter');
     }
 
     public function Pasien()

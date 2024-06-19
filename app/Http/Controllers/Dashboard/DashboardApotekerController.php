@@ -16,7 +16,15 @@ class DashboardApotekerController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $apotekers = Apoteker::latest()->get();
+
+            return response()->json($apotekers);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

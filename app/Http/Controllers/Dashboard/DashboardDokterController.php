@@ -17,7 +17,15 @@ class DashboardDokterController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $dokters = Dokter::latest()->get();
+
+            return response()->json($dokters);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**

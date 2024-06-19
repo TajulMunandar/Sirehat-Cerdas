@@ -14,7 +14,15 @@ class DashboardObatController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $obats = Obat::latest()->get();
+
+            return response()->json($obats);
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**
@@ -41,14 +49,18 @@ class DashboardObatController extends Controller
 
             
             $validatedData['jumlah'] = intval($validatedData['jumlah']); 
-            // return response()->json($validatedData);
 
-            Obat::create($validatedData);
+            $obat = new Obat();
+            $obat->nama_obat = $validatedData['nama_obat'];
+            $obat->satuan = $validatedData['satuan'];
+            $obat->jumlah = $validatedData['jumlah'];
+            $obat->dosis = $validatedData['dosis'];
+            $obat->save();
 
             return response()->json('Sukses Create Obat');
             
         }catch(Exception $e){
-            return response()->json('Error'. $e);
+            return response()->json('Error');
         }
     }
 
@@ -71,9 +83,24 @@ class DashboardObatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Obat $obat)
     {
-        //
+        try{
+
+            $validatedData = $request->validate([
+                'nama_obat' => 'required|max:255',
+                'satuan' => 'required',
+                'jumlah' => 'required',
+                'dosis' => 'required'
+            ]);
+
+            Obat::where('id', $obat->id)->update($validatedData);
+
+            return response()->json('Sukses Edit Obat');
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 
     /**
@@ -81,6 +108,15 @@ class DashboardObatController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+
+            $obat = Obat::whereId($id)->first();
+            Obat::destroy($obat->id);
+
+            return response()->json('Sukses Delete Obat');
+
+        }catch(Exception $e){
+            return response()->json('Error');
+        }
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('registrasis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pasien')->constrained('pasiens')->onDelete('restrict')->onUpdate('cascade');
-            $table->string('tanggal');
+            $table->dateTime('tanggal');
             $table->boolean('status');
             $table->string('keluhan');
             $table->string('poli');

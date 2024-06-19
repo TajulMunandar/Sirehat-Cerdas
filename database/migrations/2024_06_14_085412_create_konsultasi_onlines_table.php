@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('id_dokter')->constrained('dokters')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('id_pasien')->constrained('pasiens')->onDelete('restrict')->onUpdate('cascade');
             $table->boolean('status_konsul');
-            $table->string('diagnosa');
+            $table->boolean('status_obat');
+            $table->string('diagnosa')->nullable();
             $table->timestamps();
         });
     }
