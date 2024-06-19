@@ -1,0 +1,82 @@
+.card-chefs {
+    border: none;
+    padding: 19px;
+
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out;
+    color: #ffffff;
+    border-radius: 24px;
+}
+
+.card-chefs:hover {
+    background-color: #1580eb;
+}
+
+.txt-food {
+    bottom: 10px;
+}
+
+.btn-chefs-position {
+    text-align: end;
+    margin-top: 38px;
+}
+.btn-chefs {
+    color: #fdc886;
+}
+
+.btn-chef {
+    background-color: #fdc886;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.text-btn-chef {
+    margin: 10px;
+    font-weight: 600;
+}
+
+.btn-chef:hover {
+    background-color: #fdc786a9;
+}
+
+.chef-img {
+    border-radius: 24px;
+}
+
+.card-icons {
+    border-radius: 24px;
+    width: 190px;
+    height: 230px;
+    margin-left: 420px;
+    margin-top: 40px;
+}
+
+.card-restaurants-chef {
+    width: 380px;
+    position: relative;
+    bottom: 210px;
+    right: 50px;
+}
+
+.card-restaurants-chefs {
+    margin-bottom: 100px;
+    border-radius: 24px;
+}
+
+.img-rest-chef {
+    width: 96px;
+    height: 132px;
+    border-radius: 14px;
+}
+
+.text-cr {
+    margin-left: 52px;
+    margin-top: 30px;
+    color: #656565;
+    line-height: 2px;
+}
+
+.text-chef {
+    margin-left: 53px;
+    margin-bottom: 10px;
+}

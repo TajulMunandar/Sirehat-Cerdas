@@ -32,7 +32,16 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Main/LandingPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/tentang', function () {
+    return Inertia::render('Main/TentangPage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -43,6 +52,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -56,7 +67,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logoutt', 'logout');
 });
 
-Route::prefix('/dashboard')->group( function () {
+Route::prefix('/dashboard')->group(function () {
     Route::resource('/user', DashboardUserController::class);
     Route::resource('/pasien', DashboardPasienController::class);
     Route::resource('/dokter', DashboardDokterController::class);
@@ -75,4 +86,6 @@ Route::prefix('/dashboard')->group( function () {
 });
 
 
-require __DIR__.'/auth.php';
+
+
+require __DIR__ . '/auth.php';
