@@ -1,3 +1,5 @@
+import { Link } from "@inertiajs/react";
+
 export default function Footer(): any {
     return (
         <>
@@ -100,9 +102,11 @@ export default function Footer(): any {
                             </h5>
                             <nav className="list-none mt-16 text-left">
                                 <li>
-                                    <p className="text-gray-400 hover:text-gray-800">
-                                        Dokter
-                                    </p>
+                                    <Link href="/tentang">
+                                        <p className="text-gray-400 hover:text-gray-800">
+                                            Dokter
+                                        </p>
+                                    </Link>
                                 </li>
                                 <li className="mb-3">
                                     <a
@@ -162,24 +166,32 @@ export default function Footer(): any {
                             </h5>
                             <nav className="list-none mt-16 text-left">
                                 <li>
-                                    <p className="text-gray-400 hover:text-gray-800">
-                                        Beranda
-                                    </p>
+                                    <Link href="/">
+                                        <p className="text-gray-400 hover:text-gray-800">
+                                            Beranda
+                                        </p>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <p className="text-gray-400 hover:text-gray-800">
-                                        Tentang
-                                    </p>
+                                    <Link href="/tentang">
+                                        <p className="text-gray-400 hover:text-gray-800">
+                                            Tentang
+                                        </p>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <p className="text-gray-400 hover:text-gray-800">
-                                        Layanan
-                                    </p>
+                                    <Link href="/layanan">
+                                        <p className="text-gray-400 hover:text-gray-800">
+                                            Layanan
+                                        </p>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <p className="text-gray-400 hover:text-gray-800">
-                                        FAQ
-                                    </p>
+                                    <Link href="/faq">
+                                        <p className="text-gray-400 hover:text-gray-800">
+                                            FAQ
+                                        </p>
+                                    </Link>
                                 </li>
                             </nav>
                         </div>
