@@ -6,6 +6,7 @@ import Bg2 from "../../../images/layanan/Bg4.jpg";
 import Bg3 from "../../../images/layanan/bg3.jpg";
 import Bg5 from "../../../images/layanan/bg5.jpg";
 import Bg4 from "../../../images/layanan/bg2.jpg";
+import { Link } from "@inertiajs/react";
 
 interface CarouselItem {
     img: string;
@@ -81,14 +82,16 @@ const CustomCarousel: React.FC = () => {
                                     {activeData.doctors}{" "}
                                 </span>
                             </p>
-                            <button className="btn !bg-[#1580EB] text-white fw-bold">
-                                Berobat{" "}
-                                <img
-                                    src="img/panahkanan.svg"
-                                    alt=""
-                                    className="panah"
-                                />
-                            </button>
+                            <Link href="/login">
+                                <button className="btn !bg-[#1580EB] text-white fw-bold">
+                                    Berobat{" "}
+                                    <img
+                                        src="img/panahkanan.svg"
+                                        alt=""
+                                        className="panah"
+                                    />
+                                </button>
+                            </Link>
                             <p className="py-2">
                                 {" "}
                                 <img src="img/info.png" alt="" />{" "}
