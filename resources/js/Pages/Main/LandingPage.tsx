@@ -261,7 +261,7 @@ export default function LandingPage(): any {
                                     menjaga Anda tetap sehat.
                                 </p>
                                 <Link
-                                    href="#"
+                                    href="/layanan"
                                     className="text-blue-500 decoration-transparent font-semibold "
                                 >
                                     <span className="flex items-center">
@@ -291,7 +291,7 @@ export default function LandingPage(): any {
                                     di daerah ini terjadi di Lifecare
                                 </p>
                                 <Link
-                                    href="#"
+                                    href="/layanan"
                                     className="text-[#fff] decoration-transparent font-semibold "
                                 >
                                     <span className="flex items-center">
@@ -325,7 +325,7 @@ export default function LandingPage(): any {
                                     pada pasien anak-anak
                                 </p>
                                 <Link
-                                    href="#"
+                                    href="/layanan"
                                     className="text-blue-500 decoration-transparent font-semibold "
                                 >
                                     <span className="flex items-center">
@@ -357,7 +357,7 @@ export default function LandingPage(): any {
                                     setiap hari.
                                 </p>
                                 <Link
-                                    href="#"
+                                    href="/layanan"
                                     className="text-blue-500 decoration-transparent font-semibold "
                                 >
                                     <span className="flex items-center">
@@ -386,7 +386,7 @@ export default function LandingPage(): any {
                                     ibu dan anak
                                 </p>
                                 <Link
-                                    href="#"
+                                    href="/layanan"
                                     className="text-blue-500 decoration-transparent font-semibold "
                                 >
                                     <span className="flex items-center">
