@@ -1,3 +1,181 @@
+.hero {
+    width: 100%;
+    min-height: 75vh;
+    position: relative;
+    padding: 60px 0;
+    display: flex;
+    align-items: center;
+    background: url("../images/tentang/chef/bg.jpg") top left;
+    background-size: cover;
+}
+
+.hero:before {
+    content: "";
+    background: color-mix(in srgb, var(--contrast-color), transparent 30%);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.hero .container {
+    position: relative;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
+}
+
+.hero h1 span {
+    color: var(--accent-color);
+}
+
+.hero p {
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    margin: 5px 0 30px 0;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.hero .btn-get-started {
+    color: var(--contrast-color);
+    background: var(--accent-color);
+    font-family: var(--heading-font);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 4px;
+    transition: 0.5s;
+    box-shadow: 0 8px 28px
+        color-mix(in srgb, var(--accent-color), transparent 80%);
+}
+
+.hero .btn-get-started:hover {
+    color: var(--contrast-color);
+    background: color-mix(in srgb, var(--accent-color), transparent 15%);
+    box-shadow: 0 8px 28px
+        color-mix(in srgb, var(--accent-color), transparent 55%);
+}
+
+.hero .btn-watch-video {
+    font-size: 16px;
+    transition: 0.5s;
+    margin-left: 25px;
+    color: var(--default-color);
+    font-weight: 600;
+}
+
+.hero .btn-watch-video i {
+    color: var(--accent-color);
+    font-size: 32px;
+    transition: 0.3s;
+    line-height: 0;
+    margin-right: 8px;
+}
+
+.hero .btn-watch-video:hover {
+    color: var(--accent-color);
+}
+
+.hero .btn-watch-video:hover i {
+    color: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+.hero .animated {
+    animation: up-down 2s ease-in-out infinite alternate-reverse both;
+}
+
+@media (max-width: 640px) {
+    .hero h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 30px;
+    }
+
+    .hero .btn-get-started,
+    .hero .btn-watch-video {
+        font-size: 13px;
+    }
+}
+
+@keyframes up-down {
+    0% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.about {
+    --background-color: color-mix(
+        in srgb,
+        var(--accent-color),
+        transparent 96%
+    );
+}
+
+.about .about-content h3 {
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.about .about-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about .about-content ul li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 35px;
+}
+
+.about .about-content ul li:first-child {
+    margin-top: 35px;
+}
+
+.about .about-content ul i {
+    background: var(--contrast-color);
+    box-shadow: 0px 6px 15px
+        color-mix(in srgb, var(--accent-color), transparent 90%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+    margin-right: 15px;
+    color: var(--accent-color);
+    border-radius: 50px;
+}
+
+.about .about-content ul h4 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.about .about-content ul p {
+    font-size: 15px;
+}
+
+.about .about-content p:last-child {
+    margin-bottom: 0;
+}
+
 .card-chefs {
     border: none;
     padding: 19px;
@@ -79,4 +257,210 @@
 .text-chef {
     margin-left: 53px;
     margin-bottom: 10px;
+}
+
+/* daerah */
+.btn-daerah {
+    text-decoration: none;
+    color: #656565;
+    padding: 25px;
+    border-radius: 12px;
+    background-color: #f2f2f2;
+    margin-left: 160px;
+}
+
+.btn-daerah:hover {
+    color: #656565cd;
+}
+
+.col-btn {
+    margin-top: 25px;
+}
+
+.row-img-restaurant {
+    padding-top: 30px;
+}
+
+.card-restaurant {
+    border-radius: 24px;
+}
+.card-img-top {
+    border-radius: 24px;
+}
+
+.badge {
+    width: 379px;
+    height: 104px;
+    margin-top: 270px;
+    margin-left: 22px;
+    border-radius: 24px;
+}
+.col-txt {
+    margin-top: 20px;
+}
+.text-1 {
+    color: #ffb800;
+    margin-right: 100px;
+    font-size: 16px;
+}
+
+.jumlah {
+    color: #656565;
+    font-weight: 100;
+}
+
+.text-2 {
+    margin-left: -2px;
+    color: #232631;
+    font-size: 16px;
+}
+
+.text-3 {
+    color: #656565;
+    margin-left: 7px;
+    font-size: 16px;
+}
+.text-4 {
+    margin-left: -33px;
+    color: #232631;
+    font-size: 16px;
+}
+.text-5 {
+    margin-left: 15px;
+    color: #232631;
+    font-size: 16px;
+}
+
+.star {
+    width: 15%;
+    margin-bottom: 2px;
+    margin-left: 10px;
+}
+
+.btn-restaurant {
+    margin-top: 40px;
+    padding-left: 70px;
+}
+
+.btn-rest {
+    background-color: #fdc886;
+    border-radius: 40%;
+}
+
+.btn-rest:hover {
+    background-color: #fdc786a9;
+}
+
+.carousel-item {
+    border-radius: 24px;
+}
+.carousel-inner {
+    border-radius: 24px;
+}
+.img-c {
+    background-size: cover;
+    object-fit: cover;
+    object-position: center;
+    height: 100%; /* Pastikan gambar mengisi tinggi kontainer */
+    width: 100%;
+    border-radius: 24px;
+}
+
+.card-slider {
+    z-index: 1;
+    bottom: 210px;
+    left: 50px;
+}
+.card-sliders {
+    border: none;
+    border-radius: 25px;
+    height: 280px;
+    width: 360px;
+}
+
+.card-slider-main {
+    border-radius: 24px;
+}
+
+.btn-slider {
+    background-color: #fdc886;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.btn-slider:hover {
+    background-color: #fdc786a9;
+}
+
+.cost {
+    color: #656565;
+    font-size: 16px;
+}
+
+.texts-card {
+    padding-left: 10px;
+    padding-top: 7px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    display: none;
+}
+
+:root {
+    --background-color: #ffffff; /* Background color for the entire website, including individual sections */
+    --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
+    --heading-color: #012970; /* Color for headings, subheadings and title throughout the website */
+    --accent-color: #1580eb; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+    --contrast-color: #ffffff; /* The contrast color is used for elements when the background color is one of the heading, accent, or default colors. Its purpose is to ensure proper contrast and readability when placed over these more dominant colors */
+}
+
+.about .content {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 95%);
+    padding: 40px;
+}
+
+.about .content h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+}
+
+.about .content h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.about .content p {
+    margin: 15px 0 30px 0;
+    line-height: 24px;
+}
+
+.about .content .btn-read-more {
+    color: var(--contrast-color);
+    background: var(--accent-color);
+    line-height: 0;
+    padding: 15px 40px;
+    border-radius: 4px;
+    transition: 0.5s;
+    box-shadow: 0px 5px 25px
+        color-mix(in srgb, var(--accent-color), transparent 90%);
+}
+
+.about .content .btn-read-more span {
+    font-family: var(--default-font);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.about .content .btn-read-more i {
+    margin-left: 5px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.about .content .btn-read-more:hover i {
+    transform: translateX(5px);
 }

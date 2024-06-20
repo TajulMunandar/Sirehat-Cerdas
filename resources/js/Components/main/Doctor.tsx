@@ -164,7 +164,13 @@ const Doctors: React.FC = () => {
                                             {doctor.specialties.join(", ")}
                                         </span>
                                     </p>
-                                    <h3 className="fw-semibold">
+                                    <h3
+                                        className={`font-semibold ${
+                                            activeDoctorIndex === index
+                                                ? "!text-[#FFFF]"
+                                                : "!text-black"
+                                        }`}
+                                    >
                                         {doctor.name}
                                     </h3>
                                     <div className="flex">
