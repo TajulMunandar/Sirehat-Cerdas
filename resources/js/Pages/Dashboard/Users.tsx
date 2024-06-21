@@ -87,6 +87,7 @@ const Dashboard: React.FC = () => {
         <>
             <Head title="Users" />
             <MainDashboard nav={"Users"}>
+                <h3 className="font-bold">Table Users</h3>
                 <Table
                     headers={UserTableHeader}
                     data={dummyData}
