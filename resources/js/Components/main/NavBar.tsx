@@ -2,6 +2,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "@inertiajs/react";
 import Button from "react-bootstrap/Button";
+import logo from "../../../images/logo.png";
 
 interface HeaderProps {
     page: {
@@ -25,7 +26,9 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
         <Navbar className="px-5 py-4">
             <Navbar.Brand>
                 <Link href="/" className="navbar-brand font-bold ">
-                    SIREHAT <span style={{ color: "#1580EB" }}>CERDAS</span>
+                    <span className="app-brand-logo demo">
+                        <img src={logo} alt="" width={220} />
+                    </span>
                 </Link>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
