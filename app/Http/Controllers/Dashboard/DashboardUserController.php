@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class DashboardUserController extends Controller
 {
@@ -15,15 +16,12 @@ class DashboardUserController extends Controller
      */
     public function index()
     {
-        try{
+        $users = User::latest()->get();
+        // dd($users);
 
-            $users = User::latest()->get();
-
-            return response()->json($users);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Users', [
+            'users' => $users
+        ]);
     }
 
     /**
@@ -39,21 +37,20 @@ class DashboardUserController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
 
             $validatedData = $request->validate([
                 'username' => ['required', 'max:255', 'unique:users'],
                 'password' => 'required|max:255',
                 'role' => 'required'
             ]);
-            
+
             $validatedData['password'] = Hash::make($validatedData['password']);
 
             User::create($validatedData);
 
             return response()->json('Sukses Create User');
-            
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }
@@ -79,7 +76,7 @@ class DashboardUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        try{
+        try {
 
             $rules = [
                 'role' => 'required'
@@ -94,8 +91,7 @@ class DashboardUserController extends Controller
             User::where('id', $user->id)->update($validatedData);
 
             return response()->json('Sukses Edit User');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }
@@ -105,14 +101,13 @@ class DashboardUserController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
 
             $user = User::whereId($id)->first();
             User::destroy($user->id);
 
             return response()->json('Sukses Delete User');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }

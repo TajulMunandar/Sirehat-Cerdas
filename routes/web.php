@@ -77,15 +77,6 @@ Route::get('/dashboard', function () {
     ]);
 });
 
-Route::get('/dashboard/users', function () {
-    return Inertia::render('Dashboard/Users', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::get('/dashboard/pasiens', function () {
     return Inertia::render('Dashboard/Pasiens', [
         'canLogin' => Route::has('login'),

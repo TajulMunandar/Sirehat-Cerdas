@@ -1,7 +1,7 @@
 import { UserTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
 import { TUser } from "../../types/user";
@@ -9,7 +9,11 @@ import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 
-const Dashboard: React.FC = () => {
+interface DashboardUsersProps {
+    users: TUser[];
+}
+
+const DashboardUsers: React.FC<DashboardUsersProps> = ({ users }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
@@ -17,6 +21,9 @@ const Dashboard: React.FC = () => {
         username: "",
         role: 0,
     });
+    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+        useState(false);
 
     const openModal = (item?: TUser) => {
         setIsEditMode(!!item);
@@ -52,18 +59,49 @@ const Dashboard: React.FC = () => {
         }));
     };
 
-    const dummyData = [
-        {
-            id: 1,
-            username: "johndoe21",
-            role: 1,
-        },
-        {
-            id: 1,
-            username: "johndoe21",
-            role: 4,
-        },
-    ];
+    // Create and Update User
+    // const handleSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     try {
+    //         if (isEditMode && currentItemId) {
+    //             await editUser(currentItemId, formData);
+    //         } else {
+    //             await addUser(formData);
+    //         }
+    //         closeModal();
+    //         toast.success(isEditMode ? "Data Updated" : "Data Added");
+    //     } catch (error) {
+    //         closeModal();
+    //         toast.error(
+    //             isEditMode ? "Error Updating Data" : "Error Adding Data"
+    //         );
+    //     }
+    // };
+
+    // Delete User
+    const handleDeleteItem = (id: number) => {
+        setDeleteItemId(id);
+        setIsDeleteConfirmationOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (deleteItemId !== null) {
+            router.delete(`/dashboard/user/${deleteItemId}`);
+            setIsDeleteConfirmationOpen(false);
+            // toast.success("User deleted successfully");
+        }
+    };
+
+    // User role mappin
+    const roleMapping = {
+        0: "SUPER ADMIN",
+        1: "PIMPINAN",
+        2: "DOKTER",
+        3: "APOTEKER",
+        4: "OPERATOR",
+        5: "KURIR",
+        6: "PASIEN",
+    };
 
     return (
         <>
@@ -72,8 +110,8 @@ const Dashboard: React.FC = () => {
                 <h3 className="font-bold">Table Users</h3>
                 <Table
                     headers={UserTableHeader}
-                    data={dummyData}
-                    // statusMapping={roleMapping}
+                    data={users}
+                    statusMapping={roleMapping}
                     createButton={
                         <button
                             type="button"
@@ -85,7 +123,7 @@ const Dashboard: React.FC = () => {
                         </button>
                     }
                     onEdit={openModal}
-                    // onDeleteUser={handleDeleteItem}
+                    onDeleteUser={handleDeleteItem}
                 />
 
                 <Modal
@@ -135,4 +173,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardUsers;
