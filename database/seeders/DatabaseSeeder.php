@@ -19,5 +19,27 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
             'role' => 0,
         ]);
+        
+        \App\Models\User::create([
+            'username' => 'pimpinan',
+            'password' => 'pimpinan',
+            'role' => 1,
+        ]);
+
+        $this->call([
+            DokterSeeder::class,
+        ]);
+        
+        \App\Models\Apoteker::factory()->count(5)->create();
+        
+        \App\Models\Operator::factory()->count(5)->create();
+        
+        \App\Models\Kurir::factory()->count(10)->create();
+        
+        \App\Models\Pasien::factory()->count(50)->create();
+
+        $this->call([
+            ObatSeeder::class,
+        ]);
     }
 }

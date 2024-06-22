@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -23,13 +24,57 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $username = $this->faker->unique()->userName;
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'username' => $username,
+            'password' => Hash::make($username), // password default
+            'role' => $this->faker->randomElement(['pasien', 'dokter']), // Peran dinamis
         ];
+    }
+
+    public function pasien()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 6,
+            ];
+        });
+    }
+
+    public function dokter()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 2,
+            ];
+        });
+    }
+
+    public function kurir()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 5,
+            ];
+        });
+    }
+
+    public function apoteker()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 3,
+            ];
+        });
+    }
+
+    public function operator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 4,
+            ];
+        });
     }
 
     /**
