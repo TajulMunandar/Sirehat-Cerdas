@@ -707,10 +707,10 @@ class ObatSeeder extends Seeder
         // Buat 100 obat
         for ($i = 1; $i <= 100; $i++) {
             Obat::create([
-                'nama_obat' => 'Obat ' . $i, // Nama obat bisa disesuaikan sesuai kebutuhan
-                'satuan' => $obats[$i % count($obats)]['satuan'], // Gunakan satuan dari array obat yang sudah ada
+                'nama_obat' => $obats[$i - 1]['nama_obat'], // Nama obat bisa disesuaikan sesuai kebutuhan
+                'satuan' => $obats[$i - 1]['satuan'], // Gunakan satuan dari array obat yang sudah ada
                 'jumlah' => rand(10, 100), // Jumlah diacak antara 10 dan 100
-                'dosis' => $obats[$i % count($obats)]['dosis'], // Gunakan dosis dari array obat yang sudah ada
+                'dosis' => $obats[$i - 1]['dosis'], // Gunakan dosis dari array obat yang sudah ada
             ]);
         }
     }
