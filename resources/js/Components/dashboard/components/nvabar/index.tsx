@@ -1,5 +1,6 @@
 import React, { Children, useState } from "react";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 
 import avatar from "../../../../../images/avatars/1.png";
 import { Link } from "@inertiajs/react";

@@ -1,21 +1,45 @@
 import type { TTableHeader } from "../table/Types";
 
 export const UserTableHeader: TTableHeader[] = [
-    { text: "Namas", value: "nama" },
-    { text: "Email", value: "email" },
-    { text: "Phone", value: "telepon" },
+    { text: "username", value: "username" },
+    { text: "Role", value: "role" },
+];
+
+export const PasienTableHeader: TTableHeader[] = [
     { text: "NIK", value: "nik" },
-    { text: "Division", value: "divisi" },
-    { text: "Company", value: "perusahaan" },
-    { text: "Role", value: "is_admin" },
+    { text: "No KK", value: "no_kk" },
+    { text: "No BPJS", value: "no_bpjs" },
+    { text: "Nama", value: "nama" },
+    { text: "No HP", value: "no_hp" },
+    { text: "Alamat", value: "alamat" },
+];
+
+export const KurirTableHeader: TTableHeader[] = [
+    { text: "Nama", value: "nama" },
+    { text: "No HP", value: "no_hp" },
+    { text: "Foto", value: "foto" },
+];
+
+export const DokterTableHeader: TTableHeader[] = [
+    { text: "Nama", value: "nama" },
+    { text: "No HP", value: "no_hp" },
+    { text: "Foto", value: "foto" },
+    { text: "Poli", value: "poli" },
 ];
 
 export const ObatTableHeader: TTableHeader[] = [
-    { text: "Name", value: "nama" },
-    { text: "Email", value: "email" },
-    { text: "Phone", value: "telepon" },
-    { text: "NIK", value: "nik" },
-    { text: "Division", value: "divisi" },
-    { text: "Company", value: "perusahaan" },
-    { text: "Role", value: "is_admin" },
+    { text: "Nama Obat", value: "nama_obat" },
+    { text: "Satuan", value: "satuan" },
+    { text: "Jumlah", value: "jumlah" },
+    { text: "Dosis", value: "dosis" },
+];
+
+export const OperatorTableHeader: TTableHeader[] = [
+    { text: "Nama ", value: "nama" },
+    { text: "No HP", value: "no_hp" },
+];
+
+export const ApotekerTableHeader: TTableHeader[] = [
+    { text: "Nama ", value: "nama" },
+    { text: "No HP", value: "no_hp" },
 ];

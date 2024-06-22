@@ -1,10 +1,10 @@
-import { UserTableHeader } from "@/Components/dashboard/components/constants/table.constant";
+import { ObatTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
-import { TUser } from "../../types/user";
+import { TObat } from "../../types/obat";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
@@ -13,22 +13,26 @@ const Dashboard: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<TUser>({
-        username: "",
-        role: 0,
+    const [formData, setFormData] = useState<TObat>({
+        nama_obat: "",
+        satuan: "",
+        jumlah: 0,
+        dosis: "",
     });
 
-    const openModal = (item?: TUser) => {
+    const openModal = (item?: TObat) => {
         setIsEditMode(!!item);
         setIsModalOpen(true);
         if (item) {
-            setCurrentItemId(item.id_user as number);
+            setCurrentItemId(item.id_obat as number);
             setFormData(item);
         } else {
             setFormData({
-                username: "",
-                role: 0,
-            } as TUser);
+                nama_obat: "",
+                satuan: "",
+                jumlah: 0,
+                dosis: "",
+            } as TObat);
         }
     };
 
@@ -37,9 +41,11 @@ const Dashboard: React.FC = () => {
         setIsEditMode(false);
         setCurrentItemId(null);
         setFormData({
-            username: "",
-            role: 0,
-        } as TUser);
+            nama_obat: "",
+            satuan: "",
+            jumlah: 0,
+            dosis: "",
+        } as TObat);
     };
 
     const handleChange = (
@@ -55,23 +61,20 @@ const Dashboard: React.FC = () => {
     const dummyData = [
         {
             id: 1,
-            username: "johndoe21",
-            role: 1,
-        },
-        {
-            id: 1,
-            username: "johndoe21",
-            role: 4,
+            nama_obat: "Paracetamol",
+            satuan: "10",
+            jumlah: 40,
+            dosis: "10 mg"
         },
     ];
 
     return (
         <>
-            <Head title="Users" />
-            <MainDashboard nav={"Users"}>
-                <h3 className="font-bold">Table Users</h3>
+            <Head title="Obat" />
+            <MainDashboard nav={"Obat"}>
+                <h3 className="font-bold">Table Obat</h3>
                 <Table
-                    headers={UserTableHeader}
+                    headers={ObatTableHeader}
                     data={dummyData}
                     // statusMapping={roleMapping}
                     createButton={
@@ -81,7 +84,7 @@ const Dashboard: React.FC = () => {
                             onClick={() => openModal()}
                         >
                             <TbPlus size={18} />
-                            Create User
+                            Create Obat
                         </button>
                     }
                     onEdit={openModal}
@@ -89,7 +92,7 @@ const Dashboard: React.FC = () => {
                 />
 
                 <Modal
-                    title={isEditMode ? "Edit User" : "Create User"}
+                    title={isEditMode ? "Edit Obat" : "Create Obat"}
                     isOpen={isModalOpen}
                     onClose={closeModal}
                     footer={
@@ -106,26 +109,35 @@ const Dashboard: React.FC = () => {
                         <div className="mt-5 flex flex-col gap-3">
                             <FormInput
                                 type="text"
-                                name="username"
+                                name="nama_obat"
                                 onChange={handleChange}
-                                value={formData.username}
-                                label="Username"
-                                placeholder="Enter username"
+                                value={formData.nama_obat}
+                                label="Nama Obat"
+                                placeholder="Enter Nama Obat"
                             />
-                            <FormSelect
-                                name="role"
-                                label="Role"
+                            <FormInput
+                                type="text"
+                                name="satuan"
                                 onChange={handleChange}
-                                value={formData.role}
-                                items={[
-                                    { text: "SuperAdmin", value: "0" },
-                                    { text: "Pimpinan", value: "1" },
-                                    { text: "Dokter", value: "2" },
-                                    { text: "Apoteker", value: "3" },
-                                    { text: "Operator", value: "4" },
-                                    { text: "Kurir", value: "5" },
-                                    { text: "Pasien", value: "6" },
-                                ]}
+                                value={formData.satuan}
+                                label="Satuan"
+                                placeholder="Enter Satuan"
+                            />
+                            <FormInput
+                                type="number"
+                                name="jumlah"
+                                onChange={handleChange}
+                                // value={formData.jumlah}
+                                label="Jumlah"
+                                placeholder="Enter Jumlah"
+                            />
+                            <FormInput
+                                type="text"
+                                name="dosis"
+                                onChange={handleChange}
+                                value={formData.dosis}
+                                label="Dosis"
+                                placeholder="Enter Dosis"
                             />
                         </div>
                     </form>

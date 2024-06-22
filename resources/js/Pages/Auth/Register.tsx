@@ -16,8 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
-        email: "",
+        username: "",
         password: "",
         password_confirmation: "",
     });
@@ -109,6 +108,8 @@ export default function Register() {
                                             type="text"
                                             name="username"
                                             id="username"
+                                            value={data.username}
+                                            onChange={(e) => setData('username', e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             placeholder="enter your username"
                                         />
@@ -131,6 +132,8 @@ export default function Register() {
                                             type="password"
                                             name="password"
                                             id="password"
+                                            value={data.password}
+                                            onChange={(e) => setData('password', e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             placeholder="enter your password"
                                         />
@@ -151,8 +154,10 @@ export default function Register() {
                                         </div>
                                         <input
                                             type="password"
-                                            name="password"
-                                            id="password"
+                                            name="password_confirmation"
+                                            id="password_confirmation"
+                                            value={data.password_confirmation}
+                                            onChange={(e) => setData('password_confirmation', e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             placeholder="enter your password"
                                         />
