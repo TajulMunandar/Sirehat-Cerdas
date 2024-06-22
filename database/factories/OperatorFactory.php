@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Factories;
+use App\Models\Operator;
+use App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +19,9 @@ class OperatorFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id_user' => User::factory()->operator()->create()->id,
+            'nama' => $this->faker->name,
+            'no_hp' => $this->faker->phoneNumber,
         ];
     }
 }
