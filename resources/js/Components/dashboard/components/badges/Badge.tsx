@@ -11,8 +11,13 @@ const badgeStyles: { [key: string]: string } = {
     READY: "bg-green-100 text-green-800",
 
     // for user role
-    USER: "bg-blue-100 text-blue-800",
-    ADMIN: "bg-purple-100 text-purple-800",
+    PASIEN: "bg-blue-100 text-blue-800",
+    "SUPER ADMIN": "bg-purple-100 text-purple-800",
+    PIMPINAN: "bg-yellow-100 text-yellow-800",
+    DOKTER: "bg-teal-100 text-teal-800",
+    APOTEKER: "bg-rose-100 text-rose-800",
+    OPERATOR: "bg-stone-100 text-stone-800",
+    KURIR: "bg-orange-100 text-orange-800",
 
     // for loan
     PENDING: "bg-yellow-100 text-yellow-800",

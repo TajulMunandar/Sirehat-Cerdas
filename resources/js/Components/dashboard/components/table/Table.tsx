@@ -68,7 +68,7 @@ const Table: React.FC<ITableProps> = ({
 
     const renderCellContent = (header: TTableHeader, value: any) => {
         if (
-            (header.value === "status" || header.value === "is_admin") &&
+            (header.value === "status" || header.value === "role") &&
             statusMapping
         ) {
             const statusText = statusMapping[value] || value;
