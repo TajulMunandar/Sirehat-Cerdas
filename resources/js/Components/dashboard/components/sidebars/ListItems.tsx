@@ -232,8 +232,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Pasien</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/users")}`}>
-                    <Link href="/dashboard/users" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/user")}`}>
+                    <Link href="/dashboard/user" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "users"]}
