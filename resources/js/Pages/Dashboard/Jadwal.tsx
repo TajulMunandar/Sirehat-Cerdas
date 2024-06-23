@@ -4,10 +4,12 @@ import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 import { TJadwal } from "@/types/jadwal";
+import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 
 interface DashboardApotekersProps {
     jadwals: TJadwal[];
@@ -82,6 +84,49 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         });
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (isEditMode && currentItemId) {
+                await router.put(`/dashboard/jadwal-dokter/${currentItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error update jadwal dokter, Jadwal Dokter Gagal Di Ubah"
+                            );
+                        } else {
+                            toast.success("Jadwal Dokter update successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            } else {
+                await router.post(`/dashboard/jadwal-dokter`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Add jadwal dokter, Gagal Di Tambahkan"
+                            );
+                        } else {
+                            toast.success("Jadwal Dokter add successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+            closeModal();
+        } catch (error) {
+            closeModal();
+            toast.error(
+                isEditMode ? "Error Updating Data" : "Error Adding Data"
+            );
+        }
+    };
+
     const handleDeleteItem = (id: number) => {
         setDeleteItemId(id);
         setIsDeleteConfirmationOpen(true);
@@ -89,7 +134,7 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
 
     const handleConfirmDelete = async () => {
         if (deleteItemId !== null) {
-            router.delete(`/dashboard/pasien/${deleteItemId}`);
+            router.delete(`/dashboard/jadwal-dokter/${deleteItemId}`);
             setIsDeleteConfirmationOpen(false);
             // toast.success("User deleted successfully");
         }
@@ -152,7 +197,7 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                         <button
                             type="button"
                             className="text-white bg-primary  border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
-                            // onClick={handleSubmit}
+                            onClick={handleSubmit}
                         >
                             {isEditMode ? "Update" : "Save"}
                         </button>
