@@ -1,13 +1,15 @@
 import { OperatorTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
+import { ToastContainer, toast } from "react-toastify";
 import { TOperator } from "../../types/operator";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
+import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 
 interface DashboardOperatorsProps {
     operators: TOperator[];
@@ -17,9 +19,12 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<TOperator>({
+    const { routers }: any = usePage();
+
+    const { data, setData, post, processing, errors } = useForm({
         nama: "",
         no_hp: "",
+        username: "",
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -30,13 +35,20 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
         setIsEditMode(!!item);
         setIsModalOpen(true);
         if (item) {
-            setCurrentItemId(item.id_operator as number);
-            setFormData(item);
+            setCurrentItemId(item.id as number);
+            setData({
+                ...data,
+                nama: item.nama,
+                no_hp: item.no_hp,
+                username: item.username,
+            });
         } else {
-            setFormData({
+            setData({
+                ...data,
                 nama: "",
                 no_hp: "",
-            } as TOperator);
+                username: "",
+            });
         }
     };
 
@@ -44,20 +56,65 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
         setIsModalOpen(false);
         setIsEditMode(false);
         setCurrentItemId(null);
-        setFormData({
+        setData({
+            ...data,
             nama: "",
             no_hp: "",
-        } as TOperator);
+            username: "",
+        });
     };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
+        setData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (isEditMode && currentItemId) {
+                await router.put(`/dashboard/operator/${currentItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error update operator, Username Already Taken"
+                            );
+                        } else {
+                            toast.success("Operator update successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            } else {
+                await router.post(`/dashboard/operator`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Add operator, Username Already Taken"
+                            );
+                        } else {
+                            toast.success("Operator add successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+            closeModal();
+        } catch (error) {
+            closeModal();
+            toast.error(
+                isEditMode ? "Error Updating Data" : "Error Adding Data"
+            );
+        }
     };
 
     const handleDeleteItem = (id: number) => {
@@ -66,10 +123,24 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
     };
 
     const handleConfirmDelete = async () => {
-        if (deleteItemId !== null) {
-            router.delete(`/dashboard/operator/${deleteItemId}`);
-            setIsDeleteConfirmationOpen(false);
-            // toast.success("User deleted successfully");
+        try {
+            if (deleteItemId !== null) {
+                await router.delete(`/dashboard/operator/${deleteItemId}`, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error("Error deleting operator");
+                        } else {
+                            toast.success("Operator deleted successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+        } catch (error) {
+            toast.error("Error deleting operator");
+            closeModal();
         }
     };
 
@@ -77,6 +148,14 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
         <>
             <Head title="Operator" />
             <MainDashboard nav={"Operator"}>
+                <ToastContainer
+                    theme="colored"
+                    autoClose={1500}
+                    hideProgressBar
+                    closeButton={false}
+                    pauseOnFocusLoss={false}
+                    pauseOnHover={false}
+                />
                 <h3 className="font-bold">Table Operator</h3>
                 <Table
                     headers={OperatorTableHeader}
@@ -104,7 +183,7 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
                         <button
                             type="button"
                             className="text-white bg-primary  border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
-                            // onClick={handleSubmit}
+                        onClick={handleSubmit}
                         >
                             {isEditMode ? "Update" : "Save"}
                         </button>
@@ -116,7 +195,7 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
                                 type="text"
                                 name="nama"
                                 onChange={handleChange}
-                                value={formData.nama}
+                                value={data.nama}
                                 label="Name"
                                 placeholder="Enter fullname"
                             />
@@ -124,13 +203,28 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
                                 type="text"
                                 name="no_hp"
                                 onChange={handleChange}
-                                value={formData.no_hp}
+                                value={data.no_hp}
                                 label="No HP"
                                 placeholder="Enter No HP"
                             />
+                            {!isEditMode && (
+                                <FormInput
+                                    type="text"
+                                    name="username"
+                                    onChange={handleChange}
+                                    value={data.username}
+                                    label="Username"
+                                    placeholder="Enter username"
+                                />
+                            )}
                         </div>
                     </form>
                 </Modal>
+                <DeleteConfirmationModal
+                    isOpen={isDeleteConfirmationOpen}
+                    onClose={() => setIsDeleteConfirmationOpen(false)}
+                    onConfirmDelete={handleConfirmDelete}
+                />
             </MainDashboard>
         </>
     );

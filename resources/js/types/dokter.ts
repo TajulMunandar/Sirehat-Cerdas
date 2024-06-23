@@ -1,5 +1,5 @@
 export type TDokter = {
-    id_dokter?: number;
+    id?: number;
     nama: string;
     no_hp: string;
     foto: string;

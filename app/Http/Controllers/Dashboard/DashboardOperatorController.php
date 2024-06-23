@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardOperatorController extends Controller
@@ -17,17 +18,17 @@ class DashboardOperatorController extends Controller
      */
     public function index()
     {
-        try{
 
-            $operators = Operator::latest()->get();
+        $status = session('status');
+        $status_code = session('status_code');
+        $operators = Operator::latest()->get();
 
-            return Inertia::render('Dashboard/Operators', [
-                'operators' => $operators
-            ]);
+        return Inertia::render('Dashboard/Operators', [
+            'operators' => $operators,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
     }
 
     /**
@@ -54,7 +55,7 @@ class DashboardOperatorController extends Controller
             $userData = [
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['username']),
-                'role' => 3,
+                'role' => 4,
             ];
 
             User::create($userData);
@@ -62,10 +63,14 @@ class DashboardOperatorController extends Controller
             $validatedData['id_user'] = User::where('username', $validatedData['username'])->first(['id'])->id;
             Operator::create($validatedData);
 
-            return response()->json('Sukses Create Operator');
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
+            return Redirect::route('operator.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('operator.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -94,16 +99,19 @@ class DashboardOperatorController extends Controller
 
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
-                'no_hp' => 'required',
-                'id_user' => 'required'
+                'no_hp' => 'required'
             ]);
 
             Operator::where('id', $operator->id)->update($validatedData);
 
-            return response()->json('Sukses Edit Operator');
+            return Redirect::route('operator.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('operator.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -117,10 +125,14 @@ class DashboardOperatorController extends Controller
             $operator = Operator::whereId($id)->first();
             Operator::destroy($operator->id);
 
-            return response()->json('Sukses Delete Operator');
+            return Redirect::route('operator.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('operator.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }

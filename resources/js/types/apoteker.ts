@@ -1,6 +1,7 @@
 export type TApoteker = {
-    id_apoteker?: number;
+    id?: number;
     nama: string;
     no_hp: string;
+    username: string;
 };
 

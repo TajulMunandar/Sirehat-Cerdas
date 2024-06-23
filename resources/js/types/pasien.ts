@@ -1,5 +1,5 @@
 export type TPasien = {
-    id_pasien?: number;
+    id?: number;
     nik: string;
     no_kk: string;
     no_bpjs: string;

@@ -1,5 +1,5 @@
 export type TKurir = {
-    id_kurir?: number;
+    id?: number;
     nama: string;
     no_hp: string;
     foto: string;

@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardApotekerController extends Controller
@@ -17,17 +18,15 @@ class DashboardApotekerController extends Controller
      */
     public function index()
     {
-        try{
+        $status = session('status');
+        $status_code = session('status_code');
+        $apotekers = Apoteker::latest()->get();
 
-            $apotekers = Apoteker::latest()->get();
-
-            return Inertia::render('Dashboard/Apotekers', [
-                'apotekers' => $apotekers
-            ]);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Apotekers', [
+            'apotekers' => $apotekers,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
     }
 
     /**
@@ -54,7 +53,7 @@ class DashboardApotekerController extends Controller
             $userData = [
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['username']),
-                'role' => 2,
+                'role' => 3,
             ];
 
             User::create($userData);
@@ -62,10 +61,14 @@ class DashboardApotekerController extends Controller
             $validatedData['id_user'] = User::where('username', $validatedData['username'])->first(['id'])->id;
             Apoteker::create($validatedData);
 
-            return response()->json('Sukses Create Apoteker');
-            
-        }catch(Exception $e){
-            return response()->json('Error');
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -95,15 +98,18 @@ class DashboardApotekerController extends Controller
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
-                'id_user' => 'required'
             ]);
 
             Apoteker::where('id', $apoteker->id)->update($validatedData);
 
-            return response()->json('Sukses Edit Apoteker');
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -117,10 +123,14 @@ class DashboardApotekerController extends Controller
             $apoteker = Apoteker::whereId($id)->first();
             Apoteker::destroy($apoteker->id);
 
-            return response()->json('Sukses Delete Dokter');
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('apoteker.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }
