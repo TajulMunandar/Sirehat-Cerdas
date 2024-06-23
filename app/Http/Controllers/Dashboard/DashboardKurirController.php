@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardKurirController extends Controller
@@ -18,17 +19,16 @@ class DashboardKurirController extends Controller
      */
     public function index()
     {
-        try{
 
-            $kurirs = Kurir::latest()->get();
+        $status = session('status');
+        $status_code = session('status_code');
+        $kurirs = Kurir::latest()->get();
 
-            return Inertia::render('Dashboard/Kurirs', [
-                'kurirs' => $kurirs
-            ]);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Kurirs', [
+            'kurirs' => $kurirs,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
     }
 
     /**
@@ -46,10 +46,13 @@ class DashboardKurirController extends Controller
     {
         try{
 
+            // dd($request);
+
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required|max:255',
-                'foto' => 'mimes:jpeg,jpg,png',
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required',
                 'username' => ['required', 'max:255', 'unique:users']
             ]);
 
@@ -68,10 +71,14 @@ class DashboardKurirController extends Controller
             $validatedData['id_user'] = User::where('username', $validatedData['username'])->first(['id'])->id;
             Kurir::create($validatedData);
             
-            return response()->json('Sukses Create Kurir');
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -102,8 +109,8 @@ class DashboardKurirController extends Controller
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required|max:255',
-                'foto' => 'mimes:jpeg,jpg,png',
-                'id_user' => 'required'
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required'
             ]);
     
             if($request->file('foto')){
@@ -115,10 +122,14 @@ class DashboardKurirController extends Controller
     
             Kurir::where('id', $kurir->id)->update($validatedData);
             
-            return response()->json('Sukses Edit Kurir');
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -135,10 +146,14 @@ class DashboardKurirController extends Controller
             }
             Kurir::destroy($id);
 
-            return response()->json('Sukses Delete Kurir');
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('kurir.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }

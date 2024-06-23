@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardPasienController extends Controller
@@ -17,17 +18,15 @@ class DashboardPasienController extends Controller
      */
     public function index()
     {
-        try{
+        $status = session('status');
+        $status_code = session('status_code');
+        $pasiens = Pasien::latest()->get();
 
-            $pasiens = Pasien::latest()->get();
-
-            return Inertia::render('Dashboard/Pasiens', [
-                'pasiens' => $pasiens
-            ]);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Pasiens', [
+            'pasiens' => $pasiens,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
     }
 
     /**
@@ -58,7 +57,7 @@ class DashboardPasienController extends Controller
             $userData = [
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['username']),
-                'role' => 4,
+                'role' => 6,
             ];
 
             User::create($userData);
@@ -66,10 +65,14 @@ class DashboardPasienController extends Controller
             $validatedData['id_user'] = User::where('username', $validatedData['username'])->first(['id'])->id;
             Pasien::create($validatedData);
 
-            return response()->json('Sukses Create Pasien');
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -103,15 +106,18 @@ class DashboardPasienController extends Controller
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
                 'alamat' => 'required',
-                'id_user' => 'required'
             ]);
 
             Pasien::where('id', $pasien->id)->update($validatedData);
 
-            return response()->json('Sukses Edit Pasien');
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -125,10 +131,14 @@ class DashboardPasienController extends Controller
             $pasien = Pasien::whereId($id)->first();
             Pasien::destroy($pasien->id);
 
-            return response()->json('Sukses Delete Pasien');
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('pasien.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }

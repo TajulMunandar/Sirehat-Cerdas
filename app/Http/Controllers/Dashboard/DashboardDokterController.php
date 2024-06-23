@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardDokterController extends Controller
@@ -18,17 +19,15 @@ class DashboardDokterController extends Controller
      */
     public function index()
     {
-        try{
+        $status = session('status');
+        $status_code = session('status_code');
+        $dokters = Dokter::latest()->get();
 
-            $dokters = Dokter::latest()->get();
-
-            return Inertia::render('Dashboard/Dokters', [
-                'dokters' => $dokters
-            ]);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Dokters', [
+            'dokters' => $dokters,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
     }
 
     /**
@@ -50,7 +49,8 @@ class DashboardDokterController extends Controller
                 'poli' => 'required|max:255',
                 'no_hp' => 'required|max:255',
                 'nama' => 'required|max:255',
-                'foto' => 'mimes:jpeg,jpg,png',
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required',
                 'username' => ['required', 'max:255', 'unique:users']
             ]);
 
@@ -61,7 +61,7 @@ class DashboardDokterController extends Controller
             $userData = [
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['username']),
-                'role' => 1,
+                'role' => 2,
             ];
 
             User::create($userData);
@@ -69,10 +69,14 @@ class DashboardDokterController extends Controller
             $validatedData['id_user'] = User::where('username', $validatedData['username'])->first(['id'])->id;
             Dokter::create($validatedData);
             
-            return response()->json('Sukses Create Dokter');
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -103,8 +107,8 @@ class DashboardDokterController extends Controller
                 'poli' => 'required|max:255',
                 'no_hp' => 'required|max:255',
                 'nama' => 'required|max:255',
-                'foto' => 'mimes:jpeg,jpg,png',
-                'id_user' => 'required'
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required',
             ]);
 
             if($request->file('foto')){
@@ -116,10 +120,14 @@ class DashboardDokterController extends Controller
 
             Dokter::where('id', $dokter->id)->update($validatedData);
 
-            return response()->json('Sukses Edit Dokter');
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -136,10 +144,14 @@ class DashboardDokterController extends Controller
             }
             Dokter::destroy($id);
 
-            return response()->json('Sukses Delete Dokter');
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('dokter.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }

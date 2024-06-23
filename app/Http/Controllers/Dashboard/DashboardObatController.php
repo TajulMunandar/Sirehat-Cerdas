@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Obat;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardObatController extends Controller
@@ -15,17 +16,15 @@ class DashboardObatController extends Controller
      */
     public function index()
     {
-        try{
+        $status = session('status');
+        $status_code = session('status_code');
+        $obats = Obat::latest()->get();
 
-            $obats = Obat::latest()->get();
-
-            return Inertia::render('Dashboard/Obats', [
-                'obats' => $obats
-            ]);
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        return Inertia::render('Dashboard/Obats', [
+            'obats' => $obats,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
     }
 
     /**
@@ -60,10 +59,14 @@ class DashboardObatController extends Controller
             $obat->dosis = $validatedData['dosis'];
             $obat->save();
 
-            return response()->json('Sukses Create Obat');
-            
-        }catch(Exception $e){
-            return response()->json('Error');
+            return Redirect::route('obat.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('obat.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -99,10 +102,14 @@ class DashboardObatController extends Controller
 
             Obat::where('id', $obat->id)->update($validatedData);
 
-            return response()->json('Sukses Edit Obat');
+            return Redirect::route('obat.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('obat.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 
@@ -116,10 +123,14 @@ class DashboardObatController extends Controller
             $obat = Obat::whereId($id)->first();
             Obat::destroy($obat->id);
 
-            return response()->json('Sukses Delete Obat');
+            return Redirect::route('obat.index')->with([
+                'status_code' => 200, 
+            ]);
 
-        }catch(Exception $e){
-            return response()->json('Error');
+        } catch (Exception $e) {
+            return Redirect::route('obat.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }

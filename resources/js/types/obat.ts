@@ -1,5 +1,5 @@
 export type TObat = {
-    id_obat?: number;
+    id?: number;
     nama_obat: string;
     satuan: string;
     jumlah: number;

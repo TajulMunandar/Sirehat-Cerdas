@@ -1,13 +1,15 @@
 import { ObatTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
+import { ToastContainer, toast } from "react-toastify";
 import { TObat } from "../../types/obat";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
+import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 
 interface DashboardObatsProps {
     obats: TObat[];
@@ -17,7 +19,9 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<TObat>({
+    const { routers }: any = usePage();
+
+    const { data, setData, post, processing, errors } = useForm({
         nama_obat: "",
         satuan: "",
         jumlah: 0,
@@ -32,15 +36,22 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
         setIsEditMode(!!item);
         setIsModalOpen(true);
         if (item) {
-            setCurrentItemId(item.id_obat as number);
-            setFormData(item);
+            setCurrentItemId(item.id as number);
+            setData({
+                ...data,
+                nama_obat: item.nama_obat,
+                satuan: item.satuan,
+                jumlah: item.jumlah,
+                dosis: item.dosis,
+            });
         } else {
-            setFormData({
+            setData({
+                ...data,
                 nama_obat: "",
                 satuan: "",
                 jumlah: 0,
                 dosis: "",
-            } as TObat);
+            });
         }
     };
 
@@ -48,22 +59,66 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
         setIsModalOpen(false);
         setIsEditMode(false);
         setCurrentItemId(null);
-        setFormData({
+        setData({
+            ...data,
             nama_obat: "",
             satuan: "",
             jumlah: 0,
             dosis: "",
-        } as TObat);
+        });
     };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
+        setData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (isEditMode && currentItemId) {
+                await router.put(`/dashboard/obat/${currentItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error update obat, Gagal Di Tambahkan"
+                            );
+                        } else {
+                            toast.success("Obat update successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            } else {
+                await router.post(`/dashboard/obat`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Gagal Di Tambahkan"
+                            );
+                        } else {
+                            toast.success("Obat add successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+            closeModal();
+        } catch (error) {
+            closeModal();
+            toast.error(
+                isEditMode ? "Error Updating Data" : "Error Adding Data"
+            );
+        }
     };
 
     const handleDeleteItem = (id: number) => {
@@ -72,10 +127,24 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
     };
 
     const handleConfirmDelete = async () => {
-        if (deleteItemId !== null) {
-            router.delete(`/dashboard/operator/${deleteItemId}`);
-            setIsDeleteConfirmationOpen(false);
-            // toast.success("User deleted successfully");
+        try {
+            if (deleteItemId !== null) {
+                await router.delete(`/dashboard/obat/${deleteItemId}`, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error("Error deleting obat");
+                        } else {
+                            toast.success("Obat deleted successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+        } catch (error) {
+            toast.error("Error deleting Obat");
+            closeModal();
         }
     };
 
@@ -83,6 +152,14 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
         <>
             <Head title="Obat" />
             <MainDashboard nav={"Obat"}>
+            <ToastContainer
+                    theme="colored"
+                    autoClose={1500}
+                    hideProgressBar
+                    closeButton={false}
+                    pauseOnFocusLoss={false}
+                    pauseOnHover={false}
+                />
                 <h3 className="font-bold">Table Obat</h3>
                 <Table
                     headers={ObatTableHeader}
@@ -110,7 +187,7 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
                         <button
                             type="button"
                             className="text-white bg-primary  border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
-                            // onClick={handleSubmit}
+                            onClick={handleSubmit}
                         >
                             {isEditMode ? "Update" : "Save"}
                         </button>
@@ -122,7 +199,7 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
                                 type="text"
                                 name="nama_obat"
                                 onChange={handleChange}
-                                value={formData.nama_obat}
+                                value={data.nama_obat}
                                 label="Nama Obat"
                                 placeholder="Enter Nama Obat"
                             />
@@ -130,7 +207,7 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
                                 type="text"
                                 name="satuan"
                                 onChange={handleChange}
-                                value={formData.satuan}
+                                value={data.satuan}
                                 label="Satuan"
                                 placeholder="Enter Satuan"
                             />
@@ -138,7 +215,7 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
                                 type="number"
                                 name="jumlah"
                                 onChange={handleChange}
-                                // value={formData.jumlah}
+                                // value={data.jumlah}
                                 label="Jumlah"
                                 placeholder="Enter Jumlah"
                             />
@@ -146,13 +223,18 @@ const DashboardObats: React.FC<DashboardObatsProps> = ({ obats }) => {
                                 type="text"
                                 name="dosis"
                                 onChange={handleChange}
-                                value={formData.dosis}
+                                value={data.dosis}
                                 label="Dosis"
                                 placeholder="Enter Dosis"
                             />
                         </div>
                     </form>
                 </Modal>
+                <DeleteConfirmationModal
+                    isOpen={isDeleteConfirmationOpen}
+                    onClose={() => setIsDeleteConfirmationOpen(false)}
+                    onConfirmDelete={handleConfirmDelete}
+                />
             </MainDashboard>
         </>
     );

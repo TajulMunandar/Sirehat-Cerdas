@@ -1,6 +1,7 @@
 export type TOperator = {
-    id_operator?: number;
+    id?: number;
     nama: string;
     no_hp: string;
+    username: string;
 };
 
