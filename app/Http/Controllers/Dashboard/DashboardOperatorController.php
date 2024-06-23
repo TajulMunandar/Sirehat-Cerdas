@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class DashboardOperatorController extends Controller
 {
@@ -20,7 +21,9 @@ class DashboardOperatorController extends Controller
 
             $operators = Operator::latest()->get();
 
-            return response()->json($operators);
+            return Inertia::render('Dashboard/Operators', [
+                'operators' => $operators
+            ]);
 
         }catch(Exception $e){
             return response()->json('Error');

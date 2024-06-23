@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class DashboardPasienController extends Controller
 {
@@ -20,7 +21,9 @@ class DashboardPasienController extends Controller
 
             $pasiens = Pasien::latest()->get();
 
-            return response()->json($pasiens);
+            return Inertia::render('Dashboard/Pasiens', [
+                'pasiens' => $pasiens
+            ]);
 
         }catch(Exception $e){
             return response()->json('Error');

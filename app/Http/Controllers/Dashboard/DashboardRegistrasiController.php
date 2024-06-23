@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Registrasi;
 use Exception;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardRegistrasiController extends Controller
 {
@@ -17,8 +18,10 @@ class DashboardRegistrasiController extends Controller
         try{
 
             $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->latest()->get();
-
-            return response()->json($registrasis);
+            // dd($registrasis);
+            return Inertia::render('Dashboard/Registrasis', [
+                'registrasis' => $registrasis
+            ]);
 
         }catch(Exception $e){
             return response()->json('Error');

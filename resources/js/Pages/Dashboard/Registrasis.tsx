@@ -1,42 +1,38 @@
-import { OperatorTableHeader } from "@/Components/dashboard/components/constants/table.constant";
+import { RegistrasiTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
-import { TOperator } from "../../types/operator";
+import { TRegistrasi, TRegistrasiData } from "../../types/registrasi";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 
-interface DashboardOperatorsProps {
-    operators: TOperator[];
+interface DashboardRegistrasisProps {
+    registrasis: TRegistrasiData[];
 }
 
-const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) => {
+const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({ registrasis }) => {
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<TOperator>({
-        nama: "",
-        no_hp: "",
+    const [formData, setFormData] = useState<TRegistrasi>({
+        status: 0,
+        
     });
 
-    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
-    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
-        useState(false);
-
-    const openModal = (item?: TOperator) => {
+    const openModal = (item?: TRegistrasi) => {
         setIsEditMode(!!item);
         setIsModalOpen(true);
         if (item) {
-            setCurrentItemId(item.id_operator as number);
+            setCurrentItemId(item.id_registrasi as number);
             setFormData(item);
         } else {
             setFormData({
-                nama: "",
-                no_hp: "",
-            } as TOperator);
+                status: 0,
+            } as TRegistrasi);
         }
     };
 
@@ -45,9 +41,8 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
         setIsEditMode(false);
         setCurrentItemId(null);
         setFormData({
-            nama: "",
-            no_hp: "",
-        } as TOperator);
+            status: 0,
+        } as TRegistrasi);
     };
 
     const handleChange = (
@@ -60,28 +55,20 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
         }));
     };
 
-    const handleDeleteItem = (id: number) => {
-        setDeleteItemId(id);
-        setIsDeleteConfirmationOpen(true);
-    };
-
-    const handleConfirmDelete = async () => {
-        if (deleteItemId !== null) {
-            router.delete(`/dashboard/operator/${deleteItemId}`);
-            setIsDeleteConfirmationOpen(false);
-            // toast.success("User deleted successfully");
-        }
+    const roleMapping = {
+        0: "Not Approve",
+        1: "Approve",
     };
 
     return (
         <>
-            <Head title="Operator" />
-            <MainDashboard nav={"Operator"}>
-                <h3 className="font-bold">Table Operator</h3>
+            <Head title="Registrasi" />
+            <MainDashboard nav={"Registrasi"}>
+                <h3 className="font-bold">Table Registrasi</h3>
                 <Table
-                    headers={OperatorTableHeader}
-                    data={operators}
-                    // statusMapping={roleMapping}
+                    headers={RegistrasiTableHeader}
+                    data={registrasis}
+                    statusMapping={roleMapping}
                     createButton={
                         <button
                             type="button"
@@ -89,15 +76,15 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
                             onClick={() => openModal()}
                         >
                             <TbPlus size={18} />
-                            Create Operator
+                            Create Apoteker
                         </button>
                     }
                     onEdit={openModal}
-                    onDeleteUser={handleDeleteItem}
+                    // onDeleteUser={handleDeleteItem}
                 />
 
                 <Modal
-                    title={isEditMode ? "Edit Operator" : "Create Operator"}
+                    title={isEditMode ? "Edit Registrasi" : "Create Registrasi"}
                     isOpen={isModalOpen}
                     onClose={closeModal}
                     footer={
@@ -113,20 +100,12 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
                     <form>
                         <div className="mt-5 flex flex-col gap-3">
                             <FormInput
-                                type="text"
-                                name="nama"
+                                type="number"
+                                name="status"
                                 onChange={handleChange}
-                                value={formData.nama}
-                                label="Name"
-                                placeholder="Enter fullname"
-                            />
-                            <FormInput
-                                type="text"
-                                name="no_hp"
-                                onChange={handleChange}
-                                value={formData.no_hp}
-                                label="No HP"
-                                placeholder="Enter No HP"
+                                // value={formData.status}
+                                label="Status"
+                                placeholder="Enter status"
                             />
                         </div>
                     </form>
@@ -136,4 +115,4 @@ const DashboardOperators: React.FC<DashboardOperatorsProps> = ({ operators }) =>
     );
 };
 
-export default DashboardOperators;
+export default DashboardRegistrasis;

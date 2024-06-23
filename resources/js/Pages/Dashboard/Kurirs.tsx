@@ -1,7 +1,7 @@
 import { KurirTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
 import { TKurir } from "../../types/kurir";
@@ -9,7 +9,11 @@ import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 
-const Dashboard: React.FC = () => {
+interface DashboardKurirsProps {
+    kurirs: TKurir[];
+}
+
+const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
@@ -19,6 +23,10 @@ const Dashboard: React.FC = () => {
         foto: "",
         username: "",
     });
+
+    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+        useState(false);
 
     const openModal = (item?: TKurir) => {
         setIsEditMode(!!item);
@@ -58,14 +66,18 @@ const Dashboard: React.FC = () => {
         }));
     };
 
-    const dummyData = [
-        {
-            id: 1,
-            nama: "Jhon Dose",
-            no_hp: "0863274723234",
-            foto: "data-kurir/akjsndjkasbdjakskjahsdkah.jpeg",
-        },
-    ];
+    const handleDeleteItem = (id: number) => {
+        setDeleteItemId(id);
+        setIsDeleteConfirmationOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (deleteItemId !== null) {
+            router.delete(`/dashboard/operator/${deleteItemId}`);
+            setIsDeleteConfirmationOpen(false);
+            // toast.success("User deleted successfully");
+        }
+    };
 
     return (
         <>
@@ -74,7 +86,7 @@ const Dashboard: React.FC = () => {
                 <h3 className="font-bold">Table Kurir</h3>
                 <Table
                     headers={KurirTableHeader}
-                    data={dummyData}
+                    data={kurirs}
                     // statusMapping={roleMapping}
                     createButton={
                         <button
@@ -87,7 +99,7 @@ const Dashboard: React.FC = () => {
                         </button>
                     }
                     onEdit={openModal}
-                    // onDeleteUser={handleDeleteItem}
+                    onDeleteUser={handleDeleteItem}
                 />
 
                 <Modal
@@ -146,4 +158,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardKurirs;

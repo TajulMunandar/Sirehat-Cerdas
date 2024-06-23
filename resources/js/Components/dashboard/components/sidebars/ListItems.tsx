@@ -172,8 +172,8 @@ const ListItems: React.FC = () => {
                 <li className="menu-header small text-uppercase">
                     <span className="menu-header-text">Data Master</span>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/obats")}`}>
-                    <Link href="/dashboard/obats" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/obat")}`}>
+                    <Link href="/dashboard/obat" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "suitcase-medical"]}
@@ -182,8 +182,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Obat</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/dokters")}`}>
-                    <Link href="/dashboard/dokters" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/dokter")}`}>
+                    <Link href="/dashboard/dokter" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "user-doctor"]}
@@ -192,8 +192,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Dokter</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/apotekers")}`}>
-                    <Link href="/dashboard/apotekers" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/apoteker")}`}>
+                    <Link href="/dashboard/apoteker" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "user-nurse"]}
@@ -202,8 +202,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Apoteker</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/operators")}`}>
-                    <Link href="/dashboard/operators" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/operator")}`}>
+                    <Link href="/dashboard/operator" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "user-tie"]}
@@ -212,8 +212,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Operator</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/kurirs")}`}>
-                    <Link href="/dashboard/kurirs" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/kurir")}`}>
+                    <Link href="/dashboard/kurir" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "user-ninja"]}
@@ -222,8 +222,8 @@ const ListItems: React.FC = () => {
                         <div data-i18n="Analytics">Kurir</div>
                     </Link>
                 </li>
-                <li className={`menu-item ${isActive("/dashboard/pasiens")}`}>
-                    <Link href="/dashboard/pasiens" className="menu-link">
+                <li className={`menu-item ${isActive("/dashboard/pasien")}`}>
+                    <Link href="/dashboard/pasien" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "user-group"]}

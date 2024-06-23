@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class DashboardDokterController extends Controller
 {
@@ -21,7 +22,9 @@ class DashboardDokterController extends Controller
 
             $dokters = Dokter::latest()->get();
 
-            return response()->json($dokters);
+            return Inertia::render('Dashboard/Dokters', [
+                'dokters' => $dokters
+            ]);
 
         }catch(Exception $e){
             return response()->json('Error');

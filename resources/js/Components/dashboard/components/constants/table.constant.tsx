@@ -43,3 +43,11 @@ export const ApotekerTableHeader: TTableHeader[] = [
     { text: "Nama ", value: "nama" },
     { text: "No HP", value: "no_hp" },
 ];
+
+export const RegistrasiTableHeader: TTableHeader[] = [
+    { text: "Nama", value: "pasien.nama" },
+    { text: "Tanggal", value: "tanggal" },
+    { text: "Status ", value: "status" },
+    { text: "Poli ", value: "poli" },
+    { text: "Keluhan ", value: "keluhan" },
+];

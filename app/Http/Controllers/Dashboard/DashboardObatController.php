@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Obat;
 use Exception;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardObatController extends Controller
 {
@@ -18,7 +19,9 @@ class DashboardObatController extends Controller
 
             $obats = Obat::latest()->get();
 
-            return response()->json($obats);
+            return Inertia::render('Dashboard/Obats', [
+                'obats' => $obats
+            ]);
 
         }catch(Exception $e){
             return response()->json('Error');
