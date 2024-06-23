@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardUserController extends Controller
@@ -16,11 +17,16 @@ class DashboardUserController extends Controller
      */
     public function index()
     {
+        $status = session('status');
+        $status_code = session('status_code');
         $users = User::latest()->get();
         // dd($users);
 
         return Inertia::render('Dashboard/Users', [
-            'users' => $users
+            'users' => $users,
+            'status' => $status,
+            'status_code' => $status_code,
+
         ]);
     }
 
@@ -37,6 +43,7 @@ class DashboardUserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         try {
 
             $validatedData = $request->validate([
@@ -49,9 +56,13 @@ class DashboardUserController extends Controller
 
             User::create($validatedData);
 
-            return response()->json('Sukses Create User');
+            return Redirect::route('user.index')->with([
+                'status_code' => 200, // Sesuaikan dengan kode status HTTP yang Anda inginkan
+            ]);
         } catch (Exception $e) {
-            return response()->json('Error');
+            return Redirect::route('user.index')->with([
+                'status_code' => 500, // Atau kode status HTTP yang sesuai dengan kesalahan
+            ]);
         }
     }
 
@@ -76,23 +87,31 @@ class DashboardUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        try {
 
+        try {
             $rules = [
-                'role' => 'required'
+                'role' => 'required|integer', // pastikan role adalah integer dan required
             ];
 
+            // Validasi username jika berubah
             if ($request->username != $user->username) {
                 $rules['username'] = ['required', 'max:16', 'unique:users'];
             }
 
+            // Validasi data yang diterima
             $validatedData = $request->validate($rules);
 
+            // Update user
             User::where('id', $user->id)->update($validatedData);
 
-            return response()->json('Sukses Edit User');
+            return Redirect::route('user.index')->with([
+                'status_code' => 200, // Sesuaikan dengan kode status HTTP yang Anda inginkan
+            ]);
         } catch (Exception $e) {
-            return response()->json('Error');
+            // Penanganan kesalahan
+            return Redirect::route('user.index')->with([
+                'status_code' => 500, // Atau kode status HTTP yang sesuai dengan kesalahan
+            ]);
         }
     }
 
@@ -102,13 +121,20 @@ class DashboardUserController extends Controller
     public function destroy(string $id)
     {
         try {
+            $user = User::findOrFail($id);
+            $user->delete();
 
-            $user = User::whereId($id)->first();
-            User::destroy($user->id);
-
-            return response()->json('Sukses Delete User');
-        } catch (Exception $e) {
-            return response()->json('Error');
+            // Jika penghapusan berhasil, kembalikan respons dengan status dan pesan yang sesuai
+            return Redirect::route('user.index')->with([
+                'status' => 'User deleted successfully',
+                'status_code' => 200, // Sesuaikan dengan kode status HTTP yang Anda inginkan
+            ]);
+        } catch (\Exception $e) {
+            // Jika terjadi kesalahan, kembalikan respons dengan pesan error
+            return Redirect::route('user.index')->with([
+                'error' => 'Error deleting user',
+                'status_code' => 500, // Atau kode status HTTP yang sesuai dengan kesalahan
+            ]);
         }
     }
 }

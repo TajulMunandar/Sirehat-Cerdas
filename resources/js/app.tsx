@@ -3,6 +3,7 @@ import "../css/app.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Utils/fontawsome";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";

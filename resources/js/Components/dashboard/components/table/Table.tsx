@@ -216,7 +216,7 @@ const Table: React.FC<ITableProps> = ({
                                             <button
                                                 className="font-medium text-red-600 dark:text-red-500 hover:underline"
                                                 onClick={() =>
-                                                    onDeleteUser(row?.id_user)
+                                                    onDeleteUser(row?.id)
                                                 }
                                             >
                                                 <TbTrash size={20} />
