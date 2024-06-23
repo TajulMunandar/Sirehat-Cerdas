@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Dokter;
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardJadwalController extends Controller
@@ -54,7 +55,25 @@ class DashboardJadwalController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        try{
+            
+            $validatedData = $request->validate([
+                'id_dokter' => 'required',
+                'hari' => 'required',
+                'rentang_waktu' => 'required'
+            ]);
+
+            Jadwal::create($validatedData);
+
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 500,
+            ]);
+        }
     }
 
     /**
@@ -76,9 +95,26 @@ class DashboardJadwalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Jadwal $jadwal_dokter)
     {
-        //
+        try{
+            $validatedData = $request->validate([
+                'id_dokter' => 'required',
+                'hari' => 'required',
+                'rentang_waktu' => 'required'
+            ]);
+
+            Jadwal::where('id', $jadwal_dokter->id)->update($validatedData);
+
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 500,
+            ]);
+        }
     }
 
     /**
@@ -86,6 +122,19 @@ class DashboardJadwalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+
+            $apoteker = Jadwal::whereId($id)->first();
+            Jadwal::destroy($apoteker->id);
+
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('jadwal-dokter.index')->with([
+                'status_code' => 500,
+            ]);
+        }
     }
 }

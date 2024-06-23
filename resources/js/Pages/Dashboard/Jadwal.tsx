@@ -20,7 +20,6 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
     jadwals,
     dokters,
 }) => {
-    console.log(dokters[0].id);
     const defaultDokter = dokters.length > 0 ? dokters[0].id : "";
     const defaultHari = "Senin";
     const defaultTime = "07:00";
@@ -53,9 +52,8 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                 hari: item.hari || defaultHari,
                 waktu_mulai: item.waktu_mulai || defaultTime,
                 waktu_selesai: item.waktu_selesai || defaultTime,
-                rentang_waktu: `${item.waktu_mulai || defaultTime} - ${
-                    item.waktu_selesai || defaultTime
-                }`,
+                rentang_waktu: `${item.waktu_mulai || defaultTime} - ${item.waktu_selesai || defaultTime
+                    }`,
             });
         } else {
             setData({
@@ -91,7 +89,6 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
             if (name === "waktu_mulai" || name === "waktu_selesai") {
                 newData.rentang_waktu = `${newData.waktu_mulai} - ${newData.waktu_selesai}`;
             }
-            console.log(newData);
             return newData;
         });
     };
@@ -105,7 +102,6 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                     data,
                     {
                         onSuccess: (data: any) => {
-                            console.log(data);
                             if (data.props.status_code == 500) {
                                 toast.error(
                                     "Error update jadwal dokter, Jadwal Dokter Gagal Di Ubah"
@@ -123,7 +119,6 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
             } else {
                 await router.post(`/dashboard/jadwal-dokter`, data, {
                     onSuccess: (data: any) => {
-                        console.log(data);
                         if (data.props.status_code == 500) {
                             toast.error(
                                 "Error Add jadwal dokter, Gagal Di Tambahkan"
@@ -151,10 +146,25 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
     };
 
     const handleConfirmDelete = async () => {
-        if (deleteItemId !== null) {
-            router.delete(`/dashboard/jadwal-dokter/${deleteItemId}`);
-            setIsDeleteConfirmationOpen(false);
-            // toast.success("User deleted successfully");
+        try {
+            if (deleteItemId !== null) {
+                console.log(deleteItemId)
+                await router.delete(`/dashboard/jadwal-dokter/${deleteItemId}`, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error("Error deleting dokter");
+                        } else {
+                            toast.success("Dokter deleted successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            }
+        } catch (error) {
+            toast.error("Error deleting dokter");
+            closeModal();
         }
     };
 
@@ -171,7 +181,8 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
 
     const datas = jadwals.map((item) => ({
         ...item,
-        ID: item.id,
+        id: item.id,
+        id_dokter: item.dokter.id,
         dokter: item.dokter.nama,
         hari: item.hari,
         rentang_waktu: item.rentang_waktu,
@@ -187,9 +198,17 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
 
     return (
         <>
-            <Head title="Apoteker" />
-            <MainDashboard nav={"Apoteker"}>
-                <h3 className="font-bold">Table Apoteker</h3>
+            <Head title="Jadwal Dokter" />
+            <MainDashboard nav={"Jadwal Dokter"}>
+                <ToastContainer
+                    theme="colored"
+                    autoClose={1500}
+                    hideProgressBar
+                    closeButton={false}
+                    pauseOnFocusLoss={false}
+                    pauseOnHover={false}
+                />
+                <h3 className="font-bold">Table Jadwal Dokter</h3>
                 <Table
                     headers={JadwalTableHeader}
                     data={datas}
@@ -228,7 +247,7 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                                 name="id_dokter"
                                 label="Dokter"
                                 onChange={handleChange}
-                                value={data.id_dokter}
+                                value={data.id_dokter ? data.id_dokter.toString() : ""}
                                 items={dokters.map((dokter) => ({
                                     text: dokter.nama,
                                     value: dokter.id.toString(),
@@ -258,6 +277,11 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                         </div>
                     </form>
                 </Modal>
+                <DeleteConfirmationModal
+                    isOpen={isDeleteConfirmationOpen}
+                    onClose={() => setIsDeleteConfirmationOpen(false)}
+                    onConfirmDelete={handleConfirmDelete}
+                />
             </MainDashboard>
         </>
     );
