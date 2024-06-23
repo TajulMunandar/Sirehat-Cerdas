@@ -25,6 +25,8 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
     const { data, setData, post, processing, errors } = useForm({
         id_dokter: 0,
         hari: "",
+        waktu_mulai: "",
+        waktu_selesai: "",
         rentang_waktu: "",
     });
 
@@ -60,6 +62,8 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         setData({
             id_dokter: 0,
             hari: "",
+            waktu_mulai: "",
+            waktu_selesai: "",
             rentang_waktu: "",
         });
     };
@@ -68,10 +72,13 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
-        setData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        setData((prevData) => {
+            const newData = { ...prevData, [name]: value };
+            if (name === "waktu_mulai" || name === "waktu_selesai") {
+                newData.rentang_waktu = `${newData.waktu_mulai} - ${newData.waktu_selesai}`;
+            }
+            return newData;
+        });
     };
 
     const handleDeleteItem = (id: number) => {
@@ -87,6 +94,17 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         }
     };
 
+    const generateTimeOptions = (start: any, end: any) => {
+        const times = [];
+        for (let hour = start; hour <= end; hour++) {
+            const timeString = hour.toString().padStart(2, "0") + ":00";
+            times.push({ text: timeString, value: timeString });
+        }
+        return times;
+    };
+
+    const timeOptions = generateTimeOptions(7, 18);
+
     const datas = jadwals.map((item) => ({
         ...item,
         ID: item.id,
@@ -95,8 +113,13 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         rentang_waktu: item.rentang_waktu,
     }));
 
-    console.log(datas);
-    // const dokter: { jadwals: MapJadwals };
+    const Hari = [
+        { text: "Senin", value: "Senin" },
+        { text: "Selasa", value: "Selasa" },
+        { text: "Rabu", value: "Rabu" },
+        { text: "Kamis", value: "Kamis" },
+        { text: "Jumat", value: "Jumat" },
+    ];
     return (
         <>
             <Head title="Apoteker" />
@@ -146,21 +169,26 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                                     value: dokter.id.toString(),
                                 }))}
                             />
-                            <FormInput
-                                type="text"
-                                name="nama"
+                            <FormSelect
+                                name="hari"
+                                label="Hari"
                                 onChange={handleChange}
                                 value={data.hari}
-                                label="Name"
-                                placeholder="Enter fullname"
+                                items={Hari}
                             />
-                            <FormInput
-                                type="text"
-                                name="no_hp"
+                            <FormSelect
+                                name="rentang_waktu"
+                                label="Waktu Mulai"
                                 onChange={handleChange}
-                                value={data.rentang_waktu}
-                                label="No HP"
-                                placeholder="Enter No HP"
+                                value={data.waktu_mulai}
+                                items={timeOptions}
+                            />
+                            <FormSelect
+                                name="rentang_waktu"
+                                label="Waktu Selesai"
+                                onChange={handleChange}
+                                value={data.waktu_selesai}
+                                items={timeOptions}
                             />
                         </div>
                     </form>
