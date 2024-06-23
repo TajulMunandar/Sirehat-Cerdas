@@ -44,7 +44,7 @@ const FormSelect: React.FC<ISelectProps> = ({
                     disabled={disabled}
                     required
                 >
-                    <option value="default" disabled selected={!value}>
+                    <option value="default" disabled>
                         Select one
                     </option>
                     {items.map((item, idx) => (

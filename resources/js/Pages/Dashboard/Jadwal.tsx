@@ -20,16 +20,20 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
     jadwals,
     dokters,
 }) => {
+    console.log(dokters[0].id);
+    const defaultDokter = dokters.length > 0 ? dokters[0].id : "";
+    const defaultHari = "Senin";
+    const defaultTime = "07:00";
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
 
     const { data, setData, post, processing, errors } = useForm({
-        id_dokter: 0,
-        hari: "",
-        waktu_mulai: "",
-        waktu_selesai: "",
-        rentang_waktu: "",
+        id_dokter: defaultDokter,
+        hari: defaultHari,
+        waktu_mulai: defaultTime,
+        waktu_selesai: defaultTime,
+        rentang_waktu: `${defaultTime} - ${defaultTime}`,
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -43,16 +47,24 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
             setCurrentItemId(item.id as number);
             setData({
                 ...data,
-                id_dokter: item.id_dokter || 0,
-                hari: item.hari || "",
-                rentang_waktu: item.rentang_waktu || "", // Ini bisa diubah sesuai kebutuhan
+                id_dokter: item.id_dokter
+                    ? item.id_dokter.toString()
+                    : defaultDokter,
+                hari: item.hari || defaultHari,
+                waktu_mulai: item.waktu_mulai || defaultTime,
+                waktu_selesai: item.waktu_selesai || defaultTime,
+                rentang_waktu: `${item.waktu_mulai || defaultTime} - ${
+                    item.waktu_selesai || defaultTime
+                }`,
             });
         } else {
             setData({
                 ...data,
-                id_dokter: 0,
-                hari: "",
-                rentang_waktu: "",
+                id_dokter: defaultDokter,
+                hari: defaultHari,
+                waktu_mulai: defaultTime,
+                waktu_selesai: defaultTime,
+                rentang_waktu: `${defaultTime} - ${defaultTime}`,
             });
         }
     };
@@ -88,20 +100,26 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         e.preventDefault();
         try {
             if (isEditMode && currentItemId) {
-                await router.put(`/dashboard/jadwal-dokter/${currentItemId}`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error update jadwal dokter, Jadwal Dokter Gagal Di Ubah"
-                            );
-                        } else {
-                            toast.success("Jadwal Dokter update successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
+                await router.put(
+                    `/dashboard/jadwal-dokter/${currentItemId}`,
+                    data,
+                    {
+                        onSuccess: (data: any) => {
+                            console.log(data);
+                            if (data.props.status_code == 500) {
+                                toast.error(
+                                    "Error update jadwal dokter, Jadwal Dokter Gagal Di Ubah"
+                                );
+                            } else {
+                                toast.success(
+                                    "Jadwal Dokter update successfully"
+                                );
+                            }
+                            setIsDeleteConfirmationOpen(false);
+                            closeModal();
+                        },
+                    }
+                );
             } else {
                 await router.post(`/dashboard/jadwal-dokter`, data, {
                     onSuccess: (data: any) => {
@@ -166,6 +184,7 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         { text: "Kamis", value: "Kamis" },
         { text: "Jumat", value: "Jumat" },
     ];
+
     return (
         <>
             <Head title="Apoteker" />

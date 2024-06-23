@@ -3,6 +3,8 @@ export type TJadwal = {
     id_dokter?: number;
     dokter: any;
     hari: string;
+    waktu_mulai: string;
+    waktu_selesai: string;
     rentang_waktu: string;
 };
 export type TVJadwal = {
