@@ -64,9 +64,9 @@ const CustomCarousel: React.FC = () => {
     const activeData: CarouselItem = carouselData[index];
 
     return (
-        <div className="container my-3">
-            <div className="position-absolute card-slider">
-                <div className="card card-sliders shadow-lg">
+        <div className="container my-3 relative">
+            <div className="absolute card-slider top-64 ">
+                <div className="card card-sliders shadow-lg ">
                     <div className="card-body slider-body">
                         <p className="text-rating ml-2">
                             Pengunjung{" "}
