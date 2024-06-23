@@ -77,6 +77,7 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
             if (name === "waktu_mulai" || name === "waktu_selesai") {
                 newData.rentang_waktu = `${newData.waktu_mulai} - ${newData.waktu_selesai}`;
             }
+            console.log(newData);
             return newData;
         });
     };
@@ -177,14 +178,14 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                                 items={Hari}
                             />
                             <FormSelect
-                                name="rentang_waktu"
+                                name="waktu_mulai"
                                 label="Waktu Mulai"
                                 onChange={handleChange}
                                 value={data.waktu_mulai}
                                 items={timeOptions}
                             />
                             <FormSelect
-                                name="rentang_waktu"
+                                name="waktu_selesai"
                                 label="Waktu Selesai"
                                 onChange={handleChange}
                                 value={data.waktu_selesai}

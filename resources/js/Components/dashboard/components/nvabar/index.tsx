@@ -1,6 +1,6 @@
 import React, { Children, useState } from "react";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 import avatar from "../../../../../images/avatars/1.png";
 import { Link } from "@inertiajs/react";
@@ -113,13 +113,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a
+                                        <Link
                                             className="block px-4 py-2 hover:bg-gray-100"
-                                            href="auth-login-basic.html"
+                                            href="/logout"
+                                            method="post"
                                         >
                                             <i className="bx bx-power-off mr-2"></i>
                                             <span>Log Out</span>
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             )}
