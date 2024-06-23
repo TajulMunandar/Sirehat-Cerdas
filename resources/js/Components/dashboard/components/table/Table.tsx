@@ -73,6 +73,9 @@ const Table: React.FC<ITableProps> = ({
         ) {
             const statusText = statusMapping[value] || value;
             return <Badge text={statusText} type={statusText} />;
+        } else if (header.value === "dokter" && statusMapping) {
+            const statusText = statusMapping[value] || value;
+            return statusText;
         }
         return value;
     };

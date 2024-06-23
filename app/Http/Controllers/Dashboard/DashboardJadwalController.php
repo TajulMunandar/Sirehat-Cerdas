@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dokter;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardJadwalController extends Controller
 {
@@ -12,7 +15,30 @@ class DashboardJadwalController extends Controller
      */
     public function index()
     {
-        //
+        $status = session('status');
+        $status_code = session('status_code');
+        $jadwals = Jadwal::with('Dokter')->latest()->get();
+        $dokters = Dokter::latest()->get();
+        $formattedJadwals = $jadwals->map(function ($jadwal) {
+            return [
+                'id' => $jadwal->id,
+                'dokter' => [
+                    'id' => $jadwal->dokter->id,
+                    'nama' => $jadwal->dokter->nama,
+                ],
+                'hari' => $jadwal->hari,
+                'rentang_waktu' => $jadwal->rentang_waktu,
+            ];
+        });
+        // dd($users);
+
+        return Inertia::render('Dashboard/Jadwal', [
+            'jadwals' => $formattedJadwals,
+            'dokters' => $dokters,
+            'status' => $status,
+            'status_code' => $status_code,
+
+        ]);
     }
 
     /**

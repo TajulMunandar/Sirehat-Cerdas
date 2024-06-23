@@ -17,6 +17,6 @@ class Jadwal extends Model
 
     public function Dokter()
     {
-        return $this->belongsTo(Dokter::class, 'id_dokter');
+        return $this->belongsTo(Dokter::class, 'id_dokter', 'id');
     }
 }

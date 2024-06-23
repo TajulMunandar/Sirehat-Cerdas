@@ -51,3 +51,9 @@ export const RegistrasiTableHeader: TTableHeader[] = [
     { text: "Poli ", value: "poli" },
     { text: "Keluhan ", value: "keluhan" },
 ];
+
+export const JadwalTableHeader: TTableHeader[] = [
+    { text: "Dokter", value: "dokter" },
+    { text: "Hari", value: "hari" },
+    { text: "Rentang Waktu ", value: "rentang_waktu" },
+];

@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\DashboardAntarObatController;
 use App\Http\Controllers\Dashboard\DashboardApotekerController;
 use App\Http\Controllers\Dashboard\DashboardChatController;
 use App\Http\Controllers\Dashboard\DashboardDokterController;
+use App\Http\Controllers\Dashboard\DashboardJadwalController;
 use App\Http\Controllers\Dashboard\DashboardKonsultasiOnlineController;
 use App\Http\Controllers\Dashboard\DashboardKunjunganController;
 use App\Http\Controllers\Dashboard\DashboardKurirController;
@@ -111,6 +112,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/chat', DashboardChatController::class);
     Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class);
     Route::resource('/antar-obat', DashboardAntarObatController::class);
+    Route::resource('/jadwal-dokter', DashboardJadwalController::class);
 });
 
 
