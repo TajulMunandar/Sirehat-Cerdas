@@ -126,31 +126,15 @@ const ListItems: React.FC = () => {
                 </li>
 
                 <li
-                    className={`menu-item ${isActive("/dashboard/antar-obat")}`}
+                    className={`menu-item ${isActive("/dashboard/antar-jemput-obat")}`}
                 >
-                    <Link href="/dashboard/antar-obat" className="menu-link">
+                    <Link href="/dashboard/antar-jemput-obat" className="menu-link">
                         <FontAwesomeIcon
                             className="menu-icon tf-icons"
                             icon={["fas", "truck"]}
                             size="1x"
                         />
-                        <div data-i18n="Analytics">Antar Obat</div>
-                    </Link>
-                </li>
-
-                <li
-                    className={`menu-item ${isActive(
-                        "/dashboard/jemput-obat"
-                    )}`}
-                >
-                    <Link href="/dashboard/jemput-obat" className="menu-link">
-                        <FontAwesomeIcon
-                            className="menu-icon tf-icons "
-                            icon={["fas", "truck"]}
-                            size="1x"
-                            flip="horizontal"
-                        />
-                        <div data-i18n="Analytics">Jemput Obat</div>
+                        <div data-i18n="Analytics">Antar Jemput Obat</div>
                     </Link>
                 </li>
 

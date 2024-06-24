@@ -36,6 +36,11 @@ const badgeStyles: { [key: string]: string } = {
     // for tindakan
     RUJUKAN: "bg-yellow-100 text-yellow-800",
     PENGOBATAN: "bg-blue-100 text-blue-800",
+
+    // for antar jemput
+    SUDAH: "bg-green-100 text-green-800",
+    BELUM: "bg-yellow-100 text-yellow-800",
+    BATAL: "bg-red-100 text-red-800",
 };
 
 const Badge: React.FC<BadgeProps> = ({ text, type }) => {

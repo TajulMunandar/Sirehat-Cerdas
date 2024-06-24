@@ -51,7 +51,9 @@ class DashboardPasienController extends Controller
                 'no_bpjs' => 'required|max:255',
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
-                'alamat' => 'required'
+                'alamat' => 'required',
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required',
             ]);
 
             $userData = [
@@ -106,6 +108,8 @@ class DashboardPasienController extends Controller
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
                 'alamat' => 'required',
+                // 'foto' => 'mimes:jpeg,jpg,png',
+                'foto' => 'required',
             ]);
 
             Pasien::where('id', $pasien->id)->update($validatedData);

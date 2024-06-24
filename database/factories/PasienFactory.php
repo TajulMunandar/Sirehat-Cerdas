@@ -26,6 +26,7 @@ class PasienFactory extends Factory
             'nama' => $this->faker->name,
             'no_hp' => $this->faker->phoneNumber,
             'alamat' => $this->faker->address,
+            'foto' => $this->faker->imageUrl(480, 880, 'people', true, 'Faker'),
         ];
     }
 }

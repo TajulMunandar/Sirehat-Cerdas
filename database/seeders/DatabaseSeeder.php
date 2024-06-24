@@ -41,5 +41,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ObatSeeder::class,
         ]);
+
+        $this->call([
+            RegistrasiSeeder::class,
+        ]);
     }
 }

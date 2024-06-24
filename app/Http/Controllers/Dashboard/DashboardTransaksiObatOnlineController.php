@@ -7,6 +7,8 @@ use App\Models\JemputObat;
 use App\Models\TransaksiObatOnline;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 use function Pest\Laravel\json;
 
@@ -17,15 +19,17 @@ class DashboardTransaksiObatOnlineController extends Controller
      */
     public function index()
     {
-        try{
+        $transaksiobats = [];
+        $status = session('status');
+        $status_code = session('status_code');
+        $transaksiobatonlines = TransaksiObatOnline::with(['konsultasionline:id,id_pasien,id_dokter','konsultasionline.dokter:id,nama','konsultasionline.pasien:id,nama'])->latest()->get();
+        
+        return Inertia::render('Dashboard/TransaksiObatOnlines', [
+            'transaksiobatonlines' => $transaksiobatonlines,
+            'status' => $status,
+            'status_code' => $status_code,
+        ]);
 
-            $transakasi_obats = TransaksiObatOnline::with(['konsultasionline:id,id_dokter,id_pasien','konsultasionline.dokter:id,nama,poli','konsultasionline.pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat','apoteker:id,nama'])->latest()->get();
-
-            return response()->json($transakasi_obats);
-
-        }catch(Exception $e){
-            return response()->json('Error' . $e);
-        }
     }
 
     /**
