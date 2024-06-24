@@ -23,6 +23,8 @@ interface ITableProps {
     onProcessApproval?: (id: number) => void;
     onReturnLoan?: (id: number) => void;
     statusMapping?: { [key: number]: string };
+    statusMapping1?: { [key: number]: string };
+    statusMapping2?: { [key: number]: string };
 }
 
 const Table: React.FC<ITableProps> = ({
@@ -36,6 +38,8 @@ const Table: React.FC<ITableProps> = ({
     onProcessApproval,
     onReturnLoan,
     statusMapping,
+    statusMapping1,
+    statusMapping2,
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -68,12 +72,24 @@ const Table: React.FC<ITableProps> = ({
 
     const renderCellContent = (header: TTableHeader, value: any) => {
         if (
-            (header.value === "status" || header.value === "role") &&
+            (header.value === "status" || header.value === "role" || header.value === "tindakan") &&
             statusMapping
         ) {
             const statusText = statusMapping[value] || value;
             return <Badge text={statusText} type={statusText} />;
-        } else if (header.value === "dokter" && statusMapping) {
+        }else if (
+            (header.value === "status_obat") &&
+            statusMapping1
+        ) {
+            const statusText = statusMapping1[value] || value;
+            return <Badge text={statusText} type={statusText} />;
+        }else if (
+            (header.value === "status_konsul") &&
+            statusMapping2
+        ) {
+            const statusText = statusMapping2[value] || value;
+            return <Badge text={statusText} type={statusText} />;
+        }else if (header.value === "dokter" && statusMapping) {
             const statusText = statusMapping[value] || value;
             return statusText;
         }

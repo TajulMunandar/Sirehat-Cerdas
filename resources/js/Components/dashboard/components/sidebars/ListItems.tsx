@@ -73,11 +73,11 @@ const ListItems: React.FC = () => {
 
                 <li
                     className={`menu-item ${isActive(
-                        "/dashboard/konsultasi-online"
+                        "/dashboard/konsultasi"
                     )}`}
                 >
                     <Link
-                        href="/dashboard/konsultasi-online"
+                        href="/dashboard/konsultasi"
                         className="menu-link"
                     >
                         <FontAwesomeIcon

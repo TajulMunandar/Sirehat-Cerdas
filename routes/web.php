@@ -15,6 +15,7 @@ use App\Http\Controllers\Dashboard\DashboardPasienController;
 use App\Http\Controllers\Dashboard\DashboardRegistrasiController;
 use App\Http\Controllers\Dashboard\DashboardTransaksiObatController;
 use App\Http\Controllers\Dashboard\DashboardTransaksiObatOnlineController;
+use App\Http\Controllers\Dashboard\DashboardRiwayatKesehatanController;
 use App\Http\Controllers\Dashboard\DashboardUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -113,6 +114,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class);
     Route::resource('/antar-obat', DashboardAntarObatController::class);
     Route::resource('/jadwal-dokter', DashboardJadwalController::class);
+    Route::resource('/riwayat-kesehatan', DashboardRiwayatKesehatanController::class);
 });
 
 
