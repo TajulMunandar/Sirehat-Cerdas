@@ -8,19 +8,20 @@ import { TRegistrasi, TRegistrasiData } from "../../types/registrasi";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
+import RegisterList from "@/Components/dashboard/components/RegisterList";
 
 interface DashboardRegistrasisProps {
     registrasis: TRegistrasiData[];
 }
 
-const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({ registrasis }) => {
-
+const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({
+    registrasis,
+}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
     const [formData, setFormData] = useState<TRegistrasi>({
         status: 0,
-        
     });
 
     const openModal = (item?: TRegistrasi) => {
@@ -65,23 +66,7 @@ const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({ registrasis
             <Head title="Registrasi" />
             <MainDashboard nav={"Registrasi"}>
                 <h3 className="font-bold">Table Registrasi</h3>
-                <Table
-                    headers={RegistrasiTableHeader}
-                    data={registrasis}
-                    statusMapping={roleMapping}
-                    createButton={
-                        <button
-                            type="button"
-                            className="flex items-center gap-2 text-white bg-primary hover:bg-black font-medium rounded-lg text-sm px-3 py-2.5 dark:bg-primary dark:hover:bg-primary/90 transition-colors duration-200"
-                            onClick={() => openModal()}
-                        >
-                            <TbPlus size={18} />
-                            Create Apoteker
-                        </button>
-                    }
-                    onEdit={openModal}
-                    // onDeleteUser={handleDeleteItem}
-                />
+                <RegisterList></RegisterList>
 
                 <Modal
                     title={isEditMode ? "Edit Registrasi" : "Create Registrasi"}
