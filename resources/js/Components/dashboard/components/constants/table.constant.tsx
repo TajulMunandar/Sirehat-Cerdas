@@ -57,3 +57,21 @@ export const JadwalTableHeader: TTableHeader[] = [
     { text: "Hari", value: "hari" },
     { text: "Rentang Waktu ", value: "rentang_waktu" },
 ];
+
+export const KonsultasiTableHeader: TTableHeader[] = [
+    { text: "Dokter", value: "dokter" },
+    { text: "Pasien", value: "pasien" },
+    { text: "Diagnosa", value: "diagnosa" },
+    { text: "Status Konsul", value: "status_konsul" },
+    { text: "Status Obat ", value: "status_obat" },
+];
+
+export const RiwayatTableHeader: TTableHeader[] = [
+    { text: "Tanggal", value: "tanggal" },
+    { text: "Dokter", value: "dokter" },
+    { text: "Pasien", value: "pasien" },
+    { text: "Keluhaan", value: "keluhaan" },
+    { text: "Diagnosa", value: "diagnosa" },
+    { text: "Poli", value: "poli" },
+    { text: "Tindakan", value: "tindakan" },
+];

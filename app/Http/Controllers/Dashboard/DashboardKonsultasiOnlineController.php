@@ -9,6 +9,8 @@ use App\Models\TransaksiObatOnline;
 use App\Models\TransaksiObatOnlineDetail;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class DashboardKonsultasiOnlineController extends Controller
 {
@@ -16,21 +18,24 @@ class DashboardKonsultasiOnlineController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        try{
-            
-            $konsultasis = [];
-            if(Auth()->user()->role == 1){
-                $konsultasis = KonsultasiOnline::where('id_dokter', Auth()->user()->dokter->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
-            }elseif(Auth()->user()->role == 4){
-                $konsultasis = KonsultasiOnline::where('id_pasien', Auth()->user()->pasien->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
-            }
-            
-            return response()->json($konsultasis);
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
+    {   
+        $konsultasis = [];
+        $status = session('status');
+        $status_code = session('status_code');
+        if(Auth()->user()->role == 0){
+            $konsultasis = KonsultasiOnline::where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
+        }elseif(Auth()->user()->role == 2){
+            $konsultasis = KonsultasiOnline::where('id_dokter', Auth()->user()->dokter->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
+        }elseif(Auth()->user()->role == 6){
+            $konsultasis = KonsultasiOnline::where('id_pasien', Auth()->user()->pasien->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
         }
+        
+        return Inertia::render('Dashboard/Konsultasis', [
+            'konsultasis' => $konsultasis,
+            'status' => $status,
+            'status_code' => $status_code,
+
+        ]);
     }
 
     /**

@@ -24,6 +24,18 @@ const badgeStyles: { [key: string]: string } = {
     APPROVED: "bg-green-100 text-green-800",
     REJECTED: "bg-red-100 text-red-800",
     COMPLETED: "bg-blue-100 text-blue-800",
+
+    // status konsul
+    "BELUM SELESAI": "bg-yellow-100 text-yellow-800",
+    SELESAI: "bg-green-100 text-green-800",
+
+    // status obat
+    "SUDAH DI AMBIL": "bg-green-100 text-green-800",
+    "BELUM DI AMBIL": "bg-yellow-100 text-yellow-800",
+
+    // for tindakan
+    RUJUKAN: "bg-yellow-100 text-yellow-800",
+    PENGOBATAN: "bg-blue-100 text-blue-800",
 };
 
 const Badge: React.FC<BadgeProps> = ({ text, type }) => {
