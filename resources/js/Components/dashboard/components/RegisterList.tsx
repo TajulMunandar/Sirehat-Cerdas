@@ -1,48 +1,30 @@
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Mamang5 from "../../../../images/tentang/chef/5.jpg";
+import { TRegistrasi } from "@/types/registrasi";
 
-const patients = [
-    {
-        id: "217125423874238",
-        name: "Pasien nama",
-        location: "Punteut",
-        avatar: Mamang5,
-        nik: "12153215645318",
-        noKk: "12153215645318",
-        noBpjs: "12153215645318",
-        address: "Punteut",
-        registrationInfo: {
-            time: "07:00 Wib",
-            date: "2 Juni 2022",
-            complaint: "Perut terasa nyeri disertai kepala pusing",
-            poli: "Umum",
-            doctor: "DR. Julia Fitriani, M.KED (PED)",
-        },
-    },
-    {
-        id: "217125423874228",
-        name: "Pasien asep",
-        location: "Punteut",
-        avatar: Mamang5,
-        nik: "12153215645318",
-        noKk: "12153215645318",
-        noBpjs: "12153215645318",
-        address: "Punteut",
-        registrationInfo: {
-            time: "07:00 Wib",
-            date: "2 Juni 2022",
-            complaint: "Perut terasa nyeri disertai kepala pusing",
-            poli: "Umum",
-            doctor: "DR. Julia Fitriani, M.KED (PED)",
-        },
-    },
-    // Add more patient objects as needed
-];
+interface DashboardRegistrasisProps {
+    patient: TRegistrasi[];
+}
 
-export default function RegisterList() {
+const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
+    const data = patient.map((item) => ({
+        ...item,
+        id: item.id,
+        poli: item.poli,
+        keluhan: item.keluhan,
+        tanggal: item.tanggal,
+        nama: item.nama,
+        nik: item.nik,
+        kk: item.kk,
+        bpjs: item.bpjs,
+        alamat: item.alamat,
+        foto: item.foto,
+        dokter: item.nama_dokter,
+    }));
+
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-    const [selectedPatient, setSelectedPatient] = useState(patients[0]);
+    const [selectedPatient, setSelectedPatient] = useState(data[0]);
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,8 +45,8 @@ export default function RegisterList() {
         };
     }, []);
 
-    const toggleDropdown = (id: string) => {
-        setDropdownOpen(dropdownOpen === id ? null : id);
+    const toggleDropdown = (id: number) => {
+        setDropdownOpen(dropdownOpen === id.toString() ? null : id.toString());
     };
 
     const selectPatient = (patient: any) => {
@@ -77,7 +59,7 @@ export default function RegisterList() {
                 <div className="col col-lg-4">
                     <p>Total Pasies: 828</p>
                     <div className="overflow-y-auto whitespace-nowrap h-screen p-2">
-                        {patients.map((patient) => (
+                        {data.map((patient) => (
                             <div
                                 key={patient.id}
                                 className={`card border-0 mb-3 cursor-pointer ${
@@ -91,41 +73,32 @@ export default function RegisterList() {
                                     <div className="row flex items-center justify-start transition-colors !text-[#e5e5e5] duration-200">
                                         <div className="col-4">
                                             <img
-                                                src={patient.avatar}
+                                                src={patient.foto}
                                                 className="h-20 w-20 rounded-full object-cover"
                                                 alt="avatar"
                                             />
                                         </div>
                                         <div className="col-7 justify-start text-left items-start">
-                                            <h4
+                                            <h5
                                                 className={`font-semibold mb-2 ${
                                                     selectedPatient.id ===
                                                     patient.id
                                                         ? "text-white"
                                                         : ""
-                                                }`}
+                                                } truncate`}
                                             >
-                                                {patient.name}
-                                            </h4>
+                                                {patient.nama}
+                                            </h5>
+
                                             <p
-                                                className={`text-sm m-0 ${
+                                                className={`m-0 text-sm  ${
                                                     selectedPatient.id ===
                                                     patient.id
                                                         ? "text-white"
                                                         : "text-gray-400"
-                                                }`}
+                                                } truncate`}
                                             >
-                                                <span>{patient.id}</span>
-                                            </p>
-                                            <p
-                                                className={`m-0 text-sm ${
-                                                    selectedPatient.id ===
-                                                    patient.id
-                                                        ? "text-white"
-                                                        : "text-gray-400"
-                                                }`}
-                                            >
-                                                <span>{patient.location}</span>
+                                                {patient.alamat}
                                             </p>
                                         </div>
                                         <div
@@ -152,7 +125,7 @@ export default function RegisterList() {
                                                     ]}
                                                 />
                                                 {dropdownOpen ===
-                                                    patient.id && (
+                                                    patient.id.toString() && (
                                                     <ul className="absolute z-10 p-0 right-0 w-32 bg-white border-gray-200 rounded-lg shadow-lg">
                                                         <li>
                                                             <a
@@ -209,9 +182,9 @@ export default function RegisterList() {
                             <div className="row flex">
                                 <div className="col col-lg-5">
                                     <img
-                                        src={selectedPatient.avatar}
+                                        src={selectedPatient.foto}
                                         alt=""
-                                        className="rounded-3xl h-[100%] w-[100%] object-cover"
+                                        className="rounded-3xl h-[430px] w-[100%] object-cover"
                                     />
                                 </div>
                                 <div className="col col-lg-7 pt-4">
@@ -225,7 +198,7 @@ export default function RegisterList() {
                                             <p>Nama</p>
                                         </div>
                                         <div className="col">
-                                            <p>: {selectedPatient.name}</p>
+                                            <p>: {selectedPatient.nama}</p>
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -241,7 +214,7 @@ export default function RegisterList() {
                                             <p>NO KK</p>
                                         </div>
                                         <div className="col">
-                                            <p>: {selectedPatient.noKk}</p>
+                                            <p>: {selectedPatient.kk}</p>
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -249,7 +222,7 @@ export default function RegisterList() {
                                             <p>NO BPJS</p>
                                         </div>
                                         <div className="col">
-                                            <p>: {selectedPatient.noBpjs}</p>
+                                            <p>: {selectedPatient.bpjs}</p>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -257,7 +230,7 @@ export default function RegisterList() {
                                             <p>ALAMAT</p>
                                         </div>
                                         <div className="col">
-                                            <p>: {selectedPatient.address}</p>
+                                            <p>: {selectedPatient.alamat}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -272,15 +245,7 @@ export default function RegisterList() {
                                         </div>
                                         <div className="col text-end">
                                             <p className="font-semibold">
-                                                {
-                                                    selectedPatient
-                                                        .registrationInfo.time
-                                                }{" "}
-                                                |{" "}
-                                                {
-                                                    selectedPatient
-                                                        .registrationInfo.date
-                                                }
+                                                {selectedPatient.tanggal}
                                             </p>
                                         </div>
                                     </div>
@@ -294,12 +259,7 @@ export default function RegisterList() {
                                             </div>
                                             <div className="col">
                                                 <p>
-                                                    :{" "}
-                                                    {
-                                                        selectedPatient
-                                                            .registrationInfo
-                                                            .complaint
-                                                    }
+                                                    : {selectedPatient.keluhan}
                                                 </p>
                                             </div>
                                         </div>
@@ -308,14 +268,7 @@ export default function RegisterList() {
                                                 <p>Poli Tujuan</p>
                                             </div>
                                             <div className="col">
-                                                <p>
-                                                    :{" "}
-                                                    {
-                                                        selectedPatient
-                                                            .registrationInfo
-                                                            .poli
-                                                    }
-                                                </p>
+                                                <p>: {selectedPatient.poli}</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -326,9 +279,7 @@ export default function RegisterList() {
                                                 <p>
                                                     :{" "}
                                                     {
-                                                        selectedPatient
-                                                            .registrationInfo
-                                                            .doctor
+                                                        selectedPatient.dokter // selectedPatient.doctor
                                                     }
                                                 </p>
                                             </div>
@@ -342,4 +293,6 @@ export default function RegisterList() {
             </div>
         </>
     );
-}
+};
+
+export default RegisterList;

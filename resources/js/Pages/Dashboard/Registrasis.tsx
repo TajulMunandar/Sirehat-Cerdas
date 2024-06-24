@@ -1,60 +1,72 @@
 import { RegistrasiTableHeader } from "@/Components/dashboard/components/constants/table.constant";
-import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head, router } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import { useState } from "react";
-import { TbPlus } from "react-icons/tb";
-import { TRegistrasi, TRegistrasiData } from "../../types/registrasi";
-import Modal from "@/Components/dashboard/components/modal/Modal";
-import FormInput from "@/Components/dashboard/components/form/Input";
-import FormSelect from "@/Components/dashboard/components/form/Select";
+import { TRegistrasi } from "../../types/registrasi";
 import RegisterList from "@/Components/dashboard/components/RegisterList";
 
 interface DashboardRegistrasisProps {
-    registrasis: TRegistrasiData[];
+    registrasis: TRegistrasi[];
 }
 
 const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({
     registrasis,
 }) => {
+    const formatTanggal = (tanggal: string) => {
+        const options: Intl.DateTimeFormatOptions = {
+            weekday: "long", // Nama hari dalam bahasa Inggris, misalnya "Selasa"
+            day: "numeric", // Tanggal, misalnya "6"
+            month: "long", // Nama bulan dalam bahasa Inggris, misalnya "Juni"
+            year: "numeric", // Tahun, misalnya "2023"
+            hour: "numeric", // Jam dalam format 24 jam, misalnya "14"
+            minute: "numeric", // Menit, misalnya "00"
+            hour12: false, // Menggunakan format 24 jam
+            timeZone: "Asia/Jakarta", // Zona waktu untuk WIB
+            timeZoneName: "short", // Nama zona waktu, misalnya "WIB"
+        };
+
+        const dateObj = new Date(tanggal);
+        const formattedDate = dateObj.toLocaleDateString("id-ID", options); // Menggunakan locale Indonesia untuk nama hari dan bulan
+
+        // Pisahkan tanggal dan waktu
+        const [tanggalFormatted, waktuFormatted] =
+            formattedDate.split(" pukul ");
+        // Tambahkan "|" sebelum "pukul"
+        const formattedString = `${tanggalFormatted} | pukul ${waktuFormatted}`;
+
+        return formattedString;
+    };
+
+    const data = registrasis.map((item) => ({
+        ...item,
+        id: item.id,
+        poli: item.poli,
+        keluhan: item.keluhan,
+        tanggal: formatTanggal(item.tanggal),
+        nama: item.nama,
+        nik: item.nik,
+        kk: item.kk,
+        bpjs: item.bpjs,
+        alamat: item.alamat,
+        foto: item.foto,
+        dokter: item.nama_dokter,
+    }));
+
+    console.log(data);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<TRegistrasi>({
-        status: 0,
-    });
 
-    const openModal = (item?: TRegistrasi) => {
-        setIsEditMode(!!item);
-        setIsModalOpen(true);
-        if (item) {
-            setCurrentItemId(item.id_registrasi as number);
-            setFormData(item);
-        } else {
-            setFormData({
-                status: 0,
-            } as TRegistrasi);
-        }
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setIsEditMode(false);
-        setCurrentItemId(null);
-        setFormData({
-            status: 0,
-        } as TRegistrasi);
-    };
-
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+    // const handleChange = (
+    //     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    // ) => {
+    //     const { name, value } = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         [name]: value,
+    //     }));
+    // };
 
     const roleMapping = {
         0: "Not Approve",
@@ -66,35 +78,7 @@ const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({
             <Head title="Registrasi" />
             <MainDashboard nav={"Registrasi"}>
                 <h3 className="font-bold">Table Registrasi</h3>
-                <RegisterList></RegisterList>
-
-                <Modal
-                    title={isEditMode ? "Edit Registrasi" : "Create Registrasi"}
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    footer={
-                        <button
-                            type="button"
-                            className="text-white bg-primary  border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
-                            // onClick={handleSubmit}
-                        >
-                            {isEditMode ? "Update" : "Save"}
-                        </button>
-                    }
-                >
-                    <form>
-                        <div className="mt-5 flex flex-col gap-3">
-                            <FormInput
-                                type="number"
-                                name="status"
-                                onChange={handleChange}
-                                // value={formData.status}
-                                label="Status"
-                                placeholder="Enter status"
-                            />
-                        </div>
-                    </form>
-                </Modal>
+                <RegisterList patient={data}></RegisterList>
             </MainDashboard>
         </>
     );

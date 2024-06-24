@@ -1,24 +1,13 @@
-interface TPasien {
-    id_pasien?: number;
-    nik: string;
-    no_kk: string;
-    no_bpjs: string;
-    nama: string;
-    no_hp: string;
-    alamat: string;
-}
-
 export type TRegistrasi = {
-    id_registrasi?: number;
-    status: number,
+    id: number;
+    poli: string;
+    keluhan: string;
+    tanggal: string;
+    nama: string;
+    nik: string;
+    kk: string;
+    bpjs: string;
+    alamat: string;
+    foto: string;
+    nama_dokter: string;
 };
-
-export type TRegistrasiData = {
-    id_registrasi?: number;
-    status: number,
-    poli: string,
-    keluhan: string,
-    pasien: TPasien
-
-};
-

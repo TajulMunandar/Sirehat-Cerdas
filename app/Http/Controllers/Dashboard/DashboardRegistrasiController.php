@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dokter;
 use App\Models\Registrasi;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,15 +16,33 @@ class DashboardRegistrasiController extends Controller
      */
     public function index()
     {
-        try{
+        try {
+            $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])->latest()->get();
+            $dokter = Dokter::all();
+            $registrasiData = $registrasis->map(function ($registrasi) use ($dokter) {
+                $dokterPoli = $dokter->firstWhere('poli', $registrasi->poli); // Cari dokter dengan poli yang sama
 
-            $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->latest()->get();
-            // dd($registrasis);
+                // Buat array baru yang menggabungkan informasi registrasi dan dokter jika ditemukan
+                return [
+                    'id' => $registrasi->id,
+                    'poli' => $registrasi->poli,
+                    'keluhan' => $registrasi->keluhan,
+                    'tanggal' => $registrasi->tanggal,
+                    'nama' => $registrasi->pasien->nama,
+                    'nik' => $registrasi->pasien->nik,
+                    'kk' => $registrasi->pasien->no_kk,
+                    'bpjs' => $registrasi->pasien->no_bpjs,
+                    'alamat' => $registrasi->pasien->alamat,
+                    'foto' => $registrasi->pasien->foto,
+                    'nama_dokter' => $dokterPoli ? $dokterPoli->nama : null, // Ambil nama dokter jika ditemukan
+                ];
+            });
+
             return Inertia::render('Dashboard/Registrasis', [
-                'registrasis' => $registrasis
+                'registrasis' => $registrasiData,
+                'dokter' => $dokter
             ]);
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }
@@ -41,8 +60,8 @@ class DashboardRegistrasiController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            
+        try {
+
             $validatedData = $request->validate([
                 'id_pasien' => 'required',
                 'tanggal' => 'required',
@@ -52,11 +71,10 @@ class DashboardRegistrasiController extends Controller
             ]);
 
             Registrasi::create($validatedData);
-            
+
             return response()->json('Sukses Create Registrasi');
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
+        } catch (Exception $e) {
+            return response()->json('Error' . $e);
         }
     }
 
@@ -81,7 +99,7 @@ class DashboardRegistrasiController extends Controller
      */
     public function update(Request $request, Registrasi $registrasi)
     {
-        try{
+        try {
 
             $validatedData = $request->validate([
                 'id_pasien' => 'required',
@@ -94,8 +112,7 @@ class DashboardRegistrasiController extends Controller
             Registrasi::where('id', $registrasi->id)->update($validatedData);
 
             return response()->json('Sukses Edit Registrasi');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }
@@ -105,22 +122,21 @@ class DashboardRegistrasiController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
 
             $registrasi = Registrasi::whereId($id)->first();
 
             Registrasi::destroy($id);
 
             return response()->json('Sukses Delete Registrasi');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }
 
     public function approved(Request $request, Registrasi $registrasi)
     {
-        try{
+        try {
 
             $validatedData = $request->validate([
                 'status' => 'required'
@@ -129,8 +145,7 @@ class DashboardRegistrasiController extends Controller
             Registrasi::where('id', $registrasi->id)->update($validatedData);
 
             return response()->json('Sukses Approved Registrasi');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json('Error');
         }
     }

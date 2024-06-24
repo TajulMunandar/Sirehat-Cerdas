@@ -16,7 +16,8 @@ class Pasien extends Model
         'no_bpjs',
         'nama',
         'no_hp',
-        'alamat'
+        'alamat',
+        'foto'
     ];
 
     public function User()
