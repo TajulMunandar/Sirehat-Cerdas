@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import shield from "../../../images/tentang/chef/shield.png";
 import Location from "../../../images/tentang/chef/Location.png";
 import Location2 from "../../../images/tentang/chef/Location2.png";
-import Mamang from "../../../images/tentang/chef/mamang.png";
-import Toko from "../../../images/tentang/chef/toko5.png";
+import Mamang from "../../../images/tentang/chef/1.jpg";
+import Mamang2 from "../../../images/tentang/chef/2.jpg";
+import Mamang3 from "../../../images/tentang/chef/3.jpg";
+import Mamang4 from "../../../images/tentang/chef/4.jpg";
+import Mamang5 from "../../../images/tentang/chef/5.jpg";
+import Toko from "../../../images/tentang/chef/6.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Doctors: React.FC = () => {
@@ -13,57 +17,57 @@ const Doctors: React.FC = () => {
 
     const doctors = [
         {
-            name: "Phoenix Satcheup",
-            experience: "12 Tahun",
+            name: "Dr. Indra Cengkir Tarihoran",
+            experience: "15 Tahun",
             location: "Blang Cut",
             image: shield,
             profileImage: Mamang,
             restaurantImage: Toko,
-            specialties: ["Pizza"],
+            specialties: ["Poli Gigi"],
             locationImage: Location,
             buttonText: "View Profile",
         },
         {
-            name: "Bakso",
-            experience: "15 Tahun",
-            location: "Jakarta, Indonesia",
+            name: "Dr. Tirtas Alfarizy Simatupang",
+            experience: "7 Tahun",
+            location: "Blang Cut",
             image: shield,
-            profileImage: Mamang,
+            profileImage: Mamang2,
             restaurantImage: Toko,
-            specialties: ["Burger"],
+            specialties: ["Poli Umum"],
             locationImage: Location,
             buttonText: "View Profile",
         },
         {
-            name: "Bakso",
-            experience: "15 Tahun",
+            name: "Dr. Suci Pramaditha",
+            experience: "18 Tahun",
             location: "Jakarta, Indonesia",
             image: shield,
-            profileImage: Mamang,
+            profileImage: Mamang5,
             restaurantImage: Toko,
-            specialties: ["Burger"],
+            specialties: ["Poli Penyakit Tidak Menular"],
             locationImage: Location,
             buttonText: "View Profile",
         },
         {
-            name: "Bakso",
-            experience: "15 Tahun",
-            location: "Jakarta, Indonesia",
+            name: "Dr. Mulyadi Lamkaruna",
+            experience: "10 Tahun",
+            location: "Blang Cut",
             image: shield,
-            profileImage: Mamang,
+            profileImage: Mamang3,
             restaurantImage: Toko,
-            specialties: ["Burger"],
+            specialties: ["Poli Anak"],
             locationImage: Location,
             buttonText: "View Profile",
         },
         {
-            name: "Bakso",
-            experience: "15 Tahun",
+            name: "Dr. Sintia Falevi",
+            experience: "13 Tahun",
             location: "Jakarta, Indonesia",
             image: shield,
-            profileImage: Mamang,
+            profileImage: Mamang4,
             restaurantImage: Toko,
-            specialties: ["Burger"],
+            specialties: ["Poli Anak dan Ibu"],
             locationImage: Location,
             buttonText: "View Profile",
         },
@@ -74,7 +78,7 @@ const Doctors: React.FC = () => {
     };
 
     return (
-        <div className="container py-5 my-5">
+        <div className="container py-5 mt-5">
             {/* Container pertama untuk menampilkan detail dokter */}
             <div className="row">
                 <div className="col-6">
@@ -141,7 +145,7 @@ const Doctors: React.FC = () => {
 
                 {/* Container kedua untuk dua baris dengan dua button masing-masing */}
 
-                <div className="col py-3">
+                <div className="col ">
                     {doctors.map((doctor, index) => (
                         <div
                             className={`card border-0 d-flex p-4 !rounded-[28px] mb-3 transition-colors duration-200 ${
@@ -154,13 +158,13 @@ const Doctors: React.FC = () => {
                             <div className="row flex items-center pb-1">
                                 <div className="col-6">
                                     <p
-                                        className={`mb-2 text-lg ${
+                                        className={`mb-2 text-md ${
                                             activeDoctorIndex === index
                                                 ? "!text-[#93C4F4]"
                                                 : "!text-black"
                                         }`}
                                     >
-                                        <span className="cost">
+                                        <span>
                                             {doctor.specialties.join(", ")}
                                         </span>
                                     </p>

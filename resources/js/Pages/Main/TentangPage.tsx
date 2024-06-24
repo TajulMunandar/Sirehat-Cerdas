@@ -13,13 +13,27 @@ import Bg from "../../../images/tentang/chef/bg2.jpg";
 
 import Doctors from "@/Components/main/Doctor";
 import DoctorList from "@/Components/main/DoctorList";
+import { TDokter } from "@/types/dokter";
 
-export default function LandingPage(): any {
+interface TentangProps {
+    dokter: TDokter[];
+    dokters: TDokter[];
+}
+
+const TentangPage: React.FC<TentangProps> = ({ dokter }) => {
     const page = {
         props: {
             url: "/tentang",
         },
     };
+
+    const data = dokter.map((item) => ({
+        ...item,
+        id: item.id,
+        nama: item.nama,
+        poli: item.poli,
+        foto: item.foto,
+    }));
 
     return (
         <GuestLayout>
@@ -160,8 +174,10 @@ export default function LandingPage(): any {
                 </h2>
                 <Doctors></Doctors>
             </div>
-            <DoctorList></DoctorList>
+            <DoctorList dokters={data}></DoctorList>
             <Footer></Footer>
         </GuestLayout>
     );
-}
+};
+
+export default TentangPage;

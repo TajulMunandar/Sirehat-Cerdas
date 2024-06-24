@@ -69,8 +69,6 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         }
     };
 
-    console.log(data);
-
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
