@@ -20,12 +20,17 @@ class DashboardKunjunganController extends Controller
     {
         try{
 
-            $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->where('poli', Auth()->user()->dokter->poli)->where('status', True)->latest()->get();
+            $registrasis = [];
+            if(Auth()->user()->role == 0){ 
+                $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->where('status', True)->latest()->get();
+            }else if(Auth()->user()->role == 2){
+                $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->where('poli', Auth()->user()->dokter->poli)->where('status', True)->latest()->get();
+            }
 
             return response()->json($registrasis);
 
         }catch(Exception $e){
-            return response()->json('Error' . $e);
+            return response()->json('Error' . $e);  
         }
     }
 

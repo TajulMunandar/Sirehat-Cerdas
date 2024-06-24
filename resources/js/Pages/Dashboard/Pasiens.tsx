@@ -29,6 +29,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
         no_hp: "",
         alamat: "",
         username: "",
+        foto: "",
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -49,6 +50,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                 no_hp: item.no_hp,
                 alamat: item.alamat,
                 username: item.username,
+                foto: item.foto,
             });
         } else {
             setData({
@@ -60,6 +62,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                 no_hp: "",
                 alamat: "",
                 username: "",
+                foto: "",
             });
         }
     };
@@ -77,6 +80,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
             no_hp: "",
             alamat: "",
             username: "",
+            foto: "",
         });
     };
 
@@ -254,6 +258,14 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                                 value={data.alamat}
                                 label="Alamat"
                                 placeholder="Enter Alamat"
+                            />
+                            <FormInput
+                                type="text"
+                                name="foto"
+                                onChange={handleChange}
+                                value={data.foto}
+                                label="Foto"
+                                placeholder="Enter Foto"
                             />
                             {!isEditMode && (
                                 <FormInput

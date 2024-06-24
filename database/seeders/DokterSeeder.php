@@ -17,7 +17,7 @@ class DokterSeeder extends Seeder
     {
         $faker = FakerFactory::create('id_ID');
 
-        $polis = ['umum', 'gigi', 'anak', 'anak dan ibu'];
+        $polis = ['umum', 'ptm', 'gigi', 'anak', 'ibu dan anak'];
 
         foreach ($polis as $poli) {
             // Buat user dokter terlebih dahulu
