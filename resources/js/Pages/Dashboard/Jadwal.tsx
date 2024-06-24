@@ -44,16 +44,18 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
         setIsModalOpen(true);
         if (item) {
             setCurrentItemId(item.id as number);
+            const [waktuMulai, waktuSelesai] = item.rentang_waktu.split(" - ");
             setData({
                 ...data,
                 id_dokter: item.id_dokter
                     ? item.id_dokter.toString()
                     : defaultDokter,
                 hari: item.hari || defaultHari,
-                waktu_mulai: item.waktu_mulai || defaultTime,
-                waktu_selesai: item.waktu_selesai || defaultTime,
-                rentang_waktu: `${item.waktu_mulai || defaultTime} - ${item.waktu_selesai || defaultTime
-                    }`,
+                waktu_mulai: waktuMulai || defaultTime,
+                waktu_selesai: waktuSelesai || defaultTime,
+                rentang_waktu: `${waktuMulai || defaultTime} - ${
+                    waktuSelesai || defaultTime
+                }`,
             });
         } else {
             setData({
@@ -66,6 +68,8 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
             });
         }
     };
+
+    console.log(data);
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -148,19 +152,22 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
     const handleConfirmDelete = async () => {
         try {
             if (deleteItemId !== null) {
-                console.log(deleteItemId)
-                await router.delete(`/dashboard/jadwal-dokter/${deleteItemId}`, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error("Error deleting dokter");
-                        } else {
-                            toast.success("Dokter deleted successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
+                console.log(deleteItemId);
+                await router.delete(
+                    `/dashboard/jadwal-dokter/${deleteItemId}`,
+                    {
+                        onSuccess: (data: any) => {
+                            console.log(data);
+                            if (data.props.status_code == 500) {
+                                toast.error("Error deleting dokter");
+                            } else {
+                                toast.success("Dokter deleted successfully");
+                            }
+                            setIsDeleteConfirmationOpen(false);
+                            closeModal();
+                        },
+                    }
+                );
             }
         } catch (error) {
             toast.error("Error deleting dokter");
@@ -228,7 +235,11 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                 />
 
                 <Modal
-                    title={isEditMode ? "Edit Apoteker" : "Create Apoteker"}
+                    title={
+                        isEditMode
+                            ? "Edit Jadwal Dokter"
+                            : "Create Jadwal Dokter"
+                    }
                     isOpen={isModalOpen}
                     onClose={closeModal}
                     footer={
@@ -247,7 +258,11 @@ const DashboardJadwal: React.FC<DashboardApotekersProps> = ({
                                 name="id_dokter"
                                 label="Dokter"
                                 onChange={handleChange}
-                                value={data.id_dokter ? data.id_dokter.toString() : ""}
+                                value={
+                                    data.id_dokter
+                                        ? data.id_dokter.toString()
+                                        : ""
+                                }
                                 items={dokters.map((dokter) => ({
                                     text: dokter.nama,
                                     value: dokter.id.toString(),
