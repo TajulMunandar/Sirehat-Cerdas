@@ -22,13 +22,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@mui/material/Button";
 import { Link } from "@inertiajs/react";
 import Accordion from "@/Components/main/Accordion";
+import { TDokter } from "@/types/dokter";
 
-export default function LandingPage(): any {
+interface LandingProps {
+    dokter: TDokter[];
+    dokters: TDokter[];
+}
+
+const LandingPage: React.FC<LandingProps> = ({ dokters, dokter }) => {
     const page = {
         props: {
             url: "/", // Ganti dengan path yang sesuai jika diperlukan
         },
     };
+
+    const data = dokters.map((item) => ({
+        ...item,
+        id: item.id,
+        nama: item.nama,
+        poli: item.poli,
+        foto: item.foto,
+    }));
+
+    const datas = dokter.map((item) => ({
+        ...item,
+        id: item.id,
+        nama: item.nama,
+        poli: item.poli,
+        foto: item.foto,
+    }));
 
     return (
         <GuestLayout>
@@ -118,48 +140,35 @@ export default function LandingPage(): any {
                                     Pilih Dokter
                                 </p>
                             </div>
-                            <div className="flex px-6 items-center">
-                                <div>
-                                    <div className="relative inline-block mr-5">
-                                        <img
-                                            src="https://via.placeholder.com/150"
-                                            alt="Profile"
-                                            className="w-16 h-16 rounded-full border-2 border-gray-300"
-                                        />
-                                        <span className="absolute bottom-0 right-0 block w-4 h-4 bg-green-500 rounded-full border-2 border-white"></span>
+                            {datas.slice(0, 2).map((item) => (
+                                <div
+                                    className="flex px-6 items-center mt-2"
+                                    key={item.id}
+                                >
+                                    <div>
+                                        <div className="relative inline-block mr-5">
+                                            <img
+                                                src={
+                                                    item.foto ||
+                                                    "https://via.placeholder.com/150"
+                                                }
+                                                alt="Profile"
+                                                className="w-16 h-16 rounded-full border-2 border-gray-300"
+                                            />
+                                            <span className="absolute bottom-0 right-0 block w-4 h-4 bg-green-500 rounded-full border-2 border-white"></span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span className="font-semibold mb-3">
+                                            {item.nama}
+                                        </span>
+                                        <br />
+                                        <span className="font-light text-gray-400">
+                                            Poli {item.poli}
+                                        </span>
                                     </div>
                                 </div>
-                                <div>
-                                    <span className="font-semibold mb-3">
-                                        Asep Vapor, MD
-                                    </span>
-                                    <br />
-                                    <span className="font-light text-gray-400">
-                                        Dokter Gigi
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="flex px-6 items-center mt-4">
-                                <div>
-                                    <div className="relative inline-block mr-5">
-                                        <img
-                                            src="https://via.placeholder.com/150"
-                                            alt="Profile"
-                                            className="w-16 h-16 rounded-full border-2 border-gray-300"
-                                        />
-                                        <span className="absolute bottom-0 right-0 block w-4 h-4 bg-green-500 rounded-full border-2 border-white"></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span className="font-semibold mb-3">
-                                        Asep Vapor
-                                    </span>
-                                    <br />
-                                    <span className="font-light text-gray-400">
-                                        Dokter Gigi
-                                    </span>
-                                </div>
-                            </div>
+                            ))}
                             <div className="px-6 pt-4 pb-2">
                                 <Link href="/tentang">
                                     <Button
@@ -437,74 +446,25 @@ export default function LandingPage(): any {
                         Kami
                     </h2>
                     <div className="row">
-                        <div className="col">
-                            <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
-                                <img
-                                    src="https://via.placeholder.com/400x200"
-                                    alt="Card image"
-                                    className="rounded-lg"
-                                />
-                                <div className="px-6 pt-4 text-center">
-                                    <div className="font-bold text-xl mb-2">
-                                        Nama
+                        {data.map((item) => (
+                            <div className="col">
+                                <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
+                                    <img
+                                        src={item.foto}
+                                        alt="Card image"
+                                        className="rounded-lg"
+                                    />
+                                    <div className="px-2 pt-4 text-center">
+                                        <div className="font-bold text-md mb-2">
+                                            {item.nama}
+                                        </div>
+                                        <p className="text-gray-700 text-base">
+                                            Poli {item.poli}
+                                        </p>
                                     </div>
-                                    <p className="text-gray-700 text-base">
-                                        Posisi
-                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col">
-                            <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
-                                <img
-                                    src="https://via.placeholder.com/400x200"
-                                    alt="Card image"
-                                    className="rounded-lg"
-                                />
-                                <div className="px-6 pt-4 text-center">
-                                    <div className="font-bold text-xl mb-2">
-                                        Nama
-                                    </div>
-                                    <p className="text-gray-700 text-base">
-                                        Posisi
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
-                                <img
-                                    src="https://via.placeholder.com/400x200"
-                                    alt="Card image"
-                                    className="rounded-lg"
-                                />
-                                <div className="px-6 pt-4 text-center">
-                                    <div className="font-bold text-xl mb-2">
-                                        Nama
-                                    </div>
-                                    <p className="text-gray-700 text-base">
-                                        Posisi
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
-                                <img
-                                    src="https://via.placeholder.com/400x200"
-                                    alt="Card image"
-                                    className="rounded-lg"
-                                />
-                                <div className="px-6 pt-4 text-center">
-                                    <div className="font-bold text-xl mb-2">
-                                        Nama
-                                    </div>
-                                    <p className="text-gray-700 text-base">
-                                        Posisi
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
@@ -529,4 +489,6 @@ export default function LandingPage(): any {
             <Footer></Footer>
         </GuestLayout>
     );
-}
+};
+
+export default LandingPage;

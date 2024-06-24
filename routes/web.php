@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\Dashboard\DashboardAntarObatController;
 use App\Http\Controllers\Dashboard\DashboardApotekerController;
 use App\Http\Controllers\Dashboard\DashboardChatController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Dashboard\DashboardUserController;
 use App\Http\Controllers\Dashboard\DashboardAntarJemputObatController;
 use App\Http\Controllers\Dashboard\DashboardJemputObatController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TentangController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,23 +38,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Main/LandingPage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
-Route::get('/tentang', function () {
-    return Inertia::render('Main/TentangPage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [BerandaController::class, 'index']);
+
+Route::get('/tentang', [TentangController::class, 'index']);
 
 Route::get('/layanan', function () {
     return Inertia::render('Main/LayananPage', [
