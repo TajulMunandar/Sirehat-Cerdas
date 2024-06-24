@@ -3,27 +3,28 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\TransaksiObat;
-use Exception;
 use Illuminate\Http\Request;
+use App\Models\AntarObat;
+use App\Models\JemputObat;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class DashboardTransaksiObatController extends Controller
+class DashboardAntarJemputObatController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $transaksiobats = [];
+        $antarobats = [];
         $status = session('status');
         $status_code = session('status_code');
-        $transaksiobats = TransaksiObat::with(['kunjungan:id,id_registrasi,id_dokter','kunjungan.registrasi:id,id_pasien,tanggal','kunjungan.dokter:id,nama','kunjungan.registrasi.pasien:id,nama'])->latest()->get();
-        
-        return Inertia::render('Dashboard/TransaksiObats', [
-            'transaksiobats' => $transaksiobats,
+        $antarobats = AntarObat::with(['transaksiobatonline:id,id_konsul','transaksiobatonline.konsultasionline:id,id_pasien','transaksiobatonline.konsultasionline.pasien:id,nama','kurir:id,nama'])->latest()->get();
+        $jemputobats = JemputObat::with(['transaksiobatonline:id,id_konsul,status_ambil','transaksiobatonline.konsultasionline:id,id_pasien','transaksiobatonline.konsultasionline.pasien:id,nama',])->latest()->get();
+
+        return Inertia::render('Dashboard/AntarJemputObats', [
+            'antarobats' => $antarobats,
+            'jemputobats' => $jemputobats,
             'status' => $status,
             'status_code' => $status_code,
 
@@ -43,20 +44,7 @@ class DashboardTransaksiObatController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-
-            $validatedData = $request->validate([
-                'id_apoteker' => 'required',
-                'status' => 'required'
-            ]);
-
-            TransaksiObat::where('id', $request->id)->update($validatedData);
-
-            return response()->json('Sukses Create Transaksi');
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        //
     }
 
     /**

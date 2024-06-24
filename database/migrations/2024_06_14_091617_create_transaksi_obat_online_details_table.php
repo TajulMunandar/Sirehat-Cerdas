@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_to_online')->constrained('transaksi_obat_onlines')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('id_obat')->constrained('obats')->onDelete('restrict')->onUpdate('cascade');
+            $table->string('pemakaian');
             $table->string('ket');
             $table->timestamps();
             

@@ -75,3 +75,26 @@ export const RiwayatTableHeader: TTableHeader[] = [
     { text: "Poli", value: "poli" },
     { text: "Tindakan", value: "tindakan" },
 ];
+
+export const AntarTableHeader: TTableHeader[] = [
+    { text: "Pasien", value: "pasien" },
+    { text: "Kurir", value: "kurir" },
+    { text: "Status Antar", value: "status_antar" },
+];
+
+export const JemputTableHeader: TTableHeader[] = [
+    { text: "Pasien", value: "pasien" },
+    { text: "Pengambil", value: "nama_pengambil" },
+    { text: "Status Ambil", value: "status_ambil" },
+];
+
+export const TransaksiObatTableHeader: TTableHeader[] = [
+    { text: "Tanggal", value: "tanggal" },
+    { text: "Dokter", value: "dokter" },
+    { text: "Pasien", value: "pasien" },
+];
+
+export const TransaksiObatOnlineTableHeader: TTableHeader[] = [
+    { text: "Dokter", value: "dokter" },
+    { text: "Pasien", value: "pasien" },
+];

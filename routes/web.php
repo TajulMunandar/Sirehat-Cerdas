@@ -17,6 +17,8 @@ use App\Http\Controllers\Dashboard\DashboardTransaksiObatController;
 use App\Http\Controllers\Dashboard\DashboardTransaksiObatOnlineController;
 use App\Http\Controllers\Dashboard\DashboardRiwayatKesehatanController;
 use App\Http\Controllers\Dashboard\DashboardUserController;
+use App\Http\Controllers\Dashboard\DashboardAntarJemputObatController;
+use App\Http\Controllers\Dashboard\DashboardJemputObatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -113,8 +115,10 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/chat', DashboardChatController::class);
     Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class);
     Route::resource('/antar-obat', DashboardAntarObatController::class);
+    Route::resource('/jemput-obat', DashboardJemputObatController::class);
     Route::resource('/jadwal-dokter', DashboardJadwalController::class);
     Route::resource('/riwayat-kesehatan', DashboardRiwayatKesehatanController::class);
+    Route::resource('antar-jemput-obat', DashboardAntarJemputObatController::class);
 });
 
 

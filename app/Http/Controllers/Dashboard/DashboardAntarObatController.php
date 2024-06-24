@@ -15,15 +15,19 @@ class DashboardAntarObatController extends Controller
      */
     public function index()
     {
-        try{
 
-            $antarobats = TransaksiObatOnline::where('status_antar', 1)->where('status_ambil', 1)->latest()->get();
+        $antarobats = [];
+        $status = session('status');
+        $status_code = session('status_code');
+        $antarobats = AntarObat::with(['transaksiobatonline:id_konsul,id_apoteker','transaksiobatonline:id','kurir:id,nama'])->latest()->get();
 
-            return response()->json($antarobats);
+        return Inertia::render('Dashboard/AntarObats', [
+            'antarobats' => $antarobats,
+            'status' => $status,
+            'status_code' => $status_code,
 
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
+        ]);
+
     }
 
     /**
