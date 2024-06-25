@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Mamang5 from "../../../../images/tentang/chef/5.jpg";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { TRegistrasi } from "@/types/registrasi";
+import { ToastContainer, toast } from "react-toastify";
+import { stat } from "fs";
 
 interface DashboardRegistrasisProps {
     patient: TRegistrasi[];
 }
 
 const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
-    const data = patient.map((item) => ({
+    const datas = patient.map((item) => ({
         ...item,
         id: item.id,
         poli: item.poli,
@@ -24,7 +27,7 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
     }));
 
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-    const [selectedPatient, setSelectedPatient] = useState(data[0]);
+    const [selectedPatient, setSelectedPatient] = useState(datas[0]);
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,20 +56,39 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
         setSelectedPatient(patient);
     };
 
+    const handleAction = async (id: number, status_regis: number) => {
+        let data = {
+            'status': status_regis
+        }
+
+        await router.put(`/dashboard/registrasi/approved/${id}`, data, {
+            onSuccess: (data: any) => {
+                console.log(data);
+                if (data.props.status_code == 500) {
+                    toast.error(
+                        "Error Registrasi approved/cancel, Gagal Di Approve/Cancel"
+                    );
+                } else {
+                    toast.success("Registrasi successfully approved/cancel");
+                }
+            },
+        });
+        setDropdownOpen(null);
+    };
+
     return (
         <>
             <div className="row">
                 <div className="col col-lg-4">
                     <p>Total Pasies: 828</p>
                     <div className="overflow-y-auto whitespace-nowrap h-screen p-2">
-                        {data.map((patient) => (
+                        {datas.map((patient) => (
                             <div
                                 key={patient.id}
-                                className={`card border-0 mb-3 cursor-pointer ${
-                                    selectedPatient.id === patient.id
+                                className={`card border-0 mb-3 cursor-pointer ${selectedPatient.id === patient.id
                                         ? "!bg-[#1580EB]"
                                         : ""
-                                } transition-all duration-300`}
+                                    } transition-all duration-300`}
                                 onClick={() => selectPatient(patient)}
                             >
                                 <div className="card-body">
@@ -80,43 +102,39 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
                                         </div>
                                         <div className="col-7 justify-start text-left items-start">
                                             <h5
-                                                className={`font-semibold mb-2 ${
-                                                    selectedPatient.id ===
-                                                    patient.id
+                                                className={`font-semibold mb-2 ${selectedPatient.id ===
+                                                        patient.id
                                                         ? "text-white"
                                                         : ""
-                                                } truncate`}
+                                                    } truncate`}
                                             >
                                                 {patient.nama}
                                             </h5>
 
                                             <p
-                                                className={`m-0 text-sm  ${
-                                                    selectedPatient.id ===
-                                                    patient.id
+                                                className={`m-0 text-sm  ${selectedPatient.id ===
+                                                        patient.id
                                                         ? "text-white"
                                                         : "text-gray-400"
-                                                } truncate`}
+                                                    } truncate`}
                                             >
                                                 {patient.alamat}
                                             </p>
                                         </div>
                                         <div
-                                            className="col-1 px-2  relative"
+                                            className="col-1 px-2 relative"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
                                                 toggleDropdown(patient.id);
                                             }}
-                                            ref={dropdownRef}
                                         >
                                             <button
-                                                className={`absolute bottom-7 left-4 text-xl ${
-                                                    selectedPatient.id ===
-                                                    patient.id
+                                                className={`absolute bottom-7 left-4 text-xl ${selectedPatient.id ===
+                                                        patient.id
                                                         ? "text-white"
                                                         : "text-black"
-                                                }`}
+                                                    }`}
                                             >
                                                 <FontAwesomeIcon
                                                     icon={[
@@ -126,47 +144,53 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
                                                 />
                                                 {dropdownOpen ===
                                                     patient.id.toString() && (
-                                                    <ul className="absolute z-10 p-0 right-0 w-32 bg-white border-gray-200 rounded-lg shadow-lg">
-                                                        <li>
-                                                            <a
-                                                                className="block pt-3 pl-3 hover:bg-gray-100"
-                                                                href="#"
-                                                            >
-                                                                <div className="flex text-sm text-emerald-500">
-                                                                    <FontAwesomeIcon
-                                                                        icon={[
-                                                                            "fas",
-                                                                            "check",
-                                                                        ]}
-                                                                        className="mr-2"
-                                                                    />
-                                                                    <p>
-                                                                        Approve
-                                                                    </p>
+                                                        <ul className="absolute z-10 p-0 right-0 w-32 bg-white border-gray-200 rounded-lg shadow-lg">
+                                                            <li>
+                                                                <div
+                                                                    className="block pt-3 pl-3 hover:bg-gray-100"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        handleAction(patient.id, 1); // Approve
+                                                                    }}
+                                                                >
+                                                                    <div className="flex text-sm text-emerald-500">
+                                                                        <FontAwesomeIcon
+                                                                            icon={[
+                                                                                "fas",
+                                                                                "check",
+                                                                            ]}
+                                                                            className="mr-2"
+                                                                        />
+                                                                        <p>
+                                                                            Approve
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                className="block pt-3 pl-3 hover:bg-gray-100"
-                                                                href="#"
-                                                            >
-                                                                <div className="flex text-sm text-red-400">
-                                                                    <FontAwesomeIcon
-                                                                        icon={[
-                                                                            "fas",
-                                                                            "x",
-                                                                        ]}
-                                                                        className="mr-2"
-                                                                    />
-                                                                    <p>
-                                                                        Disapprove
-                                                                    </p>
+                                                            </li>
+                                                            <li>
+                                                                <div
+                                                                    className="block pt-3 pl-3 hover:bg-gray-100"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        handleAction(patient.id, 2); // Disapprove
+                                                                    }}
+                                                                >
+                                                                    <div className="flex text-sm text-red-400">
+                                                                        <FontAwesomeIcon
+                                                                            icon={[
+                                                                                "fas",
+                                                                                "x",
+                                                                            ]}
+                                                                            className="mr-2"
+                                                                        />
+                                                                        <p>
+                                                                            Disapprove
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                )}
+                                                            </li>
+                                                        </ul>
+                                                    )}
                                             </button>
                                         </div>
                                     </div>

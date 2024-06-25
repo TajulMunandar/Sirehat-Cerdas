@@ -8,6 +8,7 @@ use App\Models\Registrasi;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class DashboardRegistrasiController extends Controller
 {
@@ -17,7 +18,10 @@ class DashboardRegistrasiController extends Controller
     public function index()
     {
         try {
-            $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])->latest()->get();
+            $registrasiData = [];
+            $status = session('status');
+            $status_code = session('status_code');
+            $registrasis = Registrasi::where('status', 0)->with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])->latest()->get();
             $dokter = Dokter::all();
             $registrasiData = $registrasis->map(function ($registrasi) use ($dokter) {
                 $dokterPoli = $dokter->firstWhere('poli', $registrasi->poli); // Cari dokter dengan poli yang sama
@@ -40,7 +44,9 @@ class DashboardRegistrasiController extends Controller
 
             return Inertia::render('Dashboard/Registrasis', [
                 'registrasis' => $registrasiData,
-                'dokter' => $dokter
+                'dokter' => $dokter,
+                'status' => $status,
+                'status_code' => $status_code,
             ]);
         } catch (Exception $e) {
             return response()->json('Error');
@@ -144,9 +150,14 @@ class DashboardRegistrasiController extends Controller
 
             Registrasi::where('id', $registrasi->id)->update($validatedData);
 
-            return response()->json('Sukses Approved Registrasi');
+            return Redirect::route('registrasi.index')->with([
+                'status_code' => 200, 
+            ]);
+
         } catch (Exception $e) {
-            return response()->json('Error');
+            return Redirect::route('registrasi.index')->with([
+                'status_code' => 500,
+            ]);
         }
     }
 }
