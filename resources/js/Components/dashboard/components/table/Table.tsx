@@ -208,7 +208,7 @@ const Table: React.FC<ITableProps> = ({
                                             </button>
                                         )}
 
-                                        {onDetail && row?.status === 1 && (
+                                        {onDetail && (
                                             <button
                                                 className="flex items-center gap-1 px-2 py-1.5 rounded-md font-medium text-blue-600 dark:text-blue-500 hover:bg-blue-50 transition-colors duration-150"
                                                 onClick={() =>

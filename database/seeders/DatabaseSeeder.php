@@ -45,5 +45,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RegistrasiSeeder::class,
         ]);
+
     }
 }

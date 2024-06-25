@@ -20,7 +20,7 @@ class DashboardTransaksiObatController extends Controller
         $transaksiobats = [];
         $status = session('status');
         $status_code = session('status_code');
-        $transaksiobats = TransaksiObat::with([
+        $transaksiobats = TransaksiObat::where('status', 0)->with([
             'kunjungan:id,id_registrasi,id_dokter',
             'kunjungan.registrasi:id,id_pasien,tanggal',
             'kunjungan.dokter:id,nama',
@@ -50,20 +50,6 @@ class DashboardTransaksiObatController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-
-            $validatedData = $request->validate([
-                'id_apoteker' => 'required',
-                'status' => 'required'
-            ]);
-
-            TransaksiObat::where('id', $request->id)->update($validatedData);
-
-            return response()->json('Sukses Create Transaksi');
-
-        }catch(Exception $e){
-            return response()->json('Error');
-        }
     }
 
     /**
@@ -85,9 +71,26 @@ class DashboardTransaksiObatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, TransaksiObat $transaksi_obat)
     {
-        //
+        try{
+            $validatedData = $request->validate([
+                'status' => 'required'
+            ]);
+
+            $validatedData['id_apoteker'] = Auth()->user()->apoteker->id;
+
+            TransaksiObat::where('id', $transaksi_obat->id)->update($validatedData);
+
+            return Redirect::route('transaksi-obat.index')->with([
+                'status_code' => 200,
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('transaksi-obat.index')->with([
+                'status_code' => 500,
+            ]);
+        }
     }
 
     /**

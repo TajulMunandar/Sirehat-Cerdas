@@ -10,6 +10,8 @@ use App\Models\TransaksiObatDetail;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class DashboardKunjunganController extends Controller
 {
@@ -18,20 +20,21 @@ class DashboardKunjunganController extends Controller
      */
     public function index()
     {
-        try{
-
-            $registrasis = [];
-            if(Auth()->user()->role == 0){ 
-                $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->where('status', True)->latest()->get();
-            }else if(Auth()->user()->role == 2){
-                $registrasis = Registrasi::with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat'])->where('poli', Auth()->user()->dokter->poli)->where('status', True)->latest()->get();
-            }
-
-            return response()->json($registrasis);
-
-        }catch(Exception $e){
-            return response()->json('Error' . $e);  
+        $kunjungans = [];
+        $status = session('status');
+        $status_code = session('status_code');
+        if(Auth()->user()->role == 0){ 
+            $kunjungans = Registrasi::with(['pasien:id,nama'])->where('status', 1)->latest()->get();
+        }else if(Auth()->user()->role == 2){
+            $kunjungans = Registrasi::with(['pasien:id,nama'])->where('poli', Auth()->user()->dokter->poli)->where('status', 1)->latest()->get();
         }
+
+        return Inertia::render('Dashboard/Kunjungans', [
+            'kunjungans' => $kunjungans,
+            'status' => $status,
+            'status_code' => $status_code,
+
+        ]);
     }
 
     /**
