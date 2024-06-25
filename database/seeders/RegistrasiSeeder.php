@@ -17,8 +17,6 @@ class RegistrasiSeeder extends Seeder
      */
     public function run(): void
     {
-        // Jalankan DokterSeeder terlebih dahulu
-        $this->call(DokterSeeder::class);
 
         $startDate = now()->subMonths(6);
         $endDate = now();
