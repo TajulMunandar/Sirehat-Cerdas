@@ -98,14 +98,6 @@ const Table: React.FC<ITableProps> = ({
         } else if (header.value === "dokter" && statusMapping) {
             const statusText = statusMapping[value] || value;
             return statusText;
-        } else if (header.value === "foto") {
-            return (
-                <img
-                    src={value}
-                    alt="Foto"
-                    className="w-16 h-16 object-cover rounded-md"
-                />
-            );
         }
         return value;
     };
