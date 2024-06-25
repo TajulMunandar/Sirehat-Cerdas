@@ -1,5 +1,9 @@
-import { AntarTableHeader, JemputTableHeader } from "@/Components/dashboard/components/constants/table.constant";
+import {
+    AntarTableHeader,
+    JemputTableHeader,
+} from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
+import TableNoRow from "@/Components/dashboard/components/table/TableNoRow";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
@@ -10,6 +14,7 @@ import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 import { TAntarObat, TJemputObat } from "@/types/antarjemput";
 import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
+import ModalApproveAntar from "@/Components/dashboard/components/modal/ModalApproveAntar";
 
 interface DashboardAntarJemputProps {
     antarobats: TAntarObat[];
@@ -18,8 +23,37 @@ interface DashboardAntarJemputProps {
 
 const DashboardAntarJemputs: React.FC<DashboardAntarJemputProps> = ({
     antarobats,
-    jemputobats
+    jemputobats,
 }) => {
+    const [processItemId, setProcessItemId] = useState<number | null>(null);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isDiapproveModalOpen, setIsDisapproveModalOpen] = useState(false);
+
+    const handleApproval = (id: number) => {
+        setProcessItemId(id);
+        setIsApproveModalOpen(true);
+    };
+
+    const handleConfirmApproval = async () => {
+        if (processItemId !== null) {
+            try {
+                setIsApproveModalOpen(false);
+                toast.success("Loan approved successfully");
+            } catch (err) {
+                toast.error(`Error approving loan: ${err}`);
+            }
+        }
+    };
+    const handleConfirmDisapproval = async () => {
+        if (processItemId !== null) {
+            try {
+                setIsApproveModalOpen(false);
+                toast.success("Loan approved successfully");
+            } catch (err) {
+                toast.error(`Error approving loan: ${err}`);
+            }
+        }
+    };
 
     const datasAntar = antarobats.map((item) => ({
         ...item,
@@ -38,7 +72,7 @@ const DashboardAntarJemputs: React.FC<DashboardAntarJemputProps> = ({
         status_ambil: item.transaksiobatonline.status_ambil,
     }));
 
-    // User role mappin
+    // User role mapping
     const statusJemputMapping = {
         0: "BELUM",
         1: "SUDAH",
@@ -50,21 +84,62 @@ const DashboardAntarJemputs: React.FC<DashboardAntarJemputProps> = ({
         1: "SUDAH",
     };
 
+    const [activeTable, setActiveTable] = useState<"antar" | "jemput">("antar");
+
     return (
         <>
             <Head title="Antar Jemput Obat" />
             <MainDashboard nav={"Antar Jemput Obat"}>
-                <h3 className="font-bold">Table Antar Obat</h3>
-                <Table
-                    headers={AntarTableHeader}
-                    data={datasAntar}
-                    statusMapping={statusAntarMapping}
-                />
-                <h3 className="font-bold">Table Jemput Obat</h3>
-                <Table
-                    headers={JemputTableHeader}
-                    data={datasJemput}
-                    statusMapping={statusJemputMapping}
+                <div className="flex justify-between items-center mb-3">
+                    <h3 className="font-bold">
+                        {activeTable === "antar"
+                            ? "Table Antar Obat"
+                            : "Table Jemput Obat"}
+                    </h3>
+                    <div className="flex gap-4">
+                        <button
+                            className={`font-bold cursor-pointer  ${
+                                activeTable === "antar"
+                                    ? "text-blue-600 btn btn-primary"
+                                    : "text-gray-600"
+                            }`}
+                            onClick={() => setActiveTable("antar")}
+                        >
+                            Antar
+                        </button>
+                        <button
+                            className={`font-bold cursor-pointer  ${
+                                activeTable === "jemput"
+                                    ? "text-blue-600 btn btn-primary"
+                                    : "text-gray-600"
+                            }`}
+                            onClick={() => setActiveTable("jemput")}
+                        >
+                            Jemput
+                        </button>
+                    </div>
+                </div>
+
+                {activeTable === "antar" ? (
+                    <TableNoRow
+                        headers={AntarTableHeader}
+                        data={datasAntar}
+                        statusMapping={statusAntarMapping}
+                    />
+                ) : (
+                    <Table
+                        headers={JemputTableHeader}
+                        data={datasJemput}
+                        statusMapping={statusJemputMapping}
+                        onProcessApproval={handleApproval}
+                    />
+                )}
+
+                <ModalApproveAntar
+                    isOpen={isApproveModalOpen}
+                    onClose={() => setIsApproveModalOpen(false)}
+                    onApprove={handleConfirmApproval}
+                    onRejected={handleConfirmDisapproval}
                 />
             </MainDashboard>
         </>
