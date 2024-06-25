@@ -98,14 +98,6 @@ const Table: React.FC<ITableProps> = ({
         } else if (header.value === "dokter" && statusMapping) {
             const statusText = statusMapping[value] || value;
             return statusText;
-        } else if (header.value === "foto") {
-            return (
-                <img
-                    src={value}
-                    alt="Foto"
-                    className="w-16 h-16 object-cover rounded-md"
-                />
-            );
         }
         return value;
     };
@@ -208,7 +200,7 @@ const Table: React.FC<ITableProps> = ({
                                             </button>
                                         )}
 
-                                        {onDetail && (
+                                        {onDetail && row?.status === 1 && (
                                             <button
                                                 className="flex items-center gap-1 px-2 py-1.5 rounded-md font-medium text-blue-600 dark:text-blue-500 hover:bg-blue-50 transition-colors duration-150"
                                                 onClick={() =>

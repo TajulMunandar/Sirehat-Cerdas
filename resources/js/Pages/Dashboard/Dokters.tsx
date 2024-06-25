@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { TDokter } from "../../types/dokter";
 import Modal from "@/Components/dashboard/components/modal/Modal";
 import FormInput from "@/Components/dashboard/components/form/Input";
-import FormSelect from "@/Components/dashboard/components/form/Select";
 import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 
 interface DashboardDoktersProps {
@@ -19,12 +18,11 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-    const { routers }: any = usePage();
 
     const { data, setData, post, processing, errors } = useForm({
         nama: "",
         no_hp: "",
-        foto: "",
+        foto: null,
         poli: "",
         username: "",
     });
@@ -42,7 +40,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                 ...data,
                 nama: item.nama,
                 no_hp: item.no_hp,
-                foto: item.foto,
+                foto: null,
                 poli: item.poli,
                 username: item.username,
             });
@@ -51,7 +49,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                 ...data,
                 nama: "",
                 no_hp: "",
-                foto: "",
+                foto: null,
                 poli: "",
                 username: "",
             });
@@ -66,7 +64,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             ...data,
             nama: "",
             no_hp: "",
-            foto: "",
+            foto: null,
             poli: "",
             username: "",
         });
@@ -81,27 +79,48 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             [name]: value,
         }));
     };
-    
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, files } = e.target;
+        if (files && files.length > 0) {
+            setData((prevData) => ({
+                ...prevData,
+                [name]: files[0],
+            }));
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const formData = new FormData();
+
+        (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
+            if (data[key] !== null) {
+                formData.append(key, data[key] as any);
+            }
+        });
+
         try {
             if (isEditMode && currentItemId) {
-                await router.put(`/dashboard/dokter/${currentItemId}`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error update dokter, Username Already Taken"
-                            );
-                        } else {
-                            toast.success("Dokter update successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
+                await router.put(
+                    `/dashboard/dokter/${currentItemId}`,
+                    formData,
+                    {
+                        onSuccess: (data: any) => {
+                            if (data.props.status_code == 500) {
+                                toast.error(
+                                    "Error update dokter, Username Already Taken"
+                                );
+                            } else {
+                                toast.success("Dokter update successfully");
+                            }
+                            setIsDeleteConfirmationOpen(false);
+                            closeModal();
+                        },
+                    }
+                );
             } else {
-                await router.post(`/dashboard/dokter`, data, {
+                await router.post(`/dashboard/dokter`, formData, {
                     onSuccess: (data: any) => {
                         console.log(data);
                         if (data.props.status_code == 500) {
@@ -216,10 +235,10 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                                 placeholder="Enter No HP"
                             />
                             <FormInput
-                                type="text"
+                                type="file"
                                 name="foto"
                                 onChange={handleChange}
-                                value={data.foto}
+                                value={""}
                                 label="Foto"
                                 placeholder="Enter Foto"
                             />
