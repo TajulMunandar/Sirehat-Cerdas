@@ -124,8 +124,8 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
 
     return (
         <>
-            <Head title="Obat" />
-            <MainDashboard nav={"Obat"}>
+            <Head title="Transaksi Obat" />
+            <MainDashboard nav={"Transaksi Obat"}>
                 <ToastContainer
                     theme="colored"
                     autoClose={1500}

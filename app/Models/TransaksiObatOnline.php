@@ -38,6 +38,6 @@ class TransaksiObatOnline extends Model
 
     public function TransaksiObatOnlineDetail()
     {
-        return $this->hasMany(TransaksiObatOnlineDetail::class);
+        return $this->hasMany(TransaksiObatOnlineDetail::class, 'id_to_online', 'id');
     }
 }
