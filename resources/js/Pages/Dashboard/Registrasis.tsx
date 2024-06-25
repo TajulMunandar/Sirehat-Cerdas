@@ -4,6 +4,7 @@ import { Head } from "@inertiajs/react";
 import { useState } from "react";
 import { TRegistrasi } from "../../types/registrasi";
 import RegisterList from "@/Components/dashboard/components/RegisterList";
+import { ToastContainer, toast } from "react-toastify";
 
 interface DashboardRegistrasisProps {
     registrasis: TRegistrasi[];
@@ -52,33 +53,20 @@ const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({
         dokter: item.nama_dokter,
     }));
 
-    console.log(data);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [currentItemId, setCurrentItemId] = useState<number | null>(null);
-
-    // const handleChange = (
-    //     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    // ) => {
-    //     const { name, value } = e.target;
-    //     setFormData((prevData) => ({
-    //         ...prevData,
-    //         [name]: value,
-    //     }));
-    // };
-
-    const roleMapping = {
-        0: "Not Approve",
-        1: "Approve",
-    };
-
     return (
         <>
             <Head title="Registrasi" />
             <MainDashboard nav={"Registrasi"}>
+            <ToastContainer
+                theme="colored"
+                autoClose={1500}
+                hideProgressBar
+                closeButton={false}
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+            />
                 <h3 className="font-bold">Table Registrasi</h3>
-                <RegisterList patient={data}></RegisterList>
+                {registrasis.length > 0 && <RegisterList patient={data}></RegisterList>}
             </MainDashboard>
         </>
     );
