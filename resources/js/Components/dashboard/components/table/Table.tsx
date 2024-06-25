@@ -51,7 +51,12 @@ const Table: React.FC<ITableProps> = ({
     };
 
     const filteredData = data.filter((row) =>
-        headers.some((header) => row[header.value])
+        headers.some((header) =>
+            row[header.value]
+                .toString()
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+        )
     );
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -72,24 +77,22 @@ const Table: React.FC<ITableProps> = ({
 
     const renderCellContent = (header: TTableHeader, value: any) => {
         if (
-            (header.value === "status" || header.value === "role" || header.value === "tindakan" || header.value === "status_ambil" || header.value === "status_antar") &&
+            (header.value === "status" ||
+                header.value === "role" ||
+                header.value === "tindakan" ||
+                header.value === "status_ambil" ||
+                header.value === "status_antar") &&
             statusMapping
         ) {
             const statusText = statusMapping[value] || value;
             return <Badge text={statusText} type={statusText} />;
-        }else if (
-            (header.value === "status_obat") &&
-            statusMapping1
-        ) {
+        } else if (header.value === "status_obat" && statusMapping1) {
             const statusText = statusMapping1[value] || value;
             return <Badge text={statusText} type={statusText} />;
-        }else if (
-            (header.value === "status_konsul") &&
-            statusMapping2
-        ) {
+        } else if (header.value === "status_konsul" && statusMapping2) {
             const statusText = statusMapping2[value] || value;
             return <Badge text={statusText} type={statusText} />;
-        }else if (header.value === "dokter" && statusMapping) {
+        } else if (header.value === "dokter" && statusMapping) {
             const statusText = statusMapping[value] || value;
             return statusText;
         }
@@ -123,7 +126,6 @@ const Table: React.FC<ITableProps> = ({
                             onChange={handleSearchChange}
                         />
                     </div>
-
                     {createButton}
                 </div>
             </div>
