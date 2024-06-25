@@ -116,8 +116,8 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
 
     return (
         <>
-            <Head title="Obat" />
-            <MainDashboard nav={"Obat"}>
+            <Head title="Transaksi Obat" />
+            <MainDashboard nav={"Transaksi Obat"}>
                 <ToastContainer
                     theme="colored"
                     autoClose={1500}
@@ -126,7 +126,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                     pauseOnFocusLoss={false}
                     pauseOnHover={false}
                 />
-                <h3 className="font-bold">Table Obat</h3>
+                <h3 className="font-bold">Table Transaksi Obat</h3>
 
                 <Table
                     headers={TransaksiObatTableHeader}
