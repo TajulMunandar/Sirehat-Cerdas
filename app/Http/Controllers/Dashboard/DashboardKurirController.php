@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class DashboardKurirController extends Controller
 {
@@ -23,9 +24,28 @@ class DashboardKurirController extends Controller
         $status = session('status');
         $status_code = session('status_code');
         $kurirs = Kurir::latest()->get();
+        $formattedKurirs = $kurirs->map(function ($kurir) {
+            $foto = $kurir->foto;
+
+            // Jika foto sudah memiliki awalan http, gunakan nilai yang sudah ada
+            if (Str::startsWith($foto, 'http')) {
+                $fotoUrl = $foto;
+            } else {
+                $fotoUrl = Storage::url($foto); // Gunakan accessor untuk mengambil URL lengkap foto
+            }
+
+            return [
+                'id' => $kurir->id,
+                'nama' => $kurir->nama,
+                'no_hp' => $kurir->no_hp,
+                'foto' => $fotoUrl,
+                'created_at' => $kurir->created_at->toDateTimeString(), // Opsional: format tanggal
+                'updated_at' => $kurir->updated_at->toDateTimeString(), // Opsional: format tanggal
+            ];
+        });
 
         return Inertia::render('Dashboard/Kurirs', [
-            'kurirs' => $kurirs,
+            'kurirs' => $formattedKurirs,
             'status' => $status,
             'status_code' => $status_code,
         ]);
@@ -51,8 +71,7 @@ class DashboardKurirController extends Controller
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required|max:255',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required',
+                'foto' => 'mimes:jpeg,jpg,png',
                 'username' => ['required', 'max:255', 'unique:users']
             ]);
 

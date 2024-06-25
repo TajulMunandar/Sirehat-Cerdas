@@ -11,6 +11,7 @@ export const PasienTableHeader: TTableHeader[] = [
     { text: "No BPJS", value: "no_bpjs" },
     { text: "Nama", value: "nama" },
     { text: "No HP", value: "no_hp" },
+    { text: "Foto", value: "foto" },
     { text: "Alamat", value: "alamat" },
 ];
 

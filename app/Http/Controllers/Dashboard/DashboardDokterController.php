@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class DashboardDokterController extends Controller
 {
@@ -22,9 +23,29 @@ class DashboardDokterController extends Controller
         $status = session('status');
         $status_code = session('status_code');
         $dokters = Dokter::latest()->get();
+        $formattedDokters = $dokters->map(function ($dokter) {
+            $foto = $dokter->foto;
+
+            // Jika foto sudah memiliki awalan http, gunakan nilai yang sudah ada
+            if (Str::startsWith($foto, 'http')) {
+                $fotoUrl = $foto;
+            } else {
+                $fotoUrl = Storage::url($foto); // Gunakan accessor untuk mengambil URL lengkap foto
+            }
+
+            return [
+                'id' => $dokter->id,
+                'nama' => $dokter->nama,
+                'poli' => $dokter->poli,
+                'no_hp' => $dokter->no_hp,
+                'foto' => $fotoUrl,
+                'created_at' => $dokter->created_at->toDateTimeString(), // Opsional: format tanggal
+                'updated_at' => $dokter->updated_at->toDateTimeString(), // Opsional: format tanggal
+            ];
+        });
 
         return Inertia::render('Dashboard/Dokters', [
-            'dokters' => $dokters,
+            'dokters' => $formattedDokters,
             'status' => $status,
             'status_code' => $status_code,
         ]);
@@ -49,8 +70,7 @@ class DashboardDokterController extends Controller
                 'poli' => 'required|max:255',
                 'no_hp' => 'required|max:255',
                 'nama' => 'required|max:255',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required',
+                'foto' => 'mimes:jpeg,jpg,png',
                 'username' => ['required', 'max:255', 'unique:users']
             ]);
 
@@ -107,8 +127,7 @@ class DashboardDokterController extends Controller
                 'poli' => 'required|max:255',
                 'no_hp' => 'required|max:255',
                 'nama' => 'required|max:255',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required',
+                'foto' => 'mimes:jpeg,jpg,png',
             ]);
 
             if($request->file('foto')){
@@ -125,6 +144,7 @@ class DashboardDokterController extends Controller
             ]);
 
         } catch (Exception $e) {
+            dd($e);
             return Redirect::route('dokter.index')->with([
                 'status_code' => 500,
             ]);

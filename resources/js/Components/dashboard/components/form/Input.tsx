@@ -10,7 +10,6 @@ interface IInputProps {
     name?: string;
     label?: string;
     prefixIcon?: React.ReactNode;
-    suffixIcon?: React.ReactNode;
     value?: string;
     placeholder?: string;
     required?: boolean;
@@ -48,7 +47,7 @@ const FormInput: React.FC<IInputProps> = ({
                     min={minNumber}
                     name={name}
                     placeholder={placeholder}
-                    value={value}
+                    value={type !== 'file' ? value : undefined} // Avoid setting value for file inputs
                     onChange={onChange}
                     onFocus={onFocus}
                     className={clsx(
@@ -56,7 +55,7 @@ const FormInput: React.FC<IInputProps> = ({
                         "block w-full rounded-lg border border-black/25 bg-white dark:bg-graydark dark:text-white py-2.5 px-3 text-sm text-black dark:border-slate-400",
                         "focus:border-transparent focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black/25 dark:data-[focus]:outline-white"
                     )}
-                    required
+                    required={required}
                 />
             </div>
         </Field>

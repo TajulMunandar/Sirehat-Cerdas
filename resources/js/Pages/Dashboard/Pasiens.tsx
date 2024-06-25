@@ -29,7 +29,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
         no_hp: "",
         alamat: "",
         username: "",
-        foto: "",
+        foto: null,
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -50,7 +50,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                 no_hp: item.no_hp,
                 alamat: item.alamat,
                 username: item.username,
-                foto: item.foto,
+                foto: null,
             });
         } else {
             setData({
@@ -62,7 +62,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                 no_hp: "",
                 alamat: "",
                 username: "",
-                foto: "",
+                foto: null,
             });
         }
     };
@@ -80,7 +80,7 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
             no_hp: "",
             alamat: "",
             username: "",
-            foto: "",
+            foto: null,
         });
     };
 
@@ -92,6 +92,17 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
             ...prevData,
             [name]: value,
         }));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, files } = e.target;
+        if (files && files.length > 0) {
+            const file = files[0];
+            setData((prevData) => ({
+                ...prevData,
+                [name]: file !== undefined ? file : null,
+            }));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -260,10 +271,10 @@ const DashboardPasiens: React.FC<DashboardPasiensProps> = ({ pasiens }) => {
                                 placeholder="Enter Alamat"
                             />
                             <FormInput
-                                type="text"
+                                type="file"
                                 name="foto"
-                                onChange={handleChange}
-                                value={data.foto}
+                                onChange={handleFileChange}
+                                value={""}
                                 label="Foto"
                                 placeholder="Enter Foto"
                             />

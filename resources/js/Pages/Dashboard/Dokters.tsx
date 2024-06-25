@@ -1,7 +1,7 @@
 import { DokterTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head, router, useForm, usePage } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,7 +28,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
-    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
         useState(false);
 
     const openModal = (item?: TDokter) => {
@@ -70,9 +70,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
         });
     };
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setData((prevData) => ({
             ...prevData,
@@ -83,50 +81,39 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, files } = e.target;
         if (files && files.length > 0) {
+            const file = files[0];
             setData((prevData) => ({
                 ...prevData,
-                [name]: files[0],
+                [name]: file !== undefined ? file : null,
             }));
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const formData = new FormData();
-
-        (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
-            if (data[key] !== null) {
-                formData.append(key, data[key] as any);
-            }
-        });
 
         try {
             if (isEditMode && currentItemId) {
-                await router.put(
-                    `/dashboard/dokter/${currentItemId}`,
-                    formData,
-                    {
-                        onSuccess: (data: any) => {
-                            if (data.props.status_code == 500) {
-                                toast.error(
-                                    "Error update dokter, Username Already Taken"
-                                );
-                            } else {
-                                toast.success("Dokter update successfully");
-                            }
-                            setIsDeleteConfirmationOpen(false);
-                            closeModal();
-                        },
-                    }
-                );
-            } else {
-                await router.post(`/dashboard/dokter`, formData, {
+                console.log(data)
+                await router.put(`/dashboard/dokter/${currentItemId}`, data, {
                     onSuccess: (data: any) => {
-                        console.log(data);
                         if (data.props.status_code == 500) {
                             toast.error(
-                                "Error Add dokter, Username Already Taken"
+                                "Error update apoteker, Username Already Taken"
                             );
+                        } else {
+                            toast.success("Apoteker update successfully");
+                        }
+                        setIsDeleteConfirmationOpen(false);
+                        closeModal();
+                    },
+                });
+            } else {
+                console.log(data)
+                await router.post(`/dashboard/dokter`, data, {
+                    onSuccess: (data: any) => {
+                        if (data.props.status_code === 500) {
+                            toast.error("Error Add dokter, Username Already Taken");
                         } else {
                             toast.success("Dokter add successfully");
                         }
@@ -138,9 +125,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             closeModal();
         } catch (error) {
             closeModal();
-            toast.error(
-                isEditMode ? "Error Updating Data" : "Error Adding Data"
-            );
+            toast.error(isEditMode ? "Error Updating Data" : "Error Adding Data");
         }
     };
 
@@ -154,8 +139,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             if (deleteItemId !== null) {
                 await router.delete(`/dashboard/dokter/${deleteItemId}`, {
                     onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
+                        if (data.props.status_code === 500) {
                             toast.error("Error deleting dokter");
                         } else {
                             toast.success("Dokter deleted successfully");
@@ -187,7 +171,6 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                 <Table
                     headers={DokterTableHeader}
                     data={dokters}
-                    // statusMapping={roleMapping}
                     createButton={
                         <button
                             type="button"
@@ -237,7 +220,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                             <FormInput
                                 type="file"
                                 name="foto"
-                                onChange={handleChange}
+                                onChange={handleFileChange}
                                 value={""}
                                 label="Foto"
                                 placeholder="Enter Foto"

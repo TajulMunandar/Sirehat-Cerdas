@@ -9,7 +9,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class DashboardPasienController extends Controller
 {
@@ -21,9 +23,32 @@ class DashboardPasienController extends Controller
         $status = session('status');
         $status_code = session('status_code');
         $pasiens = Pasien::latest()->get();
+        $formattedPasiens = $pasiens->map(function ($pasien) {
+            $foto = $pasien->foto;
+
+            // Jika foto sudah memiliki awalan http, gunakan nilai yang sudah ada
+            if (Str::startsWith($foto, 'http')) {
+                $fotoUrl = $foto;
+            } else {
+                $fotoUrl = Storage::url($foto); // Gunakan accessor untuk mengambil URL lengkap foto
+            }
+
+            return [
+                'id' => $pasien->id,
+                'nik' => $pasien->nik,
+                'no_kk' => $pasien->no_kk,
+                'no_bpjs' => $pasien->no_bpjs,
+                'nama' => $pasien->nama,
+                'no_hp' => $pasien->no_hp,
+                'alamat' => $pasien->alamat,
+                'foto' => $fotoUrl,
+                'created_at' => $pasien->created_at->toDateTimeString(), // Opsional: format tanggal
+                'updated_at' => $pasien->updated_at->toDateTimeString(), // Opsional: format tanggal
+            ];
+        });
 
         return Inertia::render('Dashboard/Pasiens', [
-            'pasiens' => $pasiens,
+            'pasiens' => $formattedPasiens,
             'status' => $status,
             'status_code' => $status_code,
         ]);
@@ -52,8 +77,7 @@ class DashboardPasienController extends Controller
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
                 'alamat' => 'required',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required',
+                'foto' => 'mimes:jpeg,jpg,png',
             ]);
 
             $userData = [
@@ -61,6 +85,10 @@ class DashboardPasienController extends Controller
                 'password' => Hash::make($validatedData['username']),
                 'role' => 6,
             ];
+
+            if($request->file('foto')){
+                $validatedData['foto'] = $request->file('foto')->store('data-pasien');
+            }
 
             User::create($userData);
         
@@ -72,6 +100,7 @@ class DashboardPasienController extends Controller
             ]);
 
         } catch (Exception $e) {
+            dd($e);
             return Redirect::route('pasien.index')->with([
                 'status_code' => 500,
             ]);
@@ -108,8 +137,7 @@ class DashboardPasienController extends Controller
                 'nama' => 'required|max:255',
                 'no_hp' => 'required',
                 'alamat' => 'required',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required',
+                'foto' => 'mimes:jpeg,jpg,png',
             ]);
 
             Pasien::where('id', $pasien->id)->update($validatedData);
