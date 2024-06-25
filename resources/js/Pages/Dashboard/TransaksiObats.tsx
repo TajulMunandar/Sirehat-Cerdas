@@ -4,22 +4,32 @@ import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
+import { GiMedicines } from "react-icons/gi";
 import { ToastContainer, toast } from "react-toastify";
 import { TTransaksiObat } from "../../types/transaksiobat";
-import Modal from "@/Components/dashboard/components/modal/Modal";
+import Modal from "@/Components/dashboard/components/modal/ModalApprove";
 import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
+import ApprovalConfirmationModal from "@/Components/dashboard/components/modal/ModalApprove";
 
 interface DashboardTransaksiObatsProps {
     transaksiobats: TTransaksiObat[];
 }
 
-const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ transaksiobats }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [currentItemId, setCurrentItemId] = useState<number | null>(null);
+const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
+    transaksiobats,
+}) => {
     const { routers }: any = usePage();
+    const [currentItemId, setCurrentItemId] = useState<number | null>(null);
+    const [processItemId, setProcessItemId] = useState<number | null>(null);
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+
+    const handleApproval = (id: number) => {
+        setProcessItemId(id);
+        setIsApproveModalOpen(true);
+    };
 
     const { data, setData, post, processing, errors } = useForm({
         nama_obat: "",
@@ -28,36 +38,19 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
         dosis: "",
     });
 
-    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
-    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
-        useState(false);
-
-    // const openModal = (item?: TTransaksiObat) => {
-    //     setIsEditMode(!!item);
-    //     setIsModalOpen(true);
-    //     if (item) {
-    //         setCurrentItemId(item.id as number);
-    //         setData({
-    //             ...data,
-    //             nama_obat: item.nama_obat,
-    //             satuan: item.satuan,
-    //             jumlah: item.jumlah,
-    //             dosis: item.dosis,
-    //         });
-    //     } else {
-    //         setData({
-    //             ...data,
-    //             nama_obat: "",
-    //             satuan: "",
-    //             jumlah: 0,
-    //             dosis: "",
-    //         });
-    //     }
-    // };
+    const handleConfirmApproval = async () => {
+        if (processItemId !== null) {
+            try {
+                setIsApproveModalOpen(false);
+                toast.success("Loan approved successfully");
+            } catch (err) {
+                toast.error(`Error approving loan: ${err}`);
+            }
+        }
+    };
 
     const closeModal = () => {
-        setIsModalOpen(false);
-        setIsEditMode(false);
+        setIsApproveModalOpen(false);
         setCurrentItemId(null);
         setData({
             ...data,
@@ -78,48 +71,9 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
         }));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            if (isEditMode && currentItemId) {
-                await router.put(`/dashboard/obat/${currentItemId}`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error update obat, Gagal Di Tambahkan"
-                            );
-                        } else {
-                            toast.success("Obat update successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
-            } else {
-                await router.post(`/dashboard/obat`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Gagal Di Tambahkan"
-                            );
-                        } else {
-                            toast.success("Obat add successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
-            }
-            closeModal();
-        } catch (error) {
-            closeModal();
-            toast.error(
-                isEditMode ? "Error Updating Data" : "Error Adding Data"
-            );
-        }
-    };
+    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+        useState(false);
 
     const handleDeleteItem = (id: number) => {
         setDeleteItemId(id);
@@ -162,7 +116,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
         <>
             <Head title="Obat" />
             <MainDashboard nav={"Obat"}>
-            <ToastContainer
+                <ToastContainer
                     theme="colored"
                     autoClose={1500}
                     hideProgressBar
@@ -171,16 +125,62 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
                     pauseOnHover={false}
                 />
                 <h3 className="font-bold">Table Obat</h3>
+
                 <Table
                     headers={TransaksiObatTableHeader}
                     data={datas}
                     onDeleteUser={handleDeleteItem}
+                    onProcessApproval={handleApproval}
                 />
+
                 <DeleteConfirmationModal
                     isOpen={isDeleteConfirmationOpen}
                     onClose={() => setIsDeleteConfirmationOpen(false)}
                     onConfirmDelete={handleConfirmDelete}
                 />
+
+                <Modal
+                    title="Detail Obat"
+                    isOpen={isApproveModalOpen}
+                    onClose={() => setIsApproveModalOpen(false)}
+                    // footer={
+                    //     <button
+                    //         type="button"
+                    //         className="text-white bg-primary border border-primary hover:border-black hover:bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary dark:hover:bg-primary/90 dark:hover:border-primary/90 transition-colors duration-200"
+                    //         onClick={handleConfirmApproval}
+                    //     >
+                    //         Confirm
+                    //     </button>
+                    // }
+                >
+                    <div className="row"></div>
+                    <p className="text-black font-semibold dark:text-slate-400">
+                        Informasi Berobat:
+                    </p>
+                    <div className="row flex px-3">
+                        <div className="col">
+                            <p >Nama Dokter</p>
+                            <p>Nama Pasien</p>
+                        </div>
+                        <div className="col text-end">
+                            <p>Asep</p>
+                            <p>Asep</p>
+                        </div>
+                    </div>
+                    <p className="text-black font-semibold dark:text-slate-400">
+                        Informasi Lengkap Obat:
+                    </p>
+                    <div className="row flex justify-between px-3">
+                        <div className="col">
+                            <p>Nama Obat</p>
+                            <p>Paracetamol</p>
+                        </div>
+                        <div className="col text-end">
+                            <p>Keterangan</p>
+                            <p>3x1</p>
+                        </div>
+                    </div>
+                </Modal>
             </MainDashboard>
         </>
     );

@@ -174,19 +174,18 @@ const Table: React.FC<ITableProps> = ({
                                     ))}
 
                                     <td className="px-6 py-4 flex gap-4 whitespace-nowrap">
-                                        {onProcessApproval &&
-                                            row?.status === 0 && (
-                                                <button
-                                                    className="font-medium text-green-600 dark:text-green-500 hover:underline"
-                                                    onClick={() =>
-                                                        onProcessApproval(
-                                                            row?.id_peminjaman
-                                                        )
-                                                    }
-                                                >
-                                                    <TbCheckbox size={20} />
-                                                </button>
-                                            )}
+                                        {onProcessApproval && (
+                                            <button
+                                                className="font-medium text-green-600 dark:text-green-500 hover:underline"
+                                                onClick={() =>
+                                                    onProcessApproval(
+                                                        row?.id_peminjaman
+                                                    )
+                                                }
+                                            >
+                                                <TbCheckbox size={20} />
+                                            </button>
+                                        )}
 
                                         {onReturnLoan && row?.status === 1 && (
                                             <button
