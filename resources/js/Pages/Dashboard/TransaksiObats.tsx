@@ -110,6 +110,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         tanggal: item.kunjungan.registrasi.tanggal,
         dokter: item.kunjungan.dokter.nama,
         pasien: item.kunjungan.registrasi.pasien.nama,
+        transaksiobatdetail: item.transaksiobatdetail,
     }));
 
 
@@ -179,20 +180,26 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                                 Informasi Lengkap Obat:
                             </p>
                             <div className="row flex justify-between px-3">
-                                <div className="col">
-                                    <p>Nama Obat</p>
-                                    <p>Paracetamol</p>{" "}
-                                    {/* Contoh statis, sesuaikan dengan data obat */}
+                                    <div className="col">
+                                        <p>Nama Obat</p>
+                                        {datas.find((item) => item.id === processItemId)?.transaksiobatdetail.map((detail) => (
+                                            <p>{detail.obat.nama_obat}</p>
+                                
+                                        ))}
+                                    </div>
+                                    <div className="col text-end">
+                                        <p>Keterangan</p>
+                                        {datas.find((item) => item.id === processItemId)?.transaksiobatdetail.map((detail) => (
+                                            <p>{detail.ket}</p>
+                                
+                                        ))}
+                                    </div>
                                 </div>
-                                <div className="col text-end">
-                                    <p>Keterangan</p>
-                                    <p>3x1</p>{" "}
-                                    {/* Contoh statis, sesuaikan dengan keterangan obat */}
-                                </div>
-                            </div>
+                            
                         </>
                     )}
                 </Modal>
+
             </MainDashboard>
         </>
     );

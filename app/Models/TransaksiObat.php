@@ -25,9 +25,9 @@ class TransaksiObat extends Model
         return $this->belongsTo(Apoteker::class, 'id_apoteker');
     }
 
-    public function TransaksiObatOnline()
+    public function TransaksiObatDetail()
     {
-        return $this->hasMany(TransaksiObatOnline::class);
+        return $this->hasMany(TransaksiObatDetail::class, 'id_transaksi_obat', 'id');
     }
     
 }

@@ -179,7 +179,7 @@ const Table: React.FC<ITableProps> = ({
                                                 className="font-medium text-green-600 dark:text-green-500 hover:underline"
                                                 onClick={() =>
                                                     onProcessApproval(
-                                                        row?.id_peminjaman
+                                                        row?.id
                                                     )
                                                 }
                                             >
@@ -192,7 +192,7 @@ const Table: React.FC<ITableProps> = ({
                                                 className="flex items-center gap-1 px-2 py-1.5 rounded-md font-medium text-blue-600 dark:text-blue-500 hover:bg-blue-50 transition-colors duration-150"
                                                 onClick={() =>
                                                     onReturnLoan(
-                                                        row?.id_peminjaman
+                                                        row?.id
                                                     )
                                                 }
                                             >

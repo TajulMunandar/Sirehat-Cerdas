@@ -20,7 +20,14 @@ class DashboardTransaksiObatController extends Controller
         $transaksiobats = [];
         $status = session('status');
         $status_code = session('status_code');
-        $transaksiobats = TransaksiObat::with(['kunjungan:id,id_registrasi,id_dokter','kunjungan.registrasi:id,id_pasien,tanggal','kunjungan.dokter:id,nama','kunjungan.registrasi.pasien:id,nama'])->latest()->get();
+        $transaksiobats = TransaksiObat::with([
+            'kunjungan:id,id_registrasi,id_dokter',
+            'kunjungan.registrasi:id,id_pasien,tanggal',
+            'kunjungan.dokter:id,nama',
+            'kunjungan.registrasi.pasien:id,nama',
+            'transaksiobatdetail:id,id_transaksi_obat,id_obat,ket',
+            'transaksiobatdetail.obat:id,nama_obat'
+        ])->latest()->get();
         
         return Inertia::render('Dashboard/TransaksiObats', [
             'transaksiobats' => $transaksiobats,

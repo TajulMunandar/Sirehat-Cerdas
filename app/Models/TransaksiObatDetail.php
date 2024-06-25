@@ -17,7 +17,7 @@ class TransaksiObatDetail extends Model
 
     public function TransaksiObat()
     {
-        return $this->belongsTo(TransaksiObat::class, 'id_transaksi_obat');
+        return $this->belongsTo(TransaksiObat::class, 'id_transaksi_obat', 'id');
     }
 
     public function Obat()
