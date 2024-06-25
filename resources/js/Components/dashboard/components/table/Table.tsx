@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TTableHeader } from "./Types";
 import FormInput from "../form/Input";
 import Badge from "../badges/Badge";
+import { LiaCommentMedicalSolid } from "react-icons/lia";
 import {
     TbCheckbox,
     TbEdit,
@@ -20,6 +21,7 @@ interface ITableProps {
     onEditLoan?: (item: any) => void;
     onDeleteInventory?: (id: number) => void;
     onDeleteUser?: (id: number) => void;
+    onDetail?: (id: number) => void;
     onProcessApproval?: (id: number) => void;
     onReturnLoan?: (id: number) => void;
     statusMapping?: { [key: number]: string };
@@ -37,6 +39,7 @@ const Table: React.FC<ITableProps> = ({
     onDeleteUser,
     onProcessApproval,
     onReturnLoan,
+    onDetail,
     statusMapping,
     statusMapping1,
     statusMapping2,
@@ -178,9 +181,7 @@ const Table: React.FC<ITableProps> = ({
                                             <button
                                                 className="font-medium text-green-600 dark:text-green-500 hover:underline"
                                                 onClick={() =>
-                                                    onProcessApproval(
-                                                        row?.id
-                                                    )
+                                                    onProcessApproval(row?.id)
                                                 }
                                             >
                                                 <TbCheckbox size={20} />
@@ -191,13 +192,24 @@ const Table: React.FC<ITableProps> = ({
                                             <button
                                                 className="flex items-center gap-1 px-2 py-1.5 rounded-md font-medium text-blue-600 dark:text-blue-500 hover:bg-blue-50 transition-colors duration-150"
                                                 onClick={() =>
-                                                    onReturnLoan(
-                                                        row?.id
-                                                    )
+                                                    onReturnLoan(row?.id)
                                                 }
                                             >
                                                 <TbHistory size={18} />
                                                 Return
+                                            </button>
+                                        )}
+
+                                        {onDetail && row?.status === 1 && (
+                                            <button
+                                                className="flex items-center gap-1 px-2 py-1.5 rounded-md font-medium text-blue-600 dark:text-blue-500 hover:bg-blue-50 transition-colors duration-150"
+                                                onClick={() =>
+                                                    onDetail(row?.id)
+                                                }
+                                            >
+                                                <LiaCommentMedicalSolid
+                                                    size={18}
+                                                />
                                             </button>
                                         )}
 

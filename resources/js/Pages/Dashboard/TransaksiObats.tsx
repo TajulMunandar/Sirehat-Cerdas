@@ -12,6 +12,7 @@ import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 import ApprovalConfirmationModal from "@/Components/dashboard/components/modal/ModalApprove";
+import ModalApproveAntar from "@/Components/dashboard/components/modal/ModalApproveAntar";
 
 interface DashboardTransaksiObatsProps {
     transaksiobats: TTransaksiObat[];
@@ -23,8 +24,13 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
     const { routers }: any = usePage();
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
     const [processItemId, setProcessItemId] = useState<number | null>(null);
-    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+    const handleDetail = (id: number) => {
+        setProcessItemId(id);
+        setIsDetailModalOpen(true);
+    };
 
     const handleApproval = (id: number) => {
         setProcessItemId(id);
@@ -48,17 +54,20 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
             }
         }
     };
+    const handleConfirmDisapproval = async () => {
+        if (processItemId !== null) {
+            try {
+                setIsApproveModalOpen(false);
+                toast.success("Loan approved successfully");
+            } catch (err) {
+                toast.error(`Error approving loan: ${err}`);
+            }
+        }
+    };
 
     const closeModal = () => {
         setIsApproveModalOpen(false);
-        setCurrentItemId(null);
-        setData({
-            ...data,
-            nama_obat: "",
-            satuan: "",
-            jumlah: 0,
-            dosis: "",
-        });
+        setIsDetailModalOpen(false);
     };
 
     const handleChange = (
@@ -113,7 +122,6 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         transaksiobatdetail: item.transaksiobatdetail,
     }));
 
-
     return (
         <>
             <Head title="Transaksi Obat" />
@@ -131,20 +139,14 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                 <Table
                     headers={TransaksiObatTableHeader}
                     data={datas}
-                    onDeleteUser={handleDeleteItem}
+                    onDetail={handleDetail}
                     onProcessApproval={handleApproval}
-                />
-
-                <DeleteConfirmationModal
-                    isOpen={isDeleteConfirmationOpen}
-                    onClose={() => setIsDeleteConfirmationOpen(false)}
-                    onConfirmDelete={handleConfirmDelete}
                 />
 
                 <Modal
                     title="Detail Obat"
-                    isOpen={isApproveModalOpen}
-                    onClose={() => setIsApproveModalOpen(false)}
+                    isOpen={isDetailModalOpen}
+                    onClose={() => setIsDetailModalOpen(false)}
                 >
                     {processItemId !== null && (
                         <>
@@ -180,26 +182,37 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                                 Informasi Lengkap Obat:
                             </p>
                             <div className="row flex justify-between px-3">
-                                    <div className="col">
-                                        <p>Nama Obat</p>
-                                        {datas.find((item) => item.id === processItemId)?.transaksiobatdetail.map((detail) => (
+                                <div className="col">
+                                    <p>Nama Obat</p>
+                                    {datas
+                                        .find(
+                                            (item) => item.id === processItemId
+                                        )
+                                        ?.transaksiobatdetail.map((detail) => (
                                             <p>{detail.obat.nama_obat}</p>
-                                
                                         ))}
-                                    </div>
-                                    <div className="col text-end">
-                                        <p>Keterangan</p>
-                                        {datas.find((item) => item.id === processItemId)?.transaksiobatdetail.map((detail) => (
-                                            <p>{detail.ket}</p>
-                                
-                                        ))}
-                                    </div>
                                 </div>
-                            
+                                <div className="col text-end">
+                                    <p>Keterangan</p>
+                                    {datas
+                                        .find(
+                                            (item) => item.id === processItemId
+                                        )
+                                        ?.transaksiobatdetail.map((detail) => (
+                                            <p>{detail.ket}</p>
+                                        ))}
+                                </div>
+                            </div>
                         </>
                     )}
                 </Modal>
 
+                <ModalApproveAntar
+                    isOpen={isApproveModalOpen}
+                    onClose={() => setIsApproveModalOpen(false)}
+                    onApprove={handleConfirmApproval}
+                    onRejected={handleConfirmDisapproval}
+                />
             </MainDashboard>
         </>
     );

@@ -27,7 +27,6 @@ const DashboardAntarJemputs: React.FC<DashboardAntarJemputProps> = ({
 }) => {
     const [processItemId, setProcessItemId] = useState<number | null>(null);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
-    const [isDiapproveModalOpen, setIsDisapproveModalOpen] = useState(false);
 
     const handleApproval = (id: number) => {
         setProcessItemId(id);
