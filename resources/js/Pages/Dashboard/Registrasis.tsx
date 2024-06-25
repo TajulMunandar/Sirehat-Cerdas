@@ -4,6 +4,7 @@ import { Head } from "@inertiajs/react";
 import { useState } from "react";
 import { TRegistrasi } from "../../types/registrasi";
 import RegisterList from "@/Components/dashboard/components/RegisterList";
+import RegisterListEmp from "@/Components/dashboard/components/RegisterListEmp";
 import { ToastContainer, toast } from "react-toastify";
 
 interface DashboardRegistrasisProps {
@@ -57,16 +58,20 @@ const DashboardRegistrasis: React.FC<DashboardRegistrasisProps> = ({
         <>
             <Head title="Registrasi" />
             <MainDashboard nav={"Registrasi"}>
-            <ToastContainer
-                theme="colored"
-                autoClose={1500}
-                hideProgressBar
-                closeButton={false}
-                pauseOnFocusLoss={false}
-                pauseOnHover={false}
-            />
+                <ToastContainer
+                    theme="colored"
+                    autoClose={1500}
+                    hideProgressBar
+                    closeButton={false}
+                    pauseOnFocusLoss={false}
+                    pauseOnHover={false}
+                />
                 <h3 className="font-bold">Table Registrasi</h3>
-                {registrasis.length > 0 && <RegisterList patient={data}></RegisterList>}
+                {registrasis.length > 0 ? (
+                    <RegisterList patient={data}></RegisterList>
+                ) : (
+                    <RegisterListEmp></RegisterListEmp>
+                )}
             </MainDashboard>
         </>
     );
