@@ -22,7 +22,7 @@ class DashboardTransaksiObatOnlineController extends Controller
         $transaksiobats = [];
         $status = session('status');
         $status_code = session('status_code');
-        $transaksiobatonlines = TransaksiObatOnline::with([
+        $transaksiobatonlines = TransaksiObatOnline::where('status_ambil', 0)->with([
             'konsultasionline:id,id_pasien,id_dokter',
             'konsultasionline.dokter:id,nama',
             'konsultasionline.pasien:id,nama',
@@ -86,37 +86,28 @@ class DashboardTransaksiObatOnlineController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, TransaksiObatOnline $transaksi_obat_online)
     {
+
         try{
-
-            $validatedDataTransaksi = $request->validate([
-                'status_antar' => 'required',
+            $validatedData = $request->validate([
+                'status_ambil' => 'required'
             ]);
-            
-            if($validatedDataTransaksi['status_antar'] == '0'){
 
-                $validatedDataJemput = $request->validate([
-                    'nama_pengambil' => 'required',
-                ]);
+            $validatedData['id_apoteker'] = Auth()->user()->apoteker->id;
 
-                $validatedDataJemput['id_to_online'] = $id;
+            TransaksiObatOnline::where('id', $transaksi_obat_online->id)->update($validatedData);
 
-                
-                TransaksiObatOnline::where('id', $request->id)->update($validatedDataTransaksi);
-                JemputObat::create($validatedDataJemput);
-                
-                return response()->json('Sukses Update Transaksi Jemput');
-            }
-            
-            
-            TransaksiObatOnline::where('id', $id)->update($validatedDataTransaksi);  
-            
-            return response()->json('Sukses Update Transaksi Antar');
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
+            return Redirect::route('transaksi-obat-online.index')->with([
+                'status_code' => 200,
+            ]);
+
+        } catch (Exception $e) {
+            return Redirect::route('transaksi-obat-online.index')->with([
+                'status_code' => 500,
+            ]);
         }
+
     }
 
     /**
@@ -126,4 +117,36 @@ class DashboardTransaksiObatOnlineController extends Controller
     {
         //
     }
+
+    // public function approvedAntar(Request $request){
+    //     try{
+
+    //         $validatedDataTransaksi = $request->validate([
+    //             'status_antar' => 'required',
+    //         ]);
+            
+    //         if($validatedDataTransaksi['status_antar'] == '0'){
+
+    //             $validatedDataJemput = $request->validate([
+    //                 'nama_pengambil' => 'required',
+    //             ]);
+
+    //             $validatedDataJemput['id_to_online'] = $id;
+
+                
+    //             TransaksiObatOnline::where('id', $request->id)->update($validatedDataTransaksi);
+    //             JemputObat::create($validatedDataJemput);
+                
+    //             return response()->json('Sukses Update Transaksi Jemput');
+    //         }
+            
+            
+    //         TransaksiObatOnline::where('id', $id)->update($validatedDataTransaksi);  
+            
+    //         return response()->json('Sukses Update Transaksi Antar');
+            
+    //     }catch(Exception $e){
+    //         return response()->json('Error'. $e);
+    //     }
+    // }
 }

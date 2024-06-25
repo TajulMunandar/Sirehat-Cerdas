@@ -66,22 +66,7 @@ class DashboardRegistrasiController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-
-            $validatedData = $request->validate([
-                'id_pasien' => 'required',
-                'tanggal' => 'required',
-                'status' => 'required',
-                'keluhan' => 'required',
-                'poli' => 'required'
-            ]);
-
-            Registrasi::create($validatedData);
-
-            return response()->json('Sukses Create Registrasi');
-        } catch (Exception $e) {
-            return response()->json('Error' . $e);
-        }
+        //
     }
 
     /**
@@ -105,22 +90,7 @@ class DashboardRegistrasiController extends Controller
      */
     public function update(Request $request, Registrasi $registrasi)
     {
-        try {
-
-            $validatedData = $request->validate([
-                'id_pasien' => 'required',
-                'tanggal' => 'required',
-                'status' => 'required',
-                'keluhan' => 'required',
-                'poli' => 'required'
-            ]);
-
-            Registrasi::where('id', $registrasi->id)->update($validatedData);
-
-            return response()->json('Sukses Edit Registrasi');
-        } catch (Exception $e) {
-            return response()->json('Error');
-        }
+        //
     }
 
     /**

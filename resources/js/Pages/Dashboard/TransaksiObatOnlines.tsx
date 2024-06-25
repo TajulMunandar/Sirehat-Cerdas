@@ -12,17 +12,25 @@ import FormInput from "@/Components/dashboard/components/form/Input";
 import FormSelect from "@/Components/dashboard/components/form/Select";
 import DeleteConfirmationModal from "@/Components/dashboard/components/modal/ModalDelete";
 import ApprovalConfirmationModal from "@/Components/dashboard/components/modal/ModalApprove";
+import ModalApproveAntar from "@/Components/dashboard/components/modal/ModalApproveAntar";
 
 interface DashboardTransaksiObatsProps {
     transaksiobatonlines: TTransaksiObatOnline[];
 }
 
-const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ transaksiobatonlines }) => {
+const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
+    transaksiobatonlines,
+}) => {
     const { routers }: any = usePage();
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
     const [processItemId, setProcessItemId] = useState<number | null>(null);
-    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+    const handleDetail = (id: number) => {
+        setProcessItemId(id);
+        setIsDetailModalOpen(true);
+    };
 
     const handleApproval = (id: number) => {
         setProcessItemId(id);
@@ -39,24 +47,58 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
     const handleConfirmApproval = async () => {
         if (processItemId !== null) {
             try {
+                let data = {
+                    status_ambil: 1,
+                };
+                
+                await router.put(`/dashboard/transaksi-obat-online/${processItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Transaksi Obat Online approved/rejected, Gagal Di Approve/Rejected"
+                            );
+                        } else {
+                            toast.success("Transaksi Obat Online successfully approved/rejected");
+                        }
+                    },
+                });
                 setIsApproveModalOpen(false);
-                toast.success("Loan approved successfully");
             } catch (err) {
                 toast.error(`Error approving loan: ${err}`);
+            }
+        }
+    };
+    
+    const handleConfirmDisapproval = async () => {
+        if (processItemId !== null) {
+            try {
+                let data = {
+                    status_ambil: 2,
+                };
+                
+                await router.put(`/dashboard/transaksi-obat-online/${processItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Transaksi Obat Online approved/rejected, Gagal Di Approve/Rejected"
+                            );
+                        } else {
+                            toast.success("Transaksi Obat Online successfully approved/rejected");
+                        }
+                    },
+                });
+                setIsApproveModalOpen(false);
+            } catch (err) {
+                toast.error(`Error disapproving loan: ${err}`);
             }
         }
     };
 
     const closeModal = () => {
         setIsApproveModalOpen(false);
-        setCurrentItemId(null);
-        setData({
-            ...data,
-            nama_obat: "",
-            satuan: "",
-            jumlah: 0,
-            dosis: "",
-        });
+        setIsDetailModalOpen(false);
     };
 
     const handleChange = (
@@ -77,7 +119,6 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
         setDeleteItemId(id);
         setIsDeleteConfirmationOpen(true);
     };
-
 
     const handleConfirmDelete = async () => {
         try {
@@ -113,9 +154,9 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
 
     return (
         <>
-            <Head title="Transaksi Obat Online" />
-            <MainDashboard nav={"Transaksi Obat Online"}>
-            <ToastContainer
+            <Head title="Transaksi Obat" />
+            <MainDashboard nav={"Transaksi Obat"}>
+                <ToastContainer
                     theme="colored"
                     autoClose={1500}
                     hideProgressBar
@@ -123,22 +164,19 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
                     pauseOnFocusLoss={false}
                     pauseOnHover={false}
                 />
-                <h3 className="font-bold">Table Transaksi Obat Online</h3>
+                <h3 className="font-bold">Table Transaksi Obat</h3>
+
                 <Table
                     headers={TransaksiObatOnlineTableHeader}
                     data={datas}
-                    onDeleteUser={handleDeleteItem}
+                    onDetail={handleDetail}
                     onProcessApproval={handleApproval}
                 />
-                <DeleteConfirmationModal
-                    isOpen={isDeleteConfirmationOpen}
-                    onClose={() => setIsDeleteConfirmationOpen(false)}
-                    onConfirmDelete={handleConfirmDelete}
-                />
+
                 <Modal
                     title="Detail Obat"
-                    isOpen={isApproveModalOpen}
-                    onClose={() => setIsApproveModalOpen(false)}
+                    isOpen={isDetailModalOpen}
+                    onClose={() => setIsDetailModalOpen(false)}
                 >
                     {processItemId !== null && (
                         <>
@@ -174,25 +212,37 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({ trans
                                 Informasi Lengkap Obat:
                             </p>
                             <div className="row flex justify-between px-3">
-                                    <div className="col">
-                                        <p>Nama Obat</p>
-                                        {datas.find((item) => item.id === processItemId)?.transaksiobatonlinedetail.map((detail) => (
+                                <div className="col">
+                                    <p>Nama Obat</p>
+                                    {datas
+                                        .find(
+                                            (item) => item.id === processItemId
+                                        )
+                                        ?.transaksiobatonlinedetail.map((detail) => (
                                             <p>{detail.obat.nama_obat}</p>
-                                
                                         ))}
-                                    </div>
-                                    <div className="col text-end">
-                                        <p>Keterangan</p>
-                                        {datas.find((item) => item.id === processItemId)?.transaksiobatonlinedetail.map((detail) => (
-                                            <p>{detail.ket}</p>
-                                
-                                        ))}
-                                    </div>
                                 </div>
-                            
+                                <div className="col text-end">
+                                    <p>Keterangan</p>
+                                    {datas
+                                        .find(
+                                            (item) => item.id === processItemId
+                                        )
+                                        ?.transaksiobatonlinedetail.map((detail) => (
+                                            <p>{detail.ket}</p>
+                                        ))}
+                                </div>
+                            </div>
                         </>
                     )}
                 </Modal>
+
+                <ModalApproveAntar
+                    isOpen={isApproveModalOpen}
+                    onClose={() => setIsApproveModalOpen(false)}
+                    onApprove={handleConfirmApproval}
+                    onRejected={handleConfirmDisapproval}
+                />
             </MainDashboard>
         </>
     );

@@ -47,20 +47,51 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
     const handleConfirmApproval = async () => {
         if (processItemId !== null) {
             try {
+                let data = {
+                    status: 1,
+                };
+                
+                await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Transaksi Obat Online approved/rejected, Gagal Di Approve/Rejected"
+                            );
+                        } else {
+                            toast.success("Transaksi Obat successfully approved/rejected");
+                        }
+                    },
+                });
                 setIsApproveModalOpen(false);
-                toast.success("Loan approved successfully");
             } catch (err) {
                 toast.error(`Error approving loan: ${err}`);
             }
         }
     };
+    
     const handleConfirmDisapproval = async () => {
         if (processItemId !== null) {
             try {
+                let data = {
+                    status: 2,
+                };
+                
+                await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
+                    onSuccess: (data: any) => {
+                        console.log(data);
+                        if (data.props.status_code == 500) {
+                            toast.error(
+                                "Error Transaksi Obat approved/rejected, Gagal Di Approve/Rejected"
+                            );
+                        } else {
+                            toast.success("Transaksi Obat successfully approved/rejected");
+                        }
+                    },
+                });
                 setIsApproveModalOpen(false);
-                toast.success("Loan approved successfully");
             } catch (err) {
-                toast.error(`Error approving loan: ${err}`);
+                toast.error(`Error disapproving loan: ${err}`);
             }
         }
     };

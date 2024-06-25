@@ -98,3 +98,9 @@ export const TransaksiObatOnlineTableHeader: TTableHeader[] = [
     { text: "Dokter", value: "dokter" },
     { text: "Pasien", value: "pasien" },
 ];
+
+export const KunjunganTableHeader: TTableHeader[] = [
+    { text: "Tanggal", value: "tanggal" },
+    { text: "Pasien", value: "pasien" },
+    { text: "Keluhan", value: "keluhan" },
+];
