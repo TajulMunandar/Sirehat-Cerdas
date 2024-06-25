@@ -112,6 +112,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         pasien: item.kunjungan.registrasi.pasien.nama,
     }));
 
+
     return (
         <>
             <Head title="Obat" />
@@ -143,43 +144,54 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                     title="Detail Obat"
                     isOpen={isApproveModalOpen}
                     onClose={() => setIsApproveModalOpen(false)}
-                    // footer={
-                    //     <button
-                    //         type="button"
-                    //         className="text-white bg-primary border border-primary hover:border-black hover:bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary dark:hover:bg-primary/90 dark:hover:border-primary/90 transition-colors duration-200"
-                    //         onClick={handleConfirmApproval}
-                    //     >
-                    //         Confirm
-                    //     </button>
-                    // }
                 >
-                    <div className="row"></div>
-                    <p className="text-black font-semibold dark:text-slate-400">
-                        Informasi Berobat:
-                    </p>
-                    <div className="row flex px-3">
-                        <div className="col">
-                            <p >Nama Dokter</p>
-                            <p>Nama Pasien</p>
-                        </div>
-                        <div className="col text-end">
-                            <p>Asep</p>
-                            <p>Asep</p>
-                        </div>
-                    </div>
-                    <p className="text-black font-semibold dark:text-slate-400">
-                        Informasi Lengkap Obat:
-                    </p>
-                    <div className="row flex justify-between px-3">
-                        <div className="col">
-                            <p>Nama Obat</p>
-                            <p>Paracetamol</p>
-                        </div>
-                        <div className="col text-end">
-                            <p>Keterangan</p>
-                            <p>3x1</p>
-                        </div>
-                    </div>
+                    {processItemId !== null && (
+                        <>
+                            <div className="row"></div>
+                            <p className="text-black font-semibold dark:text-slate-400">
+                                Informasi Berobat:
+                            </p>
+                            <div className="row flex px-3">
+                                <div className="col">
+                                    <p>Nama Dokter</p>
+                                    <p>Nama Pasien</p>
+                                </div>
+                                <div className="col text-end">
+                                    <p>
+                                        {
+                                            datas.find(
+                                                (item) =>
+                                                    item.id === processItemId
+                                            )?.dokter
+                                        }
+                                    </p>
+                                    <p>
+                                        {
+                                            datas.find(
+                                                (item) =>
+                                                    item.id === processItemId
+                                            )?.pasien
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-black font-semibold dark:text-slate-400">
+                                Informasi Lengkap Obat:
+                            </p>
+                            <div className="row flex justify-between px-3">
+                                <div className="col">
+                                    <p>Nama Obat</p>
+                                    <p>Paracetamol</p>{" "}
+                                    {/* Contoh statis, sesuaikan dengan data obat */}
+                                </div>
+                                <div className="col text-end">
+                                    <p>Keterangan</p>
+                                    <p>3x1</p>{" "}
+                                    {/* Contoh statis, sesuaikan dengan keterangan obat */}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </Modal>
             </MainDashboard>
         </>
