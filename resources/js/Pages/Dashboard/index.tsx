@@ -4,7 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head } from "@inertiajs/react";
 import Chart from "react-apexcharts";
 
-const Dashboard: React.FC = () => {
+interface DashboardDoktersProps {
+    countDokter: number;
+    countPasien: number;
+    countKonsultasiOnline: number;
+    countKunjungan: number;
+    countKunjunganHariIni: number;
+}
+
+const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, countKonsultasiOnline, countKunjungan, countKunjunganHariIni }) => {
     const chartOptions = {
         fill: {
             type: "gradient",
@@ -64,7 +72,7 @@ const Dashboard: React.FC = () => {
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            12
+                                            {countKunjungan}
                                         </p>
                                     </div>
                                 </div>
@@ -92,7 +100,7 @@ const Dashboard: React.FC = () => {
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            3
+                                            5
                                         </p>
                                     </div>
                                 </div>
@@ -124,7 +132,7 @@ const Dashboard: React.FC = () => {
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            50
+                                            {countDokter}
                                         </p>
                                     </div>
                                 </div>
@@ -154,7 +162,7 @@ const Dashboard: React.FC = () => {
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            12
+                                            {countKunjunganHariIni}
                                         </p>
                                     </div>
                                 </div>
@@ -180,12 +188,12 @@ const Dashboard: React.FC = () => {
                                     </div>
                                     <div className="col-10 justify-start text-left items-start">
                                         <h5 className={`font-semibold mb-2`}>
-                                            Total Kunjungan
+                                            Total Konsultasi Online
                                         </h5>
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            3
+                                            {countKonsultasiOnline}
                                         </p>
                                     </div>
                                 </div>
@@ -214,7 +222,7 @@ const Dashboard: React.FC = () => {
                                         <p
                                             className={`m-0 text-xl text-gray-500`}
                                         >
-                                            50
+                                            {countPasien}
                                         </p>
                                     </div>
                                 </div>

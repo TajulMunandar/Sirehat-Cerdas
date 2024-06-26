@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DashboardAntarObatController;
 use App\Http\Controllers\Dashboard\DashboardApotekerController;
 use App\Http\Controllers\Dashboard\DashboardChatController;
@@ -60,22 +61,7 @@ Route::get('/faq', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard/index', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
+ 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -89,6 +75,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::prefix('/dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/user', DashboardUserController::class);
     Route::resource('/pasien', DashboardPasienController::class);
     Route::resource('/dokter', DashboardDokterController::class);
