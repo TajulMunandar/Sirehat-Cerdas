@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/get-data-kunjungan', [KunjunganController::class, 'GetData']);
+Route::get('/get-data-clustering', [DashboardController::class, 'getClustering']);
