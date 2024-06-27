@@ -13,6 +13,7 @@ const DoctorList: React.FC<DoctorProps> = ({ dokters }) => {
         nama: item.nama,
         poli: item.poli,
         foto: item.foto,
+        foto_url: item.foto_url,
     }));
 
     return (
@@ -60,7 +61,7 @@ const DoctorList: React.FC<DoctorProps> = ({ dokters }) => {
                         <div className="col" key={item.id}>
                             <div className="card card-restaurant p-0 ">
                                 <img
-                                    src={item.foto}
+                                    src={item.foto_url}
                                     className="rounded-[24px] h-[100%] max-h-[400px] object-cover aspect-[9/16]"
                                     alt=""
                                 />

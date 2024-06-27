@@ -73,6 +73,9 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
         xaxis: {
             categories: predictions.map((item: any) => item.tanggal),
         },
+        grid: {
+            show: false, // This will hide the grid
+        },
     };
 
     const chartData = {
@@ -282,7 +285,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                 <div className="row mt-3">
                     <div className="col col-lg-8">
                         <div className="card">
-                            <div className="card-body">
+                            <div className="card-body ">
                                 <div className="flex justify-between items-center mb-3">
                                     <h5>Prediksi Trafic Pengunjung</h5>
                                     <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-blue-500">
@@ -299,24 +302,25 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                                     stroke={"smooth"}
                                     type="area"
                                     width="100%"
+                                    height="120%"
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="col col-lg-4">
-                        <div className="card">
-                            <div className="card-body  ">
-                                <div className="flex justify-between items-center mb-3">
+                        <div className="card ">
+                            <div className="card-body ">
+                                <div className="flex justify-between items-center mb-3 ">
                                     <h5>Clustering</h5>
                                     <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                         <span className="font-medium text-gray-600 dark:text-gray-300">
                                             <FontAwesomeIcon
-                                                icon={["fas", "user-doctor"]}
+                                                icon={["fas", "kit-medical"]}
                                             />
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex items-center h-full">
+                                <div className="flex items-center ">
                                     <CChartPolarArea
                                         data={{
                                             labels: [

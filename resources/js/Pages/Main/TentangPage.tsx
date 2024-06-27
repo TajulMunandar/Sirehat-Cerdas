@@ -33,6 +33,7 @@ const TentangPage: React.FC<TentangProps> = ({ dokter }) => {
         nama: item.nama,
         poli: item.poli,
         foto: item.foto,
+        foto_url: item.foto_url,
     }));
 
     return (

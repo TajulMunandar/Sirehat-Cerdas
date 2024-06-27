@@ -29,8 +29,9 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
-    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
         useState(false);
+    useState(false);
 
     const openModal = (item?: TDokter) => {
         setIsEditMode(!!item);
@@ -74,7 +75,9 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
         });
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         const { name, value } = e.target;
         setData((prevData) => ({
             ...prevData,
@@ -101,31 +104,39 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             Object.keys(data).forEach((key) => {
                 formData.append(key, data[key as keyof typeof data] as string);
             });
-    
+
             if (isEditMode && currentItemId) {
-                formData.append('_method', 'put');
-                await router.post(`/dashboard/dokter/${currentItemId}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    onSuccess: (data: any) => {
-                        if (data.props.status_code === 500) {
-                            toast.error("Error update dokter, Username Already Taken");
-                        } else {
-                            toast.success("Dokter update successfully");
-                        }
-                        setIsDeleteConfirmationOpen(false);
-                        closeModal();
-                    },
-                });
+                formData.append("_method", "put");
+                await router.post(
+                    `/dashboard/dokter/${currentItemId}`,
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                        onSuccess: (data: any) => {
+                            if (data.props.status_code === 500) {
+                                toast.error(
+                                    "Error update dokter, Username Already Taken"
+                                );
+                            } else {
+                                toast.success("Dokter update successfully");
+                            }
+                            setIsDeleteConfirmationOpen(false);
+                            closeModal();
+                        },
+                    }
+                );
             } else {
                 await router.post(`/dashboard/dokter`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        "Content-Type": "multipart/form-data",
                     },
                     onSuccess: (data: any) => {
                         if (data.props.status_code === 500) {
-                            toast.error("Error Add dokter, Username Already Taken");
+                            toast.error(
+                                "Error Add dokter, Username Already Taken"
+                            );
                         } else {
                             toast.success("Dokter add successfully");
                         }
@@ -134,11 +145,13 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                     },
                 });
             }
-    
+
             closeModal();
         } catch (error) {
             closeModal();
-            toast.error(isEditMode ? "Error Updating Data" : "Error Adding Data");
+            toast.error(
+                isEditMode ? "Error Updating Data" : "Error Adding Data"
+            );
         }
     };
 

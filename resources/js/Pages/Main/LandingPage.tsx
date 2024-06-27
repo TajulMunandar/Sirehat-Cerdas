@@ -42,7 +42,10 @@ const LandingPage: React.FC<LandingProps> = ({ dokters, dokter }) => {
         nama: item.nama,
         poli: item.poli,
         foto: item.foto,
+        foto_url: item.foto_url,
     }));
+
+    console.log(data);
 
     const datas = dokter.map((item) => ({
         ...item,
@@ -50,6 +53,7 @@ const LandingPage: React.FC<LandingProps> = ({ dokters, dokter }) => {
         nama: item.nama,
         poli: item.poli,
         foto: item.foto,
+        foto_url: item.foto_url,
     }));
 
     return (
@@ -148,10 +152,7 @@ const LandingPage: React.FC<LandingProps> = ({ dokters, dokter }) => {
                                     <div>
                                         <div className="relative inline-block mr-5">
                                             <img
-                                                src={
-                                                    item.foto ||
-                                                    "https://via.placeholder.com/150"
-                                                }
+                                                src={item.foto_url}
                                                 alt="Profile"
                                                 className="w-16 h-16 rounded-full border-2 border-gray-300"
                                             />
@@ -450,7 +451,7 @@ const LandingPage: React.FC<LandingProps> = ({ dokters, dokter }) => {
                             <div className="col">
                                 <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white p-3">
                                     <img
-                                        src={item.foto}
+                                        src={item.foto_url}
                                         alt="Card image"
                                         className="rounded-lg"
                                     />
