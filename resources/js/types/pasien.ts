@@ -7,6 +7,7 @@ export type TPasien = {
     no_hp: string;
     alamat: string;
     username: string;
+    oldImage: string;
     foto: string;
 };
 

@@ -5,5 +5,6 @@ export type TDokter = {
     foto: string;
     poli: string;
     username: string;
+    oldImage: string;
 };
 

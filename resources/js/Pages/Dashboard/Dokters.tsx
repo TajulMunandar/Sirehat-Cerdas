@@ -25,6 +25,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
         foto: null,
         poli: "",
         username: "",
+        oldImage: "",
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -43,6 +44,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                 foto: null,
                 poli: item.poli,
                 username: item.username,
+                oldImage: item.foto,
             });
         } else {
             setData({
@@ -52,6 +54,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                 foto: null,
                 poli: "",
                 username: "",
+                oldImage: "",
             });
         }
     };
@@ -67,6 +70,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
             foto: null,
             poli: "",
             username: "",
+            oldImage: "",
         });
     };
 
@@ -91,26 +95,34 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         try {
+            const formData = new FormData();
+
+            Object.keys(data).forEach((key) => {
+                formData.append(key, data[key as keyof typeof data] as string);
+            });
+    
             if (isEditMode && currentItemId) {
-                console.log(data)
-                await router.put(`/dashboard/dokter/${currentItemId}`, data, {
+                formData.append('_method', 'put');
+                await router.post(`/dashboard/dokter/${currentItemId}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                     onSuccess: (data: any) => {
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error update apoteker, Username Already Taken"
-                            );
+                        if (data.props.status_code === 500) {
+                            toast.error("Error update dokter, Username Already Taken");
                         } else {
-                            toast.success("Apoteker update successfully");
+                            toast.success("Dokter update successfully");
                         }
                         setIsDeleteConfirmationOpen(false);
                         closeModal();
                     },
                 });
             } else {
-                console.log(data)
-                await router.post(`/dashboard/dokter`, data, {
+                await router.post(`/dashboard/dokter`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                     onSuccess: (data: any) => {
                         if (data.props.status_code === 500) {
                             toast.error("Error Add dokter, Username Already Taken");
@@ -122,6 +134,7 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                     },
                 });
             }
+    
             closeModal();
         } catch (error) {
             closeModal();
@@ -241,6 +254,14 @@ const DashboardDokters: React.FC<DashboardDoktersProps> = ({ dokters }) => {
                                     value={data.username}
                                     label="Username"
                                     placeholder="Enter username"
+                                />
+                            )}
+                            {!isEditMode && (
+                                <FormInput
+                                    type="hidden"
+                                    name="oldImage"
+                                    onChange={handleChange}
+                                    value={data.foto ?? undefined}
                                 />
                             )}
                         </div>

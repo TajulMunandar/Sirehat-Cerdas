@@ -75,7 +75,7 @@ class DashboardDokterController extends Controller
             ]);
 
             if($request->file('foto')){
-                $validatedData['foto'] = $request->file('foto')->store('data-dokter');
+                $validatedData['foto'] = $request->file('foto')->store('data-dokter', 'public');
             }
 
             $userData = [
@@ -132,9 +132,10 @@ class DashboardDokterController extends Controller
 
             if($request->file('foto')){
                 if($request->oldImage){
-                    Storage::delete($request->oldImage);
+                    $file_path = str_replace('/storage/', '', $request->oldImage);
+                    Storage::disk('public')->delete($file_path);
                 }
-                $validatedData['foto'] = $request->file('foto')->store('data-dokter');
+                $validatedData['foto'] = $request->file('foto')->store('data-dokter', 'public');
             }
 
             Dokter::where('id', $dokter->id)->update($validatedData);
@@ -160,7 +161,8 @@ class DashboardDokterController extends Controller
 
             $dokter = Dokter::whereId($id)->first();
             if ($dokter->foto) {
-                Storage::delete($dokter->foto);
+                $file_path = str_replace('/storage/', '', $dokter->foto);
+                Storage::disk('public')->delete($file_path);
             }
             Dokter::destroy($id);
 

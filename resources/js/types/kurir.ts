@@ -4,5 +4,6 @@ export type TKurir = {
     no_hp: string;
     foto: string;
     username: string;
+    oldImage: string;
 };
 

@@ -66,8 +66,6 @@ class DashboardKurirController extends Controller
     {
         try{
 
-            // dd($request);
-
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required|max:255',
@@ -76,7 +74,7 @@ class DashboardKurirController extends Controller
             ]);
 
             if($request->file('foto')){
-                $validatedData['foto'] = $request->file('foto')->store('data-kurir');
+                $validatedData['foto'] = $request->file('foto')->store('data-kurir', 'public');
             }
 
             $userData = [
@@ -124,19 +122,19 @@ class DashboardKurirController extends Controller
     {
 
         try{
-            
+            // dd($request);
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
                 'no_hp' => 'required|max:255',
-                // 'foto' => 'mimes:jpeg,jpg,png',
-                'foto' => 'required'
+                'foto' => 'mimes:jpeg,jpg,png',
             ]);
     
             if($request->file('foto')){
                 if($request->oldImage){
-                    Storage::delete($request->oldImage);
+                    $file_path = str_replace('/storage/', '', $request->oldImage);
+                    Storage::disk('public')->delete($file_path);
                 }
-                $validatedData['foto'] = $request->file('foto')->store('data-kurir');
+                $validatedData['foto'] = $request->file('foto')->store('data-kurir', 'public');
             }
     
             Kurir::where('id', $kurir->id)->update($validatedData);
@@ -161,7 +159,8 @@ class DashboardKurirController extends Controller
 
             $kurir = Kurir::whereId($id)->first();
             if ($kurir->foto) {
-                Storage::delete($kurir->foto);
+                $file_path = str_replace('/storage/', '', $kurir->foto);
+                Storage::disk('public')->delete($file_path);
             }
             Kurir::destroy($id);
 

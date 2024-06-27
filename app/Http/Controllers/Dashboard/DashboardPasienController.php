@@ -87,7 +87,7 @@ class DashboardPasienController extends Controller
             ];
 
             if($request->file('foto')){
-                $validatedData['foto'] = $request->file('foto')->store('data-pasien');
+                $validatedData['foto'] = $request->file('foto')->store('data-pasien', 'public');
             }
 
             User::create($userData);
@@ -140,6 +140,14 @@ class DashboardPasienController extends Controller
                 'foto' => 'mimes:jpeg,jpg,png',
             ]);
 
+            if($request->file('foto')){
+                if($request->oldImage){
+                    $file_path = str_replace('/storage/', '', $request->oldImage);
+                    Storage::disk('public')->delete($file_path);
+                }
+                $validatedData['foto'] = $request->file('foto')->store('data-pasien', 'public');
+            }
+
             Pasien::where('id', $pasien->id)->update($validatedData);
 
             return Redirect::route('pasien.index')->with([
@@ -162,6 +170,10 @@ class DashboardPasienController extends Controller
 
             $pasien = Pasien::whereId($id)->first();
             Pasien::destroy($pasien->id);
+            if ($pasien->foto) {
+                $file_path = str_replace('/storage/', '', $pasien->foto);
+                Storage::disk('public')->delete($file_path);
+            }
 
             return Redirect::route('pasien.index')->with([
                 'status_code' => 200, 

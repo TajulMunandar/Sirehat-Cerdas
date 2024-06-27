@@ -26,6 +26,7 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
         no_hp: "",
         foto: null,
         username: "",
+        oldImage: "",
     });
 
     const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
@@ -43,6 +44,7 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
                 no_hp: item.no_hp,
                 foto: null,
                 username: item.username,
+                oldImage: item.foto,
             });
         } else {
             setData({
@@ -51,6 +53,7 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
                 no_hp: "",
                 foto: null,
                 username: "",
+                oldImage: "",
             });
         }
     };
@@ -65,6 +68,7 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
             no_hp: "",
             foto: null,
             username: "",
+            oldImage: "",
         });
     };
 
@@ -92,14 +96,21 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            const formData = new FormData();
+
+            Object.keys(data).forEach((key) => {
+                formData.append(key, data[key as keyof typeof data] as string);
+            });
+    
             if (isEditMode && currentItemId) {
-                await router.put(`/dashboard/kurir/${currentItemId}`, data, {
+                formData.append('_method', 'put');
+                await router.post(`/dashboard/kurir/${currentItemId}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                     onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error update kurir, Username Already Taken"
-                            );
+                        if (data.props.status_code === 500) {
+                            toast.error("Error update kurir, Username Already Taken");
                         } else {
                             toast.success("Kurir update successfully");
                         }
@@ -108,13 +119,13 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
                     },
                 });
             } else {
-                await router.post(`/dashboard/kurir`, data, {
+                await router.post(`/dashboard/kurir`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                     onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error Add kurir, Username Already Taken"
-                            );
+                        if (data.props.status_code === 500) {
+                            toast.error("Error Add kurir, Username Already Taken");
                         } else {
                             toast.success("Kurir add successfully");
                         }
@@ -123,12 +134,11 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
                     },
                 });
             }
+    
             closeModal();
         } catch (error) {
             closeModal();
-            toast.error(
-                isEditMode ? "Error Updating Data" : "Error Adding Data"
-            );
+            toast.error(isEditMode ? "Error Updating Data" : "Error Adding Data");
         }
     };
 
@@ -237,6 +247,14 @@ const DashboardKurirs: React.FC<DashboardKurirsProps> = ({ kurirs }) => {
                                     value={data.username}
                                     label="Username"
                                     placeholder="Enter Username"
+                                />
+                            )}
+                            {!isEditMode && (
+                                <FormInput
+                                    type="hidden"
+                                    name="oldImage"
+                                    onChange={handleChange}
+                                    value={data.foto ?? undefined}
                                 />
                             )}
                         </div>
