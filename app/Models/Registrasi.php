@@ -21,9 +21,9 @@ class Registrasi extends Model
     {
         return $this->belongsTo(Pasien::class, 'id_pasien');
     }
-    
+
     public function Kunjungan()
     {
-        return $this->hasMany(Kunjungan::class);
+        return $this->hasMany(Kunjungan::class, 'id_registrasi');
     }
 }
