@@ -3,6 +3,11 @@ import MainDashboard from "@/Components/dashboard/layout/Main";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head } from "@inertiajs/react";
 import Chart from "react-apexcharts";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { Locale } from "date-fns";
+import idLocale from "date-fns/locale/id";
 
 interface DashboardDoktersProps {
     countDokter: number;
@@ -12,7 +17,44 @@ interface DashboardDoktersProps {
     countKunjunganHariIni: number;
 }
 
-const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, countKonsultasiOnline, countKunjungan, countKunjunganHariIni }) => {
+const Dashboard: React.FC<DashboardDoktersProps> = ({
+    countDokter,
+    countPasien,
+    countKonsultasiOnline,
+    countKunjungan,
+    countKunjunganHariIni,
+}) => {
+    const formatDate = (date: Date) => {
+        return new Intl.DateTimeFormat("id-ID", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }).format(date);
+    };
+    const [predictions, setPredictions] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://127.0.0.1:5000/predict"
+                );
+                const predictionsWithIntegers = response.data.map(
+                    (item: any) => ({
+                        tanggal: formatDate(new Date(item.tanggal)),
+                        rata_rata_kunjungan: Math.round(
+                            item.rata_rata_kunjungan
+                        ), // Atau parseInt(item.rata_rata_kunjungan)
+                    })
+                );
+                setPredictions(predictionsWithIntegers);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    console.log(predictions);
     const chartOptions = {
         fill: {
             type: "gradient",
@@ -32,8 +74,18 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, 
             id: "basic-bar",
         },
         xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+            categories: predictions.map((item: any) => item.tanggal),
         },
+    };
+
+    const chartData = {
+        labels: predictions.map((item: any) => item.tanggal),
+        series: [
+            {
+                name: "Predicted Visits",
+                data: predictions.map((item: any) => item.rata_rata_kunjungan),
+            },
+        ],
     };
 
     const chartSeries = [
@@ -246,7 +298,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, 
                                 </div>
                                 <Chart
                                     options={chartOptions}
-                                    series={chartSeries}
+                                    series={chartData.series}
                                     stroke={"smooth"}
                                     type="area"
                                     width="100%"

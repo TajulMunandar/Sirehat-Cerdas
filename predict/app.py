@@ -1,98 +1,89 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from fts import FTS
-from utils import mean_squared_error, average_forecasting_error_rate
 import requests
-import pandas as pd
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 CORS(app)
 
 
+# Function untuk mendapatkan data dari database Laravel
 def getDataFromDatabase():
     laravel_api_url = "http://127.0.0.1:8000/api/get-data-kunjungan"
 
     try:
         response = requests.get(laravel_api_url)
-        response.raise_for_status()  # Membuat exception jika response status code bukan 200
-        patient = response.json()  # Mendapatkan respons JSON dari API
-
-        return patient
+        response.raise_for_status()  # Raise exception if status code is not 200
+        data = response.json()  # Get JSON response from API
+        return data
 
     except Exception as e:
-        print("Error occurred while fetching or processing data:", e)
         return None
 
 
-@app.route("/fuzzy", methods=["GET"])
-def predict():
+# Function untuk melakukan prediksi menggunakan moving average
+def predictMovingAverage(data, window_size=7):
+    # Extract dates and visitor counts from the data
+    dates = [entry["tanggal"] for entry in data]
+    jumlah_kunjungan = [entry["jumlah_kunjungan"] for entry in data]
 
-    jagungData = getDataFromDatabase()
-    print(jagungData)
-    if jagungData is None:
-        return jsonify({"error": "Failed to fetch data from the database."}), 500
+    # Calculate moving average
+    moving_averages = []
+    for i in range(len(jumlah_kunjungan) - window_size + 1):
+        window_dates = dates[i : i + window_size]
+        window_counts = jumlah_kunjungan[i : i + window_size]
+        avg_count = sum(window_counts) / window_size
+        moving_averages.append(
+            {"tanggal": window_dates[-1], "rata_rata_kunjungan": avg_count}
+        )
 
-    dataset = []
-    for data in jagungData:
-        dataset.append(
+    # Predict for future dates where data is missing
+    last_known_average = (
+        moving_averages[-1]["rata_rata_kunjungan"] if moving_averages else None
+    )
+    future_predictions = []
+    future_dates = generate_future_dates(dates[-1], 7)  # Generate 7 future dates
+
+    for i, date in enumerate(future_dates):
+        # Adjust the predicted average using a simple variance
+        if i % 2 == 0:
+            adjusted_avg_count = last_known_average + (i % 3)
+        else:
+            adjusted_avg_count = last_known_average - (i % 3)
+
+        future_predictions.append(
             {
-                "key": data["tanggal"],
-                "value": data["jumlah_kunjungan"],
+                "tanggal": date,
+                "rata_rata_kunjungan": adjusted_avg_count,  # Adjusted prediction
             }
         )
-    min_val = min(v["value"] for v in dataset)
-    max_val = max(v["value"] for v in dataset)
-    min_border = min_val * 0.1
-    max_border = max_val * 0.1
-    engine = FTS(
-        dataset,
-        {
-            "minMargin": min_border,
-            "maxMargin": max_border,
-            "interval": (max_val * 1.1 - min_val * 0.9) / 10,
-        },
-    )
-    engine.train()
-    singleResult = engine.test()
-    forecasted = [v["predicted"] for v in singleResult[:-1]]
-    actual = [v["value"] for v in singleResult[1:]]
-    mse = mean_squared_error(actual, forecasted)
-    afer = average_forecasting_error_rate(actual, forecasted)
-    # print(singleResult)
-    print({"mse": mse, "afer": afer})
 
-    latest_data = dataset[-1]
-    latest_value = latest_data["value"]
+    return moving_averages[-1:] + future_predictions
 
-    forecasted_values = []
-    for i in range(1, 6):
-        # Lakukan prediksi dengan menggunakan pola historis dari data terakhir
-        forecasted_value = latest_value + (latest_value - dataset[-2]["value"])
-        forecasted_values.append(forecasted_value)
-        # Perbarui nilai terbaru untuk iterasi berikutnya
-        latest_value = forecasted_value
 
-    prediction_results = []
-    for i, value in enumerate(forecasted_values, start=0):
-        prediction_results.append({"Tahun": f"Tahun {2019 + i}", "Prediksi": value})
+def generate_future_dates(start_date, num_days):
+    future_dates = []
+    date = datetime.strptime(start_date, "%Y-%m-%d")
 
-    # Data metrik evaluasi
-    evaluation_metrics = {"mse": mse, "afer": afer}
-    mse_percentage = mse * 100
-    afer_percentage = "{:.2f}".format(afer) * 100
+    for _ in range(1, num_days + 1):
+        date += timedelta(days=1)
+        future_dates.append(date.strftime("%Y-%m-%d"))
 
-    # Mengembalikan response JSON
-    response_data = {
-        "data_test": asep,
-        "data_train": singleResult,
-        "prediction_results": prediction_results[-5:],
-        "evaluation_metrics": {
-            "mse": f"{mse_percentage:.2f}%",
-            "afer": afer_percentage,
-        },
-    }
+    return future_dates
 
-    return jsonify(response_data)
+
+# Route untuk endpoint prediksi kunjungan dengan moving average
+@app.route("/predict", methods=["GET"])
+def predict():
+    # Mendapatkan data terbaru dari database Laravel
+    data = getDataFromDatabase()
+
+    if data is None:
+        return jsonify({"error": "Failed to fetch data from the database."}), 500
+
+    predictions = predictMovingAverage(data)
+
+    return jsonify(predictions)
 
 
 if __name__ == "__main__":
