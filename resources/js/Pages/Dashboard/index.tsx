@@ -5,9 +5,6 @@ import { Head } from "@inertiajs/react";
 import Chart from "react-apexcharts";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
-import { Locale } from "date-fns";
-import idLocale from "date-fns/locale/id";
 
 interface DashboardDoktersProps {
     countDokter: number;
