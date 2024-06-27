@@ -10,23 +10,27 @@ use App\Models\Pasien;
 use App\Models\KonsultasiOnline;
 use Inertia\Inertia;
 use Carbon\Carbon;
-
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $countKunjungan = Kunjungan::count();
         $countKunjunganHariIni = Kunjungan::whereDate('created_at', Carbon::today())->count();
         $countKonsultasiOnline = KonsultasiOnline::count();
-        $countDokter = Dokter::count(); 
-        $countPasien = Pasien::count(); 
+        $countDokter = Dokter::count();
+        $countPasien = Pasien::count();
+
 
         return Inertia::render('Dashboard/index', [
             'countKunjungan' => $countKunjungan,
             'countDokter' => $countDokter,
             'countPasien' => $countPasien,
-            'countKonsultasiOnline' => $countKonsultasiOnline,  
-            'countKunjunganHariIni' => $countKunjunganHariIni  
+            'countKonsultasiOnline' => $countKonsultasiOnline,
+            'countKunjunganHariIni' => $countKunjunganHariIni,
         ]);
     }
 }

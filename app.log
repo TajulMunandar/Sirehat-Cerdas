@@ -1,0 +1,375 @@
+2024-06-27 12:37:47,474 WARNING  * Debugger is active!
+2024-06-27 12:37:47,482 INFO  * Debugger PIN: 487-978-221
+2024-06-27 12:37:49,913 INFO Received request to /fuzzy endpoint.
+2024-06-27 12:37:49,917 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 12:37:50,123 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 12:37:50,126 INFO Evaluation metrics: mse=1.1567078893442628, afer=0.3299845173041897
+2024-06-27 12:39:10,325 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\swarm.py', reloading
+2024-06-27 12:56:50,263 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-06-27 12:56:50,264 INFO [33mPress CTRL+C to quit[0m
+2024-06-27 12:56:50,276 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 12:56:50,607 WARNING  * Debugger is active!
+2024-06-27 12:56:50,613 INFO  * Debugger PIN: 487-978-221
+2024-06-27 12:56:52,845 INFO Received request to /predict endpoint.
+2024-06-27 12:56:52,850 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 12:56:53,041 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 12:56:53,043 INFO 127.0.0.1 - - [27/Jun/2024 12:56:53] "GET /predict HTTP/1.1" 200 -
+2024-06-27 12:58:47,816 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\fts.py', reloading
+2024-06-27 12:58:47,819 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\fuzzy.py', reloading
+2024-06-27 12:58:47,865 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\utils.py', reloading
+2024-06-27 12:58:47,945 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\fts.py', reloading
+2024-06-27 12:58:48,092 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\fuzzy.py', reloading
+2024-06-27 12:58:48,134 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\particle.py', reloading
+2024-06-27 12:58:48,181 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\swarm.py', reloading
+2024-06-27 12:58:48,230 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\utils.py', reloading
+2024-06-27 12:58:48,889 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 12:58:49,426 WARNING  * Debugger is active!
+2024-06-27 12:58:49,435 INFO  * Debugger PIN: 487-978-221
+2024-06-27 12:58:50,397 INFO  * Detected change in 'C:\\Users\\tajul\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\flask\\templating.py', reloading
+2024-06-27 12:58:50,399 INFO  * Detected change in 'C:\\Users\\tajul\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\requests\\models.py', reloading
+2024-06-27 12:58:50,400 INFO  * Detected change in 'C:\\Users\\tajul\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\typing.py', reloading
+2024-06-27 12:58:50,409 INFO  * Detected change in 'C:\\Users\\tajul\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\functools.py', reloading
+2024-06-27 12:58:50,509 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 12:58:51,000 WARNING  * Debugger is active!
+2024-06-27 12:58:51,010 INFO  * Debugger PIN: 487-978-221
+2024-06-27 12:59:38,614 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 12:59:38,618 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 12:59:39,154 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:00:01,413 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-06-27 13:00:01,413 INFO [33mPress CTRL+C to quit[0m
+2024-06-27 13:00:01,430 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:00:01,859 WARNING  * Debugger is active!
+2024-06-27 13:00:01,865 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:00:03,056 INFO Received request to /predict endpoint.
+2024-06-27 13:00:03,064 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:00:03,313 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:00:03,318 INFO 127.0.0.1 - - [27/Jun/2024 13:00:03] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:01:37,641 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:37,642 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:37,779 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:37,780 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:37,780 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:38,162 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:01:38,566 WARNING  * Debugger is active!
+2024-06-27 13:01:38,573 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:01:53,313 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:53,319 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:53,723 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:01:54,073 WARNING  * Debugger is active!
+2024-06-27 13:01:54,078 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:01:55,650 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:55,651 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:01:56,128 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:01:56,518 WARNING  * Debugger is active!
+2024-06-27 13:01:56,524 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:01:59,785 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:01:59,966 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:01:59,970 INFO 127.0.0.1 - - [27/Jun/2024 13:01:59] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:03:30,129 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:03:30,130 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:03:30,130 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:03:30,769 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:03:31,164 WARNING  * Debugger is active!
+2024-06-27 13:03:31,170 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:03:34,173 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:03:34,376 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:03:34,380 INFO 127.0.0.1 - - [27/Jun/2024 13:03:34] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:07:12,508 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:12,509 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:12,509 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:13,507 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:07:13,930 WARNING  * Debugger is active!
+2024-06-27 13:07:13,939 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:07:16,033 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:07:16,275 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:07:16,278 INFO 127.0.0.1 - - [27/Jun/2024 13:07:16] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:07:52,966 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:52,967 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:52,967 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:52,968 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:07:53,044 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:07:53,459 WARNING  * Debugger is active!
+2024-06-27 13:07:53,465 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:07:54,770 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:07:54,958 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:07:54,963 INFO 127.0.0.1 - - [27/Jun/2024 13:07:54] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:12:55,965 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:12:55,966 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:12:56,882 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:12:57,313 WARNING  * Debugger is active!
+2024-06-27 13:12:57,319 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:12:58,826 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:12:59,084 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:12:59,088 INFO 127.0.0.1 - - [27/Jun/2024 13:12:59] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:13:02,127 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:13:02,319 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:13:02,321 INFO 127.0.0.1 - - [27/Jun/2024 13:13:02] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:13:10,647 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:10,647 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:10,651 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:11,038 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:11,040 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:11,041 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:11,423 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:11,825 WARNING  * Debugger is active!
+2024-06-27 13:13:11,831 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:13,252 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:13:13,412 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:13:13,414 INFO 127.0.0.1 - - [27/Jun/2024 13:13:13] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:13:24,036 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:24,896 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:32,280 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-06-27 13:13:32,281 INFO [33mPress CTRL+C to quit[0m
+2024-06-27 13:13:32,291 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:32,615 WARNING  * Debugger is active!
+2024-06-27 13:13:32,620 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:34,008 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:13:34,180 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:13:34,183 INFO 127.0.0.1 - - [27/Jun/2024 13:13:34] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:13:44,742 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:44,742 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:44,743 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:45,702 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:46,068 WARNING  * Debugger is active!
+2024-06-27 13:13:46,076 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:48,928 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:48,928 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:48,929 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:49,128 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:49,533 WARNING  * Debugger is active!
+2024-06-27 13:13:49,540 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:50,157 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:50,157 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:50,158 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:50,593 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:50,973 WARNING  * Debugger is active!
+2024-06-27 13:13:50,978 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:51,268 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:51,268 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:52,031 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:13:52,418 WARNING  * Debugger is active!
+2024-06-27 13:13:52,424 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:13:53,645 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:53,645 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:13:54,489 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:14:02,981 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-06-27 13:14:02,982 INFO [33mPress CTRL+C to quit[0m
+2024-06-27 13:14:02,999 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:14:03,389 WARNING  * Debugger is active!
+2024-06-27 13:14:03,394 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:14:07,296 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:14:07,459 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:14:07,469 INFO 127.0.0.1 - - [27/Jun/2024 13:14:07] "[35m[1mGET /predict HTTP/1.1[0m" 500 -
+2024-06-27 13:14:50,021 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:50,021 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:50,022 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:50,536 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:14:50,973 WARNING  * Debugger is active!
+2024-06-27 13:14:50,979 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:14:52,783 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:14:52,987 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:14:52,994 INFO 127.0.0.1 - - [27/Jun/2024 13:14:52] "[35m[1mGET /predict HTTP/1.1[0m" 500 -
+2024-06-27 13:14:55,120 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:55,121 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:55,121 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:14:56,100 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:14:56,475 WARNING  * Debugger is active!
+2024-06-27 13:14:56,481 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:15:35,948 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:35,948 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:35,949 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:36,581 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:15:36,954 WARNING  * Debugger is active!
+2024-06-27 13:15:36,961 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:15:44,332 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:44,335 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:45,028 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:15:45,432 WARNING  * Debugger is active!
+2024-06-27 13:15:45,437 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:15:55,295 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:55,500 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:15:55,897 WARNING  * Debugger is active!
+2024-06-27 13:15:55,904 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:15:58,121 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:58,123 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:15:58,956 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:15:59,368 WARNING  * Debugger is active!
+2024-06-27 13:15:59,376 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:16:02,280 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:02,281 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:02,439 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:16:02,816 WARNING  * Debugger is active!
+2024-06-27 13:16:02,821 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:16:39,475 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:39,476 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:39,925 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:16:40,330 WARNING  * Debugger is active!
+2024-06-27 13:16:40,337 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:16:50,123 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:50,124 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:50,125 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:50,125 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:50,402 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:16:50,739 WARNING  * Debugger is active!
+2024-06-27 13:16:50,744 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:16:53,265 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:53,265 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:53,266 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:16:53,797 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:16:54,208 WARNING  * Debugger is active!
+2024-06-27 13:16:54,214 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:16:57,197 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:16:57,441 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:16:57,443 INFO 127.0.0.1 - - [27/Jun/2024 13:16:57] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:17:29,091 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:17:29,327 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:17:29,709 WARNING  * Debugger is active!
+2024-06-27 13:17:29,717 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:17:36,725 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:17:36,907 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:17:36,909 INFO 127.0.0.1 - - [27/Jun/2024 13:17:36] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:19:55,086 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:19:55,087 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:19:56,074 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:19:56,514 WARNING  * Debugger is active!
+2024-06-27 13:19:56,520 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:20:47,734 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:20:47,735 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:20:48,758 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:20:49,114 WARNING  * Debugger is active!
+2024-06-27 13:20:49,119 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:20:49,930 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:20:50,134 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:20:50,137 INFO 127.0.0.1 - - [27/Jun/2024 13:20:50] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:21:29,952 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:21:29,953 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:21:30,241 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:21:30,636 WARNING  * Debugger is active!
+2024-06-27 13:21:30,642 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:21:32,749 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:21:32,940 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:21:32,945 INFO 127.0.0.1 - - [27/Jun/2024 13:21:32] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:22:21,006 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:21,006 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:21,007 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:21,758 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:22:22,117 WARNING  * Debugger is active!
+2024-06-27 13:22:22,122 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:22:25,902 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:25,903 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:25,903 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:26,179 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:22:26,580 WARNING  * Debugger is active!
+2024-06-27 13:22:26,585 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:22:28,358 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:22:28,529 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:22:28,535 INFO 127.0.0.1 - - [27/Jun/2024 13:22:28] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:22:35,972 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:35,974 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:36,650 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:22:37,028 WARNING  * Debugger is active!
+2024-06-27 13:22:37,034 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:22:40,699 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:40,701 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:41,092 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:22:41,453 WARNING  * Debugger is active!
+2024-06-27 13:22:41,458 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:22:44,486 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:22:44,695 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:22:44,701 INFO 127.0.0.1 - - [27/Jun/2024 13:22:44] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:22:48,657 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:48,657 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:48,658 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:48,658 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:49,534 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:22:49,920 WARNING  * Debugger is active!
+2024-06-27 13:22:49,926 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:22:59,994 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:22:59,995 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:00,995 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:23:01,404 WARNING  * Debugger is active!
+2024-06-27 13:23:01,411 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:23:02,012 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:23:02,180 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:23:02,186 INFO 127.0.0.1 - - [27/Jun/2024 13:23:02] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:23:07,663 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:07,665 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:08,482 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:23:08,919 WARNING  * Debugger is active!
+2024-06-27 13:23:08,925 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:23:10,340 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:10,341 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:10,341 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:10,988 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:23:11,351 WARNING  * Debugger is active!
+2024-06-27 13:23:11,356 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:23:12,020 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:23:12,183 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:23:12,238 INFO 127.0.0.1 - - [27/Jun/2024 13:23:12] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:23:30,743 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:30,743 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:30,744 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:23:31,437 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:23:31,860 WARNING  * Debugger is active!
+2024-06-27 13:23:31,865 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:24:36,263 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:36,264 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:36,265 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:36,406 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:36,406 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:36,407 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:24:37,048 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:24:37,401 WARNING  * Debugger is active!
+2024-06-27 13:24:37,406 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:25:08,611 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:08,611 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:08,611 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:08,611 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:09,559 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:25:09,960 WARNING  * Debugger is active!
+2024-06-27 13:25:09,966 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:25:21,593 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:21,594 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:25:22,046 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:25:22,459 WARNING  * Debugger is active!
+2024-06-27 13:25:22,465 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:25:36,416 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:25:36,620 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:25:36,625 INFO 127.0.0.1 - - [27/Jun/2024 13:25:36] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:26:41,541 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:26:41,542 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:26:41,661 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:26:42,025 WARNING  * Debugger is active!
+2024-06-27 13:26:42,032 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:26:45,243 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:26:45,431 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:26:45,437 INFO 127.0.0.1 - - [27/Jun/2024 13:26:45] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:27:08,702 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:27:08,703 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:27:09,113 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:27:09,460 WARNING  * Debugger is active!
+2024-06-27 13:27:09,465 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:31:41,102 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:31:41,454 DEBUG http://127.0.0.1:8000 "GET /api/get-data-kunjungan HTTP/1.1" 200 None
+2024-06-27 13:31:41,459 INFO 127.0.0.1 - - [27/Jun/2024 13:31:41] "GET /predict HTTP/1.1" 200 -
+2024-06-27 13:36:18,314 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:37:30,230 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:37:30,230 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:37:30,528 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:37:31,136 WARNING  * Debugger is active!
+2024-06-27 13:37:31,148 INFO  * Debugger PIN: 487-978-221
+2024-06-27 13:37:31,441 DEBUG Starting new HTTP connection (1): 127.0.0.1:8000
+2024-06-27 13:37:44,182 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:37:44,183 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:37:44,185 INFO  * Detected change in 'c:\\laragon\\www\\Sirehat-Cerdas\\predict\\app.py', reloading
+2024-06-27 13:37:45,229 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:37:49,680 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:37:52,150 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:38:12,621 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:38:19,102 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:38:20,559 INFO  * Restarting with watchdog (windowsapi)
+2024-06-27 13:38:22,001 INFO  * Restarting with watchdog (windowsapi)

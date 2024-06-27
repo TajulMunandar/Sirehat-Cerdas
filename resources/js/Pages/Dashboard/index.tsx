@@ -3,6 +3,8 @@ import MainDashboard from "@/Components/dashboard/layout/Main";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head } from "@inertiajs/react";
 import Chart from "react-apexcharts";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 interface DashboardDoktersProps {
     countDokter: number;
@@ -12,7 +14,44 @@ interface DashboardDoktersProps {
     countKunjunganHariIni: number;
 }
 
-const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, countKonsultasiOnline, countKunjungan, countKunjunganHariIni }) => {
+const Dashboard: React.FC<DashboardDoktersProps> = ({
+    countDokter,
+    countPasien,
+    countKonsultasiOnline,
+    countKunjungan,
+    countKunjunganHariIni,
+}) => {
+    const formatDate = (date: Date) => {
+        return new Intl.DateTimeFormat("id-ID", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }).format(date);
+    };
+    const [predictions, setPredictions] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://127.0.0.1:5000/predict"
+                );
+                const predictionsWithIntegers = response.data.map(
+                    (item: any) => ({
+                        tanggal: formatDate(new Date(item.tanggal)),
+                        rata_rata_kunjungan: Math.round(
+                            item.rata_rata_kunjungan
+                        ), // Atau parseInt(item.rata_rata_kunjungan)
+                    })
+                );
+                setPredictions(predictionsWithIntegers);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    console.log(predictions);
     const chartOptions = {
         fill: {
             type: "gradient",
@@ -32,8 +71,21 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, 
             id: "basic-bar",
         },
         xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+            categories: predictions.map((item: any) => item.tanggal),
         },
+        grid: {
+            show: false, // This will hide the grid
+        },
+    };
+
+    const chartData = {
+        labels: predictions.map((item: any) => item.tanggal),
+        series: [
+            {
+                name: "Predicted Visits",
+                data: predictions.map((item: any) => item.rata_rata_kunjungan),
+            },
+        ],
     };
 
     const chartSeries = [
@@ -233,7 +285,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, 
                 <div className="row mt-3">
                     <div className="col col-lg-8">
                         <div className="card">
-                            <div className="card-body">
+                            <div className="card-body ">
                                 <div className="flex justify-between items-center mb-3">
                                     <h5>Prediksi Trafic Pengunjung</h5>
                                     <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-blue-500">
@@ -246,28 +298,29 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({ countDokter, countPasien, 
                                 </div>
                                 <Chart
                                     options={chartOptions}
-                                    series={chartSeries}
+                                    series={chartData.series}
                                     stroke={"smooth"}
                                     type="area"
                                     width="100%"
+                                    height="120%"
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="col col-lg-4">
-                        <div className="card">
-                            <div className="card-body  ">
-                                <div className="flex justify-between items-center mb-3">
+                        <div className="card ">
+                            <div className="card-body ">
+                                <div className="flex justify-between items-center mb-3 ">
                                     <h5>Clustering</h5>
                                     <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                         <span className="font-medium text-gray-600 dark:text-gray-300">
                                             <FontAwesomeIcon
-                                                icon={["fas", "user-doctor"]}
+                                                icon={["fas", "kit-medical"]}
                                             />
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex items-center h-full">
+                                <div className="flex items-center ">
                                     <CChartPolarArea
                                         data={{
                                             labels: [
