@@ -8,3 +8,5 @@ export type TKonsultasi = {
     stauts_obat: number;
     diagnosa: string;
 };
+
+
