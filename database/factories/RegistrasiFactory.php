@@ -62,9 +62,27 @@ class RegistrasiFactory extends Factory
         return [
             'id_pasien' => Pasien::inRandomOrder()->first()->id,
             'tanggal' => now(),
-            'status' => 1,
+            'status' => $this->faker->randomElement(['selesai', 'belum']),
             'keluhan' => $randomKeluhan,
             'poli' => $poli,
         ];
+    }
+
+    public function selesai()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 1,
+            ];
+        });
+    }
+
+    public function belum()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 0,
+            ];
+        });
     }
 }

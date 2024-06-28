@@ -1,7 +1,7 @@
 import { KunjunganTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
 import MainDashboard from "@/Components/dashboard/layout/Main";
-import { Head, router, useForm, usePage } from "@inertiajs/react";
+import { Head, router, usePage, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import { TbPlus } from "react-icons/tb";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,25 +12,30 @@ import { TEKunjungan, TKunjungan } from "@/types/kunjungan";
 
 interface DashboardKunjungansProps {
     kunjungans: TKunjungan[];
+    obats: { id: number; nama_obat: string }[];
 }
 
 interface FormGroup {
     id_obat: string;
-    diagnosa: string;
+    ket: string;
 }
 
 const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     kunjungans,
+    obats,
 }) => {
-    const [formGroups, setFormGroups] = useState([
-        { id_obat: "", diagnosa: "" },
-    ]);
+    const initialFormGroups = obats.length
+        ? [{ id_obat: obats[0].id.toString(), ket: "3 X 1" }]
+        : [{ id_obat: "", ket: "" }];
+
+    const [formGroups, setFormGroups] = useState<FormGroup[]>(initialFormGroups);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
     const [showAdditionalForm, setShowAdditionalForm] = useState(false);
     const datas = kunjungans.map((item) => ({
         ...item,
+        id: item.id,
         id_pasien: item.id_pasien,
         pasien: item.pasien.nama,
         tanggal: item.tanggal,
@@ -60,8 +65,9 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
         setCurrentItemId(null);
         setData({
             diagnosa: "",
-            tindakan: "",
+            tindakan: "1",
         });
+        setFormGroups([{ id_obat: obats[0].id.toString(), ket: "3 X 1" }]);
     };
 
     const handleChange = (
@@ -89,7 +95,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     };
 
     const addFormGroup = () => {
-        setFormGroups([...formGroups, { id_obat: "", diagnosa: "" }]);
+        setFormGroups([...formGroups, { id_obat: obats[0].id.toString(), ket: "3 X 1" }]);
     };
 
     const removeFormGroup = (index: number) => {
@@ -99,10 +105,67 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const kunjunganData = {
+            ...data,
+            obat_diagnosa: formGroups,
+        };
+
+        const formData = new FormData();
+
+        Object.keys(kunjunganData).forEach((key) => {
+            if (key === "obat_diagnosa") {
+                kunjunganData.obat_diagnosa.forEach((item, index) => {
+                    Object.keys(item).forEach((subKey) => {
+                        formData.append(`obat_diagnosa[${index}][${subKey}]`, item[subKey as keyof FormGroup] as string);
+                    });
+                });
+            } else {
+                formData.append(key, kunjunganData[key as keyof typeof kunjunganData] as string);
+            }
+        });
+
+        if (isEditMode && currentItemId) {
+            formData.append("_method", "put");
+            console.log(currentItemId)
+            await router.post(
+                `/dashboard/kunjungan/${currentItemId}`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                    onSuccess: (data: any) => {
+                        if (data.props.status_code === 500) {
+                            toast.error(
+                                "Error update kunjungan, Username Already Taken"
+                            );
+                        } else {
+                            toast.success("kunjungan update successfully");
+                        }
+                        closeModal();
+                    },
+                }
+            )
+        }
+
+        closeModal();
+    };
+
     return (
         <>
             <Head title="Kunjungan" />
             <MainDashboard nav={"Kunjungan"}>
+                <ToastContainer
+                    theme="colored"
+                    autoClose={1500}
+                    hideProgressBar
+                    closeButton={false}
+                    pauseOnFocusLoss={false}
+                    pauseOnHover={false}
+                />
                 <h3 className="font-bold">Table Kunjungan</h3>
                 <Table
                     headers={KunjunganTableHeader}
@@ -117,14 +180,15 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                     footer={
                         <button
                             type="button"
-                            className="text-white bg-primary  border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
-                            // onClick={handleSubmit}
+                            className="text-white bg-primary border border-primary hover:!border-black hover:!bg-black font-medium rounded-lg text-sm px-5 py-2.5 dark:!bg-primary dark:hover:!bg-primary/90 dark:hover:!border-primary/90 transition-colors duration-200"
+                            onClick={handleSubmit}
+                            disabled={processing}
                         >
-                            Update
+                            {isEditMode ? "Update" : "Create"}
                         </button>
                     }
                 >
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-3">
                             <FormInput
                                 type="text"
@@ -159,28 +223,23 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                                         handleChange(e, index)
                                                     }
                                                     value={formGroup.id_obat}
-                                                    items={[
-                                                        {
-                                                            text: "Rujukan",
-                                                            value: "1",
-                                                        },
-                                                        {
-                                                            text: "Pengobatan",
-                                                            value: "0",
-                                                        },
-                                                    ]}
+                                                    items={obats.map((obat) => ({
+                                                        text: obat.nama_obat,
+                                                        value: obat.id.toString(),
+                                                    }))}
                                                 />
                                             </div>
                                             <div className="col col-5 mr-2">
-                                                <FormInput
-                                                    type="text"
-                                                    name="diagnosa"
-                                                    onChange={(e) =>
-                                                        handleChange(e, index)
-                                                    }
-                                                    value={formGroup.diagnosa}
-                                                    label="Diagnosa"
-                                                    placeholder="Enter Diagnosa"
+                                                <FormSelect
+                                                    name="ket"
+                                                    label="Keterangan"
+                                                    onChange={(e) => handleChange(e, index)}
+                                                    value={formGroup.ket}
+                                                    items={[
+                                                        { text: "3 X 1", value: "3 X 1" },
+                                                        { text: "2 X 1", value: "2 X 1" },
+                                                        { text: "1 X 1", value: "1 X 1" },
+                                                    ]}
                                                 />
                                             </div>
                                             <div className="col">

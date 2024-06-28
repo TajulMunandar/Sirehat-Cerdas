@@ -19,6 +19,8 @@ const DashboardRiwayats: React.FC<DashboardRiwayatsProps> = ({
     kunjungans
 }) => {
 
+    console.log(kunjungans)
+
     const datas = kunjungans.map((item) => ({
         ...item,
         id_dokter: item.id_dokter,
@@ -32,7 +34,6 @@ const DashboardRiwayats: React.FC<DashboardRiwayatsProps> = ({
         tindakan: item.tindakan,
     }));
 
-    // User role mappin
     const statusTindakanMapping = {
         0: "PENGOBATAN",
         1: "RUJUKAN",

@@ -26,7 +26,7 @@ class RegistrasiSeeder extends Seeder
             $registrasiCount = rand(2, 5);
 
             for ($i = 0; $i < $registrasiCount; $i++) {
-                $registrasi = Registrasi::factory()->create(['tanggal' => $currentDate]);
+                $registrasi = Registrasi::factory()->selesai()->create(['tanggal' => $currentDate]);
                 $kunjungan = Kunjungan::factory()->create(['id_registrasi' => $registrasi->id]);
 
                 $transaksiObat = TransaksiObat::factory()->create(['id_kunjungan' => $kunjungan->id]);

@@ -21,9 +21,9 @@ class DashboardRiwayatKesehatanController extends Controller
         if(Auth()->user()->role == 0){
             $kunjungans = Kunjungan::with(['registrasi:id,id_pasien,tanggal,status,keluhan,poli','dokter:id,nama', 'registrasi.pasien:id,nama'])->get();
         }elseif(Auth()->user()->role == 2){
-            $kunjungans = Kunjungan::where('id_dokter', Auth()->user()->dokter->id)->with(['registrasi:id,tanggal,status,keluhan,poli','dokter:id,nama', 'registrasi.pasien:id,nama'])->get();
+            $kunjungans = Kunjungan::where('id_dokter', Auth()->user()->dokter->id)->with(['registrasi:id,id_pasien,tanggal,status,keluhan,poli','dokter:id,nama', 'registrasi.pasien:id,nama'])->get();
         }
-
+        
         return Inertia::render('Dashboard/RiwayatKesehatans', [
             'kunjungans' => $kunjungans,
             'status' => $status,

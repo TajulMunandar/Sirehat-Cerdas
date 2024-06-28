@@ -29,6 +29,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
         }).format(date);
     };
     const [predictions, setPredictions] = useState([]);
+    const [clusterData, setClusterData] = useState<ClusteringData>({});
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -48,10 +49,19 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                 console.error("Error fetching data:", error);
             }
         };
+        const fetchDataCluster = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:5000/clustering");
+                setClusterData(response.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchDataCluster();
 
         fetchData();
     }, []);
-    console.log(predictions);
     const chartOptions = {
         fill: {
             type: "gradient",
@@ -94,6 +104,45 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
             data: [30, 40, 35, 50, 49, 60, 70, 91],
         },
     ];
+
+    // Prepare data for CChartPolarArea
+    const prepareChartData = () => {
+        const labels = Object.keys(clusterData);
+        const datasets = labels.map((label) => {
+            const data = clusterData[label].map((item) => item.jumlah);
+            return {
+                label: label,
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(255, 206, 86, 0.6)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                ],
+                pointBackgroundColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                ],
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                ],
+                data: data,
+            };
+        });
+
+        return {
+            labels: labels,
+            datasets: datasets,
+        };
+    };
 
     return (
         <>

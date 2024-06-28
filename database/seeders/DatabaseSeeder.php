@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,14 +38,15 @@ class DatabaseSeeder extends Seeder
         \App\Models\Kurir::factory()->count(10)->create();
         
         \App\Models\Pasien::factory()->count(50)->create();
-
+        
         $this->call([
             ObatSeeder::class,
         ]);
-
+        
         $this->call([
             RegistrasiSeeder::class,
         ]);
-
+        
+        \App\Models\Registrasi::factory()->count(5)->belum()->create(['tanggal' => Carbon::today()]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Kunjungan;
 use App\Models\Registrasi;
 use App\Models\TransaksiObat;
 use App\Models\TransaksiObatDetail;
+use App\Models\Obat;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,14 +24,16 @@ class DashboardKunjunganController extends Controller
         $kunjungans = [];
         $status = session('status');
         $status_code = session('status_code');
+        $obats = Obat::latest()->get();
         if(Auth()->user()->role == 0){ 
-            $kunjungans = Registrasi::with(['pasien:id,nama'])->where('status', 1)->latest()->get();
+            $kunjungans = Registrasi::with(['pasien:id,nama'])->whereDoesntHave('kunjungan')->where('status', 1)->latest()->get();
         }else if(Auth()->user()->role == 2){
-            $kunjungans = Registrasi::with(['pasien:id,nama'])->where('poli', Auth()->user()->dokter->poli)->where('status', 1)->latest()->get();
+            $kunjungans = Registrasi::with(['pasien:id,nama'])->whereDoesntHave('kunjungan')->where('poli', Auth()->user()->dokter->poli)->where('status', 1)->latest()->get();
         }
 
         return Inertia::render('Dashboard/Kunjungans', [
             'kunjungans' => $kunjungans,
+            'obats' => $obats,
             'status' => $status,
             'status_code' => $status_code,
 
@@ -50,42 +53,7 @@ class DashboardKunjunganController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            
-            $validatedDataKunjungan = $request->validate([
-                'id_dokter' => 'required',
-                'id_registrasi' => 'required',
-                'diagnosa' => 'required',
-                'tindakan' => 'required'
-            ]);
-
-            $kunjungan = Kunjungan::create($validatedDataKunjungan);
-
-            if($validatedDataKunjungan['tindakan'] == '1'){
-                
-
-                $transaksi_obat = TransaksiObat::create([
-                    'id_kunjungan' => $kunjungan->id,
-                    'status' => 0
-                ]);
-
-                foreach($request->id_obat as $key => $value) {
-
-                    TransaksiObatDetail::create([
-                        'ket' => $request->ket,
-                        'id_obat' => $value,
-                        'id_transaksi_obat' => $transaksi_obat->id
-                    ]);
-                }
-
-                return response()->json('Sukses Create Kunjungan Pengobatan');
-            }
-            
-            return response()->json('Sukses Create Kunjungan Rujukan');
-            
-        }catch(Exception $e){
-            return response()->json('Error'. $e);
-        }
+        //
     }
 
     /**
@@ -107,9 +75,53 @@ class DashboardKunjunganController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Registrasi $kunjungan)
     {
-        //
+        try{
+
+            $validatedDataKunjungan = $request->validate([
+                'diagnosa' => 'required',
+                'tindakan' => 'required'
+            ]);
+
+            $validatedDataKunjungan['id_dokter'] = Auth()->user()->dokter->id;
+            $validatedDataKunjungan['id_registrasi'] = $kunjungan->id;
+
+            $kunjungan = Kunjungan::create($validatedDataKunjungan);
+
+            if($validatedDataKunjungan['tindakan'] == '0'){
+                
+
+                $transaksi_obat = TransaksiObat::create([
+                    'id_kunjungan' => $kunjungan->id,
+                    'status' => 0
+                ]);
+
+                foreach($request->obat_diagnosa as $key => $value) {
+
+                    TransaksiObatDetail::create([
+                        'ket' => $value['ket'],
+                        'id_obat' => $value['id_obat'],
+                        'id_transaksi_obat' => $transaksi_obat->id
+                    ]);
+                }
+
+                return Redirect::route('kunjungan.index')->with([
+                    'status_code' => 200, 
+                ]);
+            }
+            
+            return Redirect::route('kunjungan.index')->with([
+                'status_code' => 200, 
+            ]);
+
+        } catch (Exception $e) {
+
+            dd($e);
+            return Redirect::route('kunjungan.index')->with([
+                'status_code' => 500,
+            ]);
+        }
     }
 
     /**
