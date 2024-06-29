@@ -12,7 +12,8 @@ class TransaksiObatOnlineDetail extends Model
     protected $fillable = [
         'id_to_online',
         'id_obat',
-        'ket'
+        'ket',
+        'jumlah'
     ];
 
     public function TransaksiObatOnline()

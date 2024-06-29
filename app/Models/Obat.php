@@ -12,7 +12,8 @@ class Obat extends Model
     protected $fillable = [
         'nama_obat',
         'satuan',
-        'dosis'
+        'dosis',
+        'jumlah'
     ];
 
     public function TransaksiObatDetail()

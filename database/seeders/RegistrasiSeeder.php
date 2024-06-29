@@ -42,6 +42,7 @@ class RegistrasiSeeder extends Seeder
                     TransaksiObatDetail::factory()->create([
                         'id_transaksi_obat' => $transaksiObat->id,
                         'id_obat' => $randomObatId,
+                        'jumlah' => rand(10, 15)
                     ]);
 
                     // Hapus obat dari $obatIds agar tidak dipilih lagi

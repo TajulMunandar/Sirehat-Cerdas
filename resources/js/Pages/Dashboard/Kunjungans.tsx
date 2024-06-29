@@ -18,6 +18,7 @@ interface DashboardKunjungansProps {
 interface FormGroup {
     id_obat: string;
     ket: string;
+    jumlah: string; // Add jumlah field
 }
 
 const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
@@ -25,8 +26,8 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     obats,
 }) => {
     const initialFormGroups = obats.length
-        ? [{ id_obat: obats[0].id.toString(), ket: "3 X 1" }]
-        : [{ id_obat: "", ket: "" }];
+        ? [{ id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }] // Initialize jumlah
+        : [{ id_obat: "", ket: "", jumlah: "" }];
 
     const [formGroups, setFormGroups] = useState<FormGroup[]>(initialFormGroups);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,7 +68,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
             diagnosa: "",
             tindakan: "1",
         });
-        setFormGroups([{ id_obat: obats[0].id.toString(), ket: "3 X 1" }]);
+        setFormGroups([{ id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }]);
     };
 
     const handleChange = (
@@ -95,7 +96,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     };
 
     const addFormGroup = () => {
-        setFormGroups([...formGroups, { id_obat: obats[0].id.toString(), ket: "3 X 1" }]);
+        setFormGroups([...formGroups, { id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }]);
     };
 
     const removeFormGroup = (index: number) => {
@@ -215,7 +216,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                             className="flex items-center"
                                             key={index}
                                         >
-                                            <div className="col col-6 mr-2">
+                                            <div className="col col-5 mr-2">
                                                 <FormSelect
                                                     name="id_obat"
                                                     label="Obat"
@@ -229,7 +230,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                                     }))}
                                                 />
                                             </div>
-                                            <div className="col col-5 mr-2">
+                                            <div className="col col-3 mr-2">
                                                 <FormSelect
                                                     name="ket"
                                                     label="Keterangan"
@@ -240,6 +241,16 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                                         { text: "2 X 1", value: "2 X 1" },
                                                         { text: "1 X 1", value: "1 X 1" },
                                                     ]}
+                                                />
+                                            </div>
+                                            <div className="col col-3 mr-2">
+                                                <FormInput
+                                                    type="text"
+                                                    name="jumlah"
+                                                    onChange={(e) => handleChange(e, index)}
+                                                    value={formGroup.jumlah}
+                                                    label="Jumlah"
+                                                    placeholder="Enter Jumlah"
                                                 />
                                             </div>
                                             <div className="col">

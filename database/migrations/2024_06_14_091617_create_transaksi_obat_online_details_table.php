@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_to_online')->constrained('transaksi_obat_onlines')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('id_obat')->constrained('obats')->onDelete('restrict')->onUpdate('cascade');
             $table->string('ket');
+            $table->integer('jumlah');
             $table->timestamps();
             
         });

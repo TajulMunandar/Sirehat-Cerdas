@@ -92,18 +92,26 @@ class DashboardKunjunganController extends Controller
 
             if($validatedDataKunjungan['tindakan'] == '0'){
                 
-
                 $transaksi_obat = TransaksiObat::create([
                     'id_kunjungan' => $kunjungan->id,
                     'status' => 0
                 ]);
 
                 foreach($request->obat_diagnosa as $key => $value) {
-
+                    
+                    $jumlah = intval($value['jumlah']);
+                    $obat = Obat::findOrFail($value['id_obat']);
+                    
+                    if ($obat) {
+                        $jumlahBaru = $obat->jumlah - $jumlah;
+                        $obat->update(['jumlah' => $jumlahBaru]);
+                    }
+                    
                     TransaksiObatDetail::create([
                         'ket' => $value['ket'],
                         'id_obat' => $value['id_obat'],
-                        'id_transaksi_obat' => $transaksi_obat->id
+                        'id_transaksi_obat' => $transaksi_obat->id,
+                        'jumlah' => $jumlah,
                     ]);
                 }
 
@@ -117,8 +125,6 @@ class DashboardKunjunganController extends Controller
             ]);
 
         } catch (Exception $e) {
-
-            dd($e);
             return Redirect::route('kunjungan.index')->with([
                 'status_code' => 500,
             ]);
