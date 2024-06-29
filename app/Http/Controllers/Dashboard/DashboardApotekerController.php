@@ -24,6 +24,7 @@ class DashboardApotekerController extends Controller
 
         return Inertia::render('Dashboard/Apotekers', [
             'apotekers' => $apotekers,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

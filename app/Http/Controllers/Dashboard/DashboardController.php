@@ -31,6 +31,7 @@ class DashboardController extends Controller
             'countPasien' => $countPasien,
             'countKonsultasiOnline' => $countKonsultasiOnline,
             'countKunjunganHariIni' => $countKunjunganHariIni,
+            'user' => auth()->user(),
         ]);
     }
 }

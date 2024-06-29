@@ -33,6 +33,7 @@ class DashboardKunjunganController extends Controller
 
         return Inertia::render('Dashboard/Kunjungans', [
             'kunjungans' => $kunjungans,
+            'user' => auth()->user(),
             'obats' => $obats,
             'status' => $status,
             'status_code' => $status_code,

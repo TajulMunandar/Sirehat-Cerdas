@@ -25,6 +25,7 @@ class DashboardAntarJemputObatController extends Controller
         return Inertia::render('Dashboard/AntarJemputObats', [
             'antarobats' => $antarobats,
             'jemputobats' => $jemputobats,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

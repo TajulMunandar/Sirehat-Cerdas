@@ -23,6 +23,7 @@ class DashboardAntarObatController extends Controller
 
         return Inertia::render('Dashboard/AntarObats', [
             'antarobats' => $antarobats,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

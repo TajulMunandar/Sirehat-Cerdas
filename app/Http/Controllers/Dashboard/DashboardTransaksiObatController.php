@@ -31,6 +31,7 @@ class DashboardTransaksiObatController extends Controller
         
         return Inertia::render('Dashboard/TransaksiObats', [
             'transaksiobats' => $transaksiobats,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

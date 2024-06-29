@@ -26,6 +26,7 @@ class DashboardRiwayatKesehatanController extends Controller
         
         return Inertia::render('Dashboard/RiwayatKesehatans', [
             'kunjungans' => $kunjungans,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

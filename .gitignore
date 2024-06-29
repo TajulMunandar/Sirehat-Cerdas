@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /clustering/flask
+/predict/predict
 /storage/*.key
 /vendor
 .env

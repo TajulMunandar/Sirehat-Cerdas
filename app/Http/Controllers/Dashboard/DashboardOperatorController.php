@@ -25,6 +25,7 @@ class DashboardOperatorController extends Controller
 
         return Inertia::render('Dashboard/Operators', [
             'operators' => $operators,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

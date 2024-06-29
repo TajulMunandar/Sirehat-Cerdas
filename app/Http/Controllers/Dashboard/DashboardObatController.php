@@ -22,6 +22,7 @@ class DashboardObatController extends Controller
 
         return Inertia::render('Dashboard/Obats', [
             'obats' => $obats,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

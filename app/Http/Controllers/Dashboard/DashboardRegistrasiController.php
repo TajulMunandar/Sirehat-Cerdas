@@ -44,6 +44,7 @@ class DashboardRegistrasiController extends Controller
 
             return Inertia::render('Dashboard/Registrasis', [
                 'registrasis' => $registrasiData,
+                'user' => auth()->user(),
                 'dokter' => $dokter,
                 'status' => $status,
                 'status_code' => $status_code,

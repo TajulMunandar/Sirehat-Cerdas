@@ -32,6 +32,7 @@ class DashboardKonsultasiOnlineController extends Controller
         
         return Inertia::render('Dashboard/Konsultasis', [
             'konsultasis' => $konsultasis,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

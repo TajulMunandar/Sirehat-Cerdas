@@ -49,6 +49,7 @@ class DashboardPasienController extends Controller
 
         return Inertia::render('Dashboard/Pasiens', [
             'pasiens' => $formattedPasiens,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

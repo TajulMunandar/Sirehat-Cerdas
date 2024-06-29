@@ -35,6 +35,7 @@ class DashboardJadwalController extends Controller
 
         return Inertia::render('Dashboard/Jadwal', [
             'jadwals' => $formattedJadwals,
+            'user' => auth()->user(),
             'dokters' => $dokters,
             'status' => $status,
             'status_code' => $status_code,

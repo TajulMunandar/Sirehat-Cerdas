@@ -24,6 +24,7 @@ class DashboardUserController extends Controller
 
         return Inertia::render('Dashboard/Users', [
             'users' => $users,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
 

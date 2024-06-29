@@ -46,6 +46,7 @@ class DashboardKurirController extends Controller
 
         return Inertia::render('Dashboard/Kurirs', [
             'kurirs' => $formattedKurirs,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

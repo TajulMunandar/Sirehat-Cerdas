@@ -1,4 +1,4 @@
-import { CChartPolarArea } from "@coreui/react-chartjs";
+import { CChartPie } from "@coreui/react-chartjs";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head } from "@inertiajs/react";
@@ -12,6 +12,41 @@ interface DashboardDoktersProps {
     countKonsultasiOnline: number;
     countKunjungan: number;
     countKunjunganHariIni: number;
+}
+
+interface DrugData {
+    id_obat: number;
+    jumlah: number;
+    nama_obat: string;
+}
+
+interface PredictionsData {
+    [key: string]: {
+        [key: string]: DrugData;
+    };
+}
+
+interface DrugData {
+    id_obat: number;
+    jumlah: number;
+    nama_obat: string;
+}
+
+interface Dataset {
+    label: string;
+    data: number[]; // Data berisi angka (jumlah obat)
+    backgroundColor: string[];
+    borderColor: string[];
+    pointBackgroundColor: string[];
+    pointBorderColor: string;
+    pointHoverBackgroundColor: string;
+    pointHoverBorderColor: string[];
+    nama_obat: string[]; // Tambahkan properti nama_obat
+}
+
+interface ChartData {
+    labels: string[];
+    datasets: Dataset[];
 }
 
 const Dashboard: React.FC<DashboardDoktersProps> = ({
@@ -28,13 +63,38 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
             year: "numeric",
         }).format(date);
     };
+
     const [predictions, setPredictions] = useState([]);
-    const [clusterData, setClusterData] = useState<ClusteringData>({});
+    const [chartPieData, setChartPieData] = useState({
+        labels: [] as string[],
+        datasets: [{
+            label: 'Data Bulan Tahun',
+            data: [] as number[],
+            backgroundColor: [
+                "rgba(255, 99, 132, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+            ],
+            borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+            ],
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+            ],
+        }],
+    });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "http://127.0.0.1:5000/predict"
+                    "http://127.0.0.1:5001/predict"
                 );
                 const predictionsWithIntegers = response.data.map(
                     (item: any) => ({
@@ -49,19 +109,21 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                 console.error("Error fetching data:", error);
             }
         };
+
         const fetchDataCluster = async () => {
             try {
                 const response = await axios.get("http://127.0.0.1:5000/clustering");
-                setClusterData(response.data);
+                const formattedData = formatChartData(response.data);
+                setChartPieData(formattedData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
         fetchDataCluster();
-
         fetchData();
     }, []);
+
     const chartOptions = {
         fill: {
             type: "gradient",
@@ -98,50 +160,85 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
         ],
     };
 
-    const chartSeries = [
-        {
-            name: "series-1",
-            data: [30, 40, 35, 50, 49, 60, 70, 91],
-        },
-    ];
+    const formatDateLabel = (monthYear: string) => {
+        const [year, month] = monthYear.split("-");
+        const monthName = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'long' });
+        return `${monthName} ${year}`;
+    };
 
-    // Prepare data for CChartPolarArea
-    const prepareChartData = () => {
-        const labels = Object.keys(clusterData);
-        const datasets = labels.map((label) => {
-            const data = clusterData[label].map((item) => item.jumlah);
-            return {
-                label: label,
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(255, 206, 86, 0.6)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                ],
-                pointBackgroundColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                ],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                ],
-                data: data,
-            };
-        });
+    const formatChartData = (data: PredictionsData): ChartData => {
+        const labels: string[] = [];
+        const datasets: Dataset[] = [{
+            label: 'Data Bulan Tahun',
+            data: [],
+            backgroundColor: [
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)"
+            ],
+            borderColor: [
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)"
+            ],
+            pointHoverBorderColor: [
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)"
+            ],
+            pointHoverBackgroundColor: "#fff",
+            pointBorderColor: "#fff", // Misalnya, sesuaikan dengan kebutuhan
+            pointBackgroundColor: [
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(255, 99, 64, 0.6)"
+            ],
+            nama_obat: [], // Inisialisasi array untuk nama obat
+        }];
 
-        return {
-            labels: labels,
-            datasets: datasets,
-        };
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const monthYear = key; // e.g., "2023-12"
+                labels.push(formatDateLabel(monthYear));
+
+                // Find the drug with the highest quantity
+                const drugs = Object.values(data[key]);
+                const maxDrug = drugs.reduce((max, current) => (current.jumlah > max.jumlah ? current : max));
+
+                datasets[0].data.push(maxDrug.jumlah);
+                datasets[0].nama_obat.push(maxDrug.nama_obat); // Push the drug name
+            }
+        }
+
+        return { labels, datasets };
     };
 
     return (
@@ -370,43 +467,8 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                                     </div>
                                 </div>
                                 <div className="flex items-center ">
-                                    <CChartPolarArea
-                                        data={{
-                                            labels: [
-                                                "January",
-                                                "February",
-                                                "March",
-                                            ],
-                                            datasets: [
-                                                {
-                                                    label: "2019",
-                                                    backgroundColor: [
-                                                        "rgba(255, 99, 132, 0.6)",
-                                                        "rgba(54, 162, 235, 0.6)",
-                                                        "rgba(255, 206, 86, 0.6)",
-                                                    ], // Variasi warna latar belakang area
-                                                    borderColor: [
-                                                        "rgba(255, 99, 132, 1)",
-                                                        "rgba(54, 162, 235, 1)",
-                                                        "rgba(255, 206, 86, 1)",
-                                                    ], // Variasi warna garis tepi
-                                                    pointBackgroundColor: [
-                                                        "rgba(255, 99, 132, 1)",
-                                                        "rgba(54, 162, 235, 1)",
-                                                        "rgba(255, 206, 86, 1)",
-                                                    ], // Variasi warna titik-titik di dalam area
-                                                    pointBorderColor: "#fff", // Warna garis tepi titik-titik
-                                                    pointHoverBackgroundColor:
-                                                        "#fff", // Warna latar belakang saat dihover
-                                                    pointHoverBorderColor: [
-                                                        "rgba(255, 99, 132, 1)",
-                                                        "rgba(54, 162, 235, 1)",
-                                                        "rgba(255, 206, 86, 1)",
-                                                    ], // Variasi warna garis tepi saat dihover
-                                                    data: [56, 55, 40],
-                                                },
-                                            ],
-                                        }}
+                                    <CChartPie
+                                        data={chartPieData}
                                         options={{
                                             aspectRatio: 1.5,
                                         }}

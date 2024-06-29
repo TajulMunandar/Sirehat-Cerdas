@@ -26,11 +26,10 @@ class DashboardDokterController extends Controller
         $formattedDokters = $dokters->map(function ($dokter) {
             $foto = $dokter->foto;
 
-            // Jika foto sudah memiliki awalan http, gunakan nilai yang sudah ada
             if (Str::startsWith($foto, 'http')) {
                 $fotoUrl = $foto;
             } else {
-                $fotoUrl = Storage::url($foto); // Gunakan accessor untuk mengambil URL lengkap foto
+                $fotoUrl = Storage::url($foto);
             }
 
             return [
@@ -39,13 +38,14 @@ class DashboardDokterController extends Controller
                 'poli' => $dokter->poli,
                 'no_hp' => $dokter->no_hp,
                 'foto' => $fotoUrl,
-                'created_at' => $dokter->created_at->toDateTimeString(), // Opsional: format tanggal
-                'updated_at' => $dokter->updated_at->toDateTimeString(), // Opsional: format tanggal
+                'created_at' => $dokter->created_at->toDateTimeString(),
+                'updated_at' => $dokter->updated_at->toDateTimeString(),
             ];
         });
 
         return Inertia::render('Dashboard/Dokters', [
             'dokters' => $formattedDokters,
+            'user' => auth()->user(),
             'status' => $status,
             'status_code' => $status_code,
         ]);

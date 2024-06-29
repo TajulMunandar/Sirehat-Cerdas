@@ -69,32 +69,25 @@ Route::middleware('auth')->group(function () {
 });
 
 // Creating By Alvin
-Route::controller(AuthController::class)->group(function () {
-    Route::post('/loginn', 'authenticate');
-    Route::post('/logoutt', 'logout');
-});
-
 Route::prefix('/dashboard')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
-    Route::resource('/user', DashboardUserController::class);
-    Route::resource('/pasien', DashboardPasienController::class);
-    Route::resource('/dokter', DashboardDokterController::class);
-    Route::resource('/apoteker', DashboardApotekerController::class);
-    Route::resource('/kurir', DashboardKurirController::class);
-    Route::resource('/operator', DashboardOperatorController::class);
-    Route::resource('/obat', DashboardObatController::class);
-    Route::resource('/registrasi', DashboardRegistrasiController::class);
-    Route::put('/registrasi/approved/{registrasi}', [DashboardRegistrasiController::class, 'approved']);
-    Route::resource('/kunjungan', DashboardKunjunganController::class);
-    Route::resource('/transaksi-obat', DashboardTransaksiObatController::class);
-    Route::resource('/konsultasi', DashboardKonsultasiOnlineController::class);
-    Route::resource('/chat', DashboardChatController::class);
-    Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class);
-    Route::resource('/antar-obat', DashboardAntarObatController::class);
-    Route::resource('/jemput-obat', DashboardJemputObatController::class);
-    Route::resource('/jadwal-dokter', DashboardJadwalController::class);
-    Route::resource('/riwayat-kesehatan', DashboardRiwayatKesehatanController::class);
-    Route::resource('antar-jemput-obat', DashboardAntarJemputObatController::class);
+    Route::get('/', [DashboardController::class, 'index'])->middleware('dashboard');
+    Route::resource('/user', DashboardUserController::class)->middleware('superadmin');
+    Route::resource('/pasien', DashboardPasienController::class)->middleware('superadmin');
+    Route::resource('/dokter', DashboardDokterController::class)->middleware('superadmin');
+    Route::resource('/apoteker', DashboardApotekerController::class)->middleware('superadmin');
+    Route::resource('/kurir', DashboardKurirController::class)->middleware('superadmin');
+    Route::resource('/operator', DashboardOperatorController::class)->middleware('superadmin');
+    Route::resource('/obat', DashboardObatController::class)->middleware('apoteker');
+    Route::resource('/registrasi', DashboardRegistrasiController::class)->middleware('operator');
+    Route::put('/registrasi/approved/{registrasi}', [DashboardRegistrasiController::class, 'approved'])->middleware('operator');
+    Route::resource('/kunjungan', DashboardKunjunganController::class)->middleware('dokter');
+    Route::resource('/transaksi-obat', DashboardTransaksiObatController::class)->middleware('apoteker');
+    Route::resource('/konsultasi', DashboardKonsultasiOnlineController::class)->middleware('konsulriwayat');
+    Route::resource('/chat', DashboardChatController::class)->middleware('auth');
+    Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class)->middleware('apoteker');
+    Route::resource('/jadwal-dokter', DashboardJadwalController::class)->middleware('dokter');
+    Route::resource('/riwayat-kesehatan', DashboardRiwayatKesehatanController::class)->middleware('konsulriwayat');
+    Route::resource('antar-jemput-obat', DashboardAntarJemputObatController::class)->middleware('pimpinan');
 });
 
 
