@@ -93,7 +93,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
     const getMonthName = (monthNumber: number): string => {
         const date = new Date();
         date.setMonth(monthNumber - 1);
-        return date.toLocaleString('default', { month: 'long' });
+        return date.toLocaleString("default", { month: "long" });
     };
 
     interface DrugData {
@@ -113,7 +113,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
         labels: [] as string[],
         datasets: [
             {
-                backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+                backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16"],
                 data: [] as number[],
             },
         ],
@@ -121,12 +121,13 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
 
     useEffect(() => {
         // Fetch data from the Flask API using axios
-        axios.get<ApiResponse>("http://127.0.0.1:5000/clustering")
+        axios
+            .get<ApiResponse>("http://127.0.0.1:5000/clustering")
             .then((response) => {
                 setRawData(response.data); // Save the raw response data
             })
             .catch((error) => {
-                console.error('Error fetching data from API:', error);
+                console.error("Error fetching data from API:", error);
             });
     }, []);
 
@@ -136,13 +137,17 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
             const dataValues: number[] = [];
 
             Object.keys(rawData).forEach((date) => {
-                const yearMonth = date.split('-');
+                const yearMonth = date.split("-");
                 const year = yearMonth[0];
                 const month = getMonthName(parseInt(yearMonth[1]));
                 const monthYearLabel = `${month} ${year}`;
 
                 const monthData = rawData[date];
-                let maxDrug: DrugData = { id_obat: 0, jumlah: 0, nama_obat: '' };
+                let maxDrug: DrugData = {
+                    id_obat: 0,
+                    jumlah: 0,
+                    nama_obat: "",
+                };
 
                 Object.values(monthData).forEach((drug) => {
                     if (drug.jumlah > maxDrug.jumlah) {
@@ -158,7 +163,12 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                 labels: labels,
                 datasets: [
                     {
-                        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+                        backgroundColor: [
+                            "#41B883",
+                            "#E46651",
+                            "#00D8FF",
+                            "#DD1B16",
+                        ],
                         data: dataValues,
                     },
                 ],
@@ -356,7 +366,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                 <div className="row mt-3">
                     <div className="col col-lg-8">
                         <div className="card">
-                            <div className="card-body ">
+                            <div className="card-body !h-full">
                                 <div className="flex justify-between items-center mb-3">
                                     <h5>Prediksi Trafic Pengunjung</h5>
                                     <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-blue-500">
@@ -373,7 +383,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                                     stroke={"smooth"}
                                     type="area"
                                     width="100%"
-                                    height="120%"
+                                    height="146%"
                                 />
                             </div>
                         </div>
@@ -399,9 +409,9 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
                                             plugins: {
                                                 legend: {
                                                     labels: {
-                                                        color: '#000',
+                                                        color: "#000",
                                                     },
-                                                }
+                                                },
                                             },
                                         }}
                                     />
