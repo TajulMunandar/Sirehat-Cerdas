@@ -1,6 +1,7 @@
 import React, { Children, useState } from "react";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { motion } from 'framer-motion';
 
 import avatar from "../../../../../images/avatars/1.png";
 import { Link, usePage } from "@inertiajs/react";
@@ -48,9 +49,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
 
     return (
         <>
-            <nav
+            <motion.nav
                 className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                 id="layout-navbar"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 120 }}
             >
                 <div
                     className="navbar-nav-right d-flex align-items-center"
@@ -100,6 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                                     <img
                                         src={avatar}
                                         className="w-10 h-auto rounded-full"
+                                        alt="Avatar"
                                     />
                                 </div>
                             </a>
@@ -116,15 +121,16 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                                                         <img
                                                             src={avatar}
                                                             className="w-10 h-auto rounded-full"
+                                                            alt="Avatar"
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="flex-grow">
                                                     <span className="font-semibold block">
-                                                    {user.username}
+                                                        {user.username}
                                                     </span>
                                                     <small className="text-gray-500">
-                                                    {getRoleString(user.role)}
+                                                        {getRoleString(user.role)}
                                                     </small>
                                                 </div>
                                             </div>
@@ -158,7 +164,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                         {/* /User */}
                     </ul>
                 </div>
-            </nav>
+            </motion.nav>
         </>
     );
 };

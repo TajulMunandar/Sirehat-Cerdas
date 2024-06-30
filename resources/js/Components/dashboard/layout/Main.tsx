@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Sidebar from "../components/sidebars";
 import Navbar from "../components/nvabar";
-
+import { motion } from 'framer-motion';
 import "../../../../css/dashboard/core.css";
 import "../../../../css/dashboard/theme-default.css";
 import "../../../../css/dashboard/demo.css";
@@ -20,11 +20,16 @@ const MainDashboard: React.FC<MainDashboardProps> = ({ children, nav }) => {
                     <Sidebar />
                     <div className="layout-page">
                         <Navbar currentPage={nav} />
-                        <div className="content-wrapper">
+                        <motion.div
+                            className="content-wrapper"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ type: 'spring', stiffness: 120 }}
+                        >
                             <div className="container-xxl flex-grow-1 container-p-y">
                                 {children}
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
                 <div className="layout-overlay layout-menu-toggle"></div>
