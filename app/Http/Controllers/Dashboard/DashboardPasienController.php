@@ -171,6 +171,7 @@ class DashboardPasienController extends Controller
 
             $pasien = Pasien::whereId($id)->first();
             Pasien::destroy($pasien->id);
+            User::destroy($pasien->id_user);
             if ($pasien->foto) {
                 $file_path = str_replace('/storage/', '', $pasien->foto);
                 Storage::disk('public')->delete($file_path);

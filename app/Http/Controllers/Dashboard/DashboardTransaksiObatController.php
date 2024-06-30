@@ -25,9 +25,11 @@ class DashboardTransaksiObatController extends Controller
             'kunjungan.registrasi:id,id_pasien,tanggal',
             'kunjungan.dokter:id,nama',
             'kunjungan.registrasi.pasien:id,nama',
-            'transaksiobatdetail:id,id_transaksi_obat,id_obat,ket',
+            'transaksiobatdetail:id,id_transaksi_obat,id_obat,ket,jumlah',
             'transaksiobatdetail.obat:id,nama_obat'
         ])->latest()->get();
+
+        // dd(Auth()->user());
         
         return Inertia::render('Dashboard/TransaksiObats', [
             'transaksiobats' => $transaksiobats,

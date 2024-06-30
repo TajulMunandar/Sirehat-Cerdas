@@ -10,4 +10,5 @@ export type TRegistrasi = {
     alamat: string;
     foto: string;
     nama_dokter: string;
+    no_antrian: string;
 };

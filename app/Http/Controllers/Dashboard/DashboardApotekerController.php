@@ -123,6 +123,7 @@ class DashboardApotekerController extends Controller
 
             $apoteker = Apoteker::whereId($id)->first();
             Apoteker::destroy($apoteker->id);
+            User::destroy($apoteker->id_user);
 
             return Redirect::route('apoteker.index')->with([
                 'status_code' => 200, 

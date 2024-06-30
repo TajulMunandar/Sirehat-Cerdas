@@ -5,7 +5,7 @@ export type TKonsultasi = {
     dokter: any;
     pasien: any;
     status_konsul: number;
-    stauts_obat: number;
+    status_obat: number;
     diagnosa: string;
 };
 

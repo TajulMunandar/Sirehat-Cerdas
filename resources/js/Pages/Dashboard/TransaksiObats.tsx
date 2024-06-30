@@ -18,9 +18,22 @@ interface DashboardTransaksiObatsProps {
     transaksiobats: TTransaksiObat[];
 }
 
+interface User {
+    id: number;
+    role: number;
+
+}
+
+interface PageProps {
+    user: User;
+    [key: string]: any;
+}
+
 const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
     transaksiobats,
 }) => {
+    const { user } = usePage<PageProps>().props;
+
     const { routers }: any = usePage();
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
     const [processItemId, setProcessItemId] = useState<number | null>(null);
@@ -50,7 +63,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                 let data = {
                     status: 1,
                 };
-                
+
                 await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
                     onSuccess: (data: any) => {
                         console.log(data);
@@ -69,14 +82,14 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
             }
         }
     };
-    
+
     const handleConfirmDisapproval = async () => {
         if (processItemId !== null) {
             try {
                 let data = {
                     status: 2,
                 };
-                
+
                 await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
                     onSuccess: (data: any) => {
                         console.log(data);
@@ -153,6 +166,13 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         transaksiobatdetail: item.transaksiobatdetail,
     }));
 
+    const tableProps = {
+        headers: TransaksiObatTableHeader,
+        data: datas,
+        onDetail: handleDetail,
+        ...(user.role !== 0 && { onProcessApproval: handleApproval })
+    };
+
     return (
         <>
             <Head title="Transaksi Obat" />
@@ -167,12 +187,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                 />
                 <h3 className="font-bold">Table Transaksi Obat</h3>
 
-                <Table
-                    headers={TransaksiObatTableHeader}
-                    data={datas}
-                    onDetail={handleDetail}
-                    onProcessApproval={handleApproval}
-                />
+                <Table {...tableProps} />
 
                 <Modal
                     title="Detail Obat"
@@ -223,15 +238,29 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                                             <p>{detail.obat.nama_obat}</p>
                                         ))}
                                 </div>
-                                <div className="col text-end">
-                                    <p>Keterangan</p>
-                                    {datas
-                                        .find(
-                                            (item) => item.id === processItemId
-                                        )
-                                        ?.transaksiobatdetail.map((detail) => (
-                                            <p>{detail.ket}</p>
-                                        ))}
+                                <div className="col flex justify-between text-end">
+                                    <div className="row ">
+                                        <p>Keterangan</p>
+                                        {datas
+                                            .find(
+                                                (item) => item.id === processItemId
+                                            )
+                                            ?.transaksiobatdetail.map((detail) => (
+                                                <p>{detail.ket}</p>
+                                            ))}
+
+                                    </div>
+                                    <div className="row">
+                                        <p>Jumlah</p>
+                                        {datas
+                                            .find(
+                                                (item) => item.id === processItemId
+                                            )
+                                            ?.transaksiobatdetail.map((detail) => (
+                                                <p>{detail.jumlah}</p>
+                                            ))}
+
+                                    </div>
                                 </div>
                             </div>
                         </>

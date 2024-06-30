@@ -164,6 +164,7 @@ class DashboardKurirController extends Controller
                 Storage::disk('public')->delete($file_path);
             }
             Kurir::destroy($id);
+            User::destroy($kurir->id_user);
 
             return Redirect::route('kurir.index')->with([
                 'status_code' => 200, 

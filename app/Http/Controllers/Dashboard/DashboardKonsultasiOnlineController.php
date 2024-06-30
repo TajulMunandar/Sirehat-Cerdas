@@ -22,13 +22,7 @@ class DashboardKonsultasiOnlineController extends Controller
         $konsultasis = [];
         $status = session('status');
         $status_code = session('status_code');
-        if(Auth()->user()->role == 0){
-            $konsultasis = KonsultasiOnline::where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
-        }elseif(Auth()->user()->role == 2){
-            $konsultasis = KonsultasiOnline::where('id_dokter', Auth()->user()->dokter->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
-        }elseif(Auth()->user()->role == 6){
-            $konsultasis = KonsultasiOnline::where('id_pasien', Auth()->user()->pasien->id)->where('status_konsul', 0)->with(['pasien:id,nama','dokter:id,nama'])->get();
-        }
+        $konsultasis = KonsultasiOnline::with(['pasien:id,nama','dokter:id,nama'])->get();
         
         return Inertia::render('Dashboard/Konsultasis', [
             'konsultasis' => $konsultasis,

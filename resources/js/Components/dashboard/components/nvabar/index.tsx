@@ -3,17 +3,47 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 import avatar from "../../../../../images/avatars/1.png";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 interface NavbarProps {
     currentPage: React.ReactNode;
 }
 
+interface User {
+    id: number;
+    role: number;
+    username: string;
+    // Tambahkan properti lain yang sesuai dengan struktur user Anda
+}
+
+interface PageProps {
+    user: User;
+    [key: string]: any; // Tambahkan tanda tangan indeks
+}
+
 const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const { user } = usePage<PageProps>().props;
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
+    };
+
+    const getRoleString = (role: number) => {
+        switch (role) {
+            case 0:
+                return "Super Admin";
+            case 1:
+                return "Pimpinan";
+            case 2:
+                return "Dokter";
+            case 3:
+                return "Apoteker";
+            case 4:
+                return "Operator";
+            default:
+                return "Unknown";
+        }
     };
 
     return (
@@ -91,10 +121,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                                                 </div>
                                                 <div className="flex-grow">
                                                     <span className="font-semibold block">
-                                                        John Doe
+                                                    {user.username}
                                                     </span>
                                                     <small className="text-gray-500">
-                                                        Admin
+                                                    {getRoleString(user.role)}
                                                     </small>
                                                 </div>
                                             </div>

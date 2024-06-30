@@ -150,7 +150,7 @@ const ListItems: React.FC = () => {
                                 </li>
                             </>
                         )}
-                        {(user.role === 0 || user.role === 1) && (
+                        {(user.role === 0 || user.role === 2) && (
                             <>
                                 <li
                                     className={`menu-item ${isActive(

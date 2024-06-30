@@ -1,5 +1,6 @@
 import { RiwayatTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
+import TableNoRow from "@/Components/dashboard/components/table/TableNoRow";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
@@ -19,7 +20,6 @@ const DashboardRiwayats: React.FC<DashboardRiwayatsProps> = ({
     kunjungans
 }) => {
 
-    console.log(kunjungans)
 
     const datas = kunjungans.map((item) => ({
         ...item,
@@ -30,7 +30,7 @@ const DashboardRiwayats: React.FC<DashboardRiwayatsProps> = ({
         pasien: item.registrasi.pasien.nama,
         keluhaan: item.registrasi.keluhan,
         diagnosa: item.diagnosa,
-        poli: item.registrasi.poli,
+        poli: item.dokter.poli,
         tindakan: item.tindakan,
     }));
 
@@ -44,7 +44,7 @@ const DashboardRiwayats: React.FC<DashboardRiwayatsProps> = ({
             <Head title="Riwayat Kesehatan" />
             <MainDashboard nav={"Riwayat Kesehatan"}>
                 <h3 className="font-bold">Table Riwayat Kesehatan</h3>
-                <Table
+                <TableNoRow
                     headers={RiwayatTableHeader}
                     data={datas}
                     statusMapping={statusTindakanMapping}

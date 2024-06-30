@@ -18,8 +18,15 @@ class DashboardJadwalController extends Controller
     {
         $status = session('status');
         $status_code = session('status_code');
-        $jadwals = Jadwal::with('Dokter')->latest()->get();
-        $dokters = Dokter::latest()->get();
+        $dokters = [];
+        $jadwals = [];
+        if(Auth()->user()->role == 0){
+            $dokters = Dokter::latest()->get();  
+            $jadwals = Jadwal::with('dokter')->latest()->get();
+        }else if(Auth()->user()->role == 2){
+            $dokters = Dokter::where('id', Auth()->user()->dokter->id)->get();  
+            $jadwals = Jadwal::where('id_dokter', Auth()->user()->role == 2)->with('dokter')->with('dokter')->latest()->get();
+        }
         $formattedJadwals = $jadwals->map(function ($jadwal) {
             return [
                 'id' => $jadwal->id,
@@ -31,7 +38,6 @@ class DashboardJadwalController extends Controller
                 'rentang_waktu' => $jadwal->rentang_waktu,
             ];
         });
-        // dd($users);
 
         return Inertia::render('Dashboard/Jadwal', [
             'jadwals' => $formattedJadwals,

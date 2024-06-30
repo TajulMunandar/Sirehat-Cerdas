@@ -64,6 +64,7 @@ class RegistrasiFactory extends Factory
             'tanggal' => now(),
             'status' => $this->faker->randomElement(['selesai', 'belum']),
             'keluhan' => $randomKeluhan,
+            'no_antrian' => rand(1, 15),
             'poli' => $poli,
         ];
     }

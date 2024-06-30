@@ -21,7 +21,10 @@ class DashboardRegistrasiController extends Controller
             $registrasiData = [];
             $status = session('status');
             $status_code = session('status_code');
-            $registrasis = Registrasi::where('status', 0)->with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])->latest()->get();
+            $registrasis = Registrasi::where('status', 0)
+                                    ->with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])
+                                    ->orderBy('no_antrian', 'asc') // Menambahkan pengurutan berdasarkan no_antrian
+                                    ->get();
             $dokter = Dokter::all();
             $registrasiData = $registrasis->map(function ($registrasi) use ($dokter) {
                 $dokterPoli = $dokter->firstWhere('poli', $registrasi->poli); // Cari dokter dengan poli yang sama
@@ -38,6 +41,7 @@ class DashboardRegistrasiController extends Controller
                     'bpjs' => $registrasi->pasien->no_bpjs,
                     'alamat' => $registrasi->pasien->alamat,
                     'foto' => $registrasi->pasien->foto,
+                    'no_antrian' => $registrasi->no_antrian,
                     'nama_dokter' => $dokterPoli ? $dokterPoli->nama : null, // Ambil nama dokter jika ditemukan
                 ];
             });

@@ -82,7 +82,7 @@ Route::prefix('/dashboard')->group(function () {
     Route::put('/registrasi/approved/{registrasi}', [DashboardRegistrasiController::class, 'approved'])->middleware('operator');
     Route::resource('/kunjungan', DashboardKunjunganController::class)->middleware('dokter');
     Route::resource('/transaksi-obat', DashboardTransaksiObatController::class)->middleware('apoteker');
-    Route::resource('/konsultasi', DashboardKonsultasiOnlineController::class)->middleware('konsulriwayat');
+    Route::resource('/konsultasi', DashboardKonsultasiOnlineController::class)->middleware('pimpinan');
     Route::resource('/chat', DashboardChatController::class)->middleware('auth');
     Route::resource('/transaksi-obat-online', DashboardTransaksiObatOnlineController::class)->middleware('apoteker');
     Route::resource('/jadwal-dokter', DashboardJadwalController::class)->middleware('dokter');

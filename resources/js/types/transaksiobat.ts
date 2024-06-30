@@ -2,6 +2,7 @@ interface TransaksiObatDetail {
     id: number;
     obat: any,
     ket: string;
+    jumlah: number
 }
 
 export type TTransaksiObat = {

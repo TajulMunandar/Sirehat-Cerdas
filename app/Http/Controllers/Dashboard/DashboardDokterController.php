@@ -165,6 +165,7 @@ class DashboardDokterController extends Controller
                 Storage::disk('public')->delete($file_path);
             }
             Dokter::destroy($id);
+            User::destroy($dokter->id_user);
 
             return Redirect::route('dokter.index')->with([
                 'status_code' => 200, 

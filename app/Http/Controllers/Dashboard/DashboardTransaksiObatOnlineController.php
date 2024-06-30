@@ -26,7 +26,7 @@ class DashboardTransaksiObatOnlineController extends Controller
             'konsultasionline:id,id_pasien,id_dokter',
             'konsultasionline.dokter:id,nama',
             'konsultasionline.pasien:id,nama',
-            'transaksiobatonlinedetail:id,id_to_online,id_obat,ket',
+            'transaksiobatonlinedetail:id,id_to_online,id_obat,ket,jumlah',
             'transaksiobatonlinedetail.obat:id,nama_obat'
             ])->latest()->get();
         

@@ -125,6 +125,7 @@ class DashboardOperatorController extends Controller
 
             $operator = Operator::whereId($id)->first();
             Operator::destroy($operator->id);
+            User::destroy($operator->id_user);
 
             return Redirect::route('operator.index')->with([
                 'status_code' => 200, 

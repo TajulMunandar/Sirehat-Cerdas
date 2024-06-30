@@ -14,7 +14,8 @@ class Registrasi extends Model
         'tanggal',
         'status',
         'keluhan',
-        'poli'
+        'poli',
+        'no_antrian'
     ];
 
     public function Pasien()

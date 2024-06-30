@@ -17,6 +17,7 @@ return new class extends Migration
             $table->dateTime('tanggal');
             $table->boolean('status');
             $table->string('keluhan');
+            $table->integer('no_antrian');
             $table->string('poli');
             $table->timestamps();
         });

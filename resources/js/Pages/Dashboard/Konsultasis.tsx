@@ -1,5 +1,6 @@
 import { KonsultasiTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
+import TableNoRow from "@/Components/dashboard/components/table/TableNoRow";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
@@ -27,18 +28,18 @@ const DashboardKonsultasis: React.FC<DashboardKonsultasisProps> = ({
         dokter: item.dokter.nama,
         pasien: item.pasien.nama,
         status_konsul: item.status_konsul,
-        stauts_obat: item.stauts_obat,
+        status_obat: item.status_obat,
         diagnosa: item.diagnosa,
     }));
 
     // User role mappin
     const statusObatMapping = {
-        0: "BELUM DI AMBIL",
-        1: "SUDAH DI AMBIL",
+        0: "TANPA OBAT",
+        1: "RESEP OBAT",
     };
     const statusKonsulMapping = {
-        0: "SELESAI",
-        1: "BELUM",
+        0: "BELUM",
+        1: "SELESAI",
     };
 
     return (
@@ -46,11 +47,11 @@ const DashboardKonsultasis: React.FC<DashboardKonsultasisProps> = ({
             <Head title="Konsultasi Online" />
             <MainDashboard nav={"Konsultasi Online"}>
                 <h3 className="font-bold">Table Konsultasi Online</h3>
-                <Table
+                <TableNoRow
                     headers={KonsultasiTableHeader}
                     data={datas}
-                    statusMapping1={statusKonsulMapping}
-                    statusMapping2={statusObatMapping}
+                    statusMapping1={statusObatMapping}
+                    statusMapping2={statusKonsulMapping}
                 />
             </MainDashboard>
         </>

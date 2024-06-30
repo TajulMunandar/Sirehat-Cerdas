@@ -24,6 +24,7 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
         alamat: item.alamat,
         foto: item.foto,
         dokter: item.nama_dokter,
+        antrian: item.no_antrian,
     }));
 
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
@@ -215,8 +216,8 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
                 </div>
 
                 <div className="col col-lg-8">
-                    <div className="card border-0 mb-3 h-screen">
-                        <div className="card-body h-screen p-4">
+                    <div className="card border-0 mb-3 h-100">
+                        <div className="card-body h-100 p-4">
                             <div className="row flex">
                                 <div className="col col-lg-5">
                                     <img
@@ -309,7 +310,7 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
                                                 <p>: {selectedPatient.poli}</p>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        <div className="row mb-3">
                                             <div className="col-4">
                                                 <p>Dokter</p>
                                             </div>
@@ -318,6 +319,19 @@ const RegisterList: React.FC<DashboardRegistrasisProps> = ({ patient }) => {
                                                     :{" "}
                                                     {
                                                         selectedPatient.dokter // selectedPatient.doctor
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-4">
+                                                <p>No Antrian</p>
+                                            </div>
+                                            <div className="col">
+                                                <p>
+                                                    :{" "}
+                                                    {
+                                                        selectedPatient.antrian // selectedPatient.doctor
                                                     }
                                                 </p>
                                             </div>

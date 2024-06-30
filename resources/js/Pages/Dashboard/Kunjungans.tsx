@@ -1,5 +1,6 @@
 import { KunjunganTableHeader } from "@/Components/dashboard/components/constants/table.constant";
 import Table from "@/Components/dashboard/components/table/Table";
+import TableNoRow from "@/Components/dashboard/components/table/TableNoRow";
 import MainDashboard from "@/Components/dashboard/layout/Main";
 import { Head, router, usePage, useForm } from "@inertiajs/react";
 import { useState } from "react";
@@ -21,10 +22,23 @@ interface FormGroup {
     jumlah: string; // Add jumlah field
 }
 
+interface User {
+    id: number;
+    role: number;
+
+}
+
+interface PageProps {
+    user: User;
+    [key: string]: any;
+}
+
 const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     kunjungans,
     obats,
 }) => {
+    const { user } = usePage<PageProps>().props;
+
     const initialFormGroups = obats.length
         ? [{ id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }] // Initialize jumlah
         : [{ id_obat: "", ket: "", jumlah: "" }];
@@ -168,11 +182,18 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                     pauseOnHover={false}
                 />
                 <h3 className="font-bold">Table Kunjungan</h3>
-                <Table
-                    headers={KunjunganTableHeader}
-                    data={datas}
-                    onEdit={openModal}
-                />
+                {user.role == 0 ? (
+                    <TableNoRow
+                        headers={KunjunganTableHeader}
+                        data={datas}
+                    />
+                ) : (
+                    <Table
+                        headers={KunjunganTableHeader}
+                        data={datas}
+                        onEdit={openModal}
+                    />
+                )}
 
                 <Modal
                     title="Medical Action"
