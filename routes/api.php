@@ -22,13 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('/mobile')->group(function () {
+        Route::post('/login', [MobileAuthController::class, 'login']);
+        Route::post('/register', [MobileAuthController::class, 'register']);
+        Route::get('/profile', [MobileAuthController::class, 'profile']);
+        Route::get('/registrasi', [MobileRegistrasiController::class, 'index']);
+        Route::post('/registrasi', [MobileRegistrasiController::class, 'store']);
+    });
+});
+
 Route::get('/get-data-kunjungan', [KunjunganController::class, 'GetData']);
 Route::get('/get-data-clustering', [DashboardController::class, 'getClustering']);
 
-Route::prefix('/mobile')->group(function () {
-    Route::post('/login', [MobileAuthController::class, 'login']);
-    Route::post('/register', [MobileAuthController::class, 'register']);
-    Route::get('/profile', [MobileAuthController::class, 'profile']);
-    Route::get('/registrasi', [MobileRegistrasiController::class, 'index']);
-    Route::post('/registrasi', [MobileRegistrasiController::class, 'store']);
-});

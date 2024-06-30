@@ -7,6 +7,8 @@ import Bg3 from "../../../images/layanan/bg3.jpg";
 import Bg5 from "../../../images/layanan/bg5.jpg";
 import Bg4 from "../../../images/layanan/bg2.jpg";
 import { Link } from "@inertiajs/react";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 interface CarouselItem {
     img: string;
@@ -18,6 +20,11 @@ interface CarouselItem {
 
 const CustomCarousel: React.FC = () => {
     const [index, setIndex] = useState<number>(0);
+    const controls = useAnimation();
+    const [ref, inView] = useInView({
+        triggerOnce: true,
+        rootMargin: "-100px 0px",
+    });
 
     const handleSelect = (selectedIndex: number, e: any): void => {
         setIndex(selectedIndex);
@@ -63,24 +70,37 @@ const CustomCarousel: React.FC = () => {
 
     const activeData: CarouselItem = carouselData[index];
 
+    // Animasi muncul saat komponen terlihat
+    React.useEffect(() => {
+        if (inView) {
+            controls.start({
+                opacity: 1,
+                scale: 1,
+                transition: { duration: 0.5 },
+            });
+        }
+    }, [controls, inView]);
+
     return (
-        <div className="container my-3 relative">
-            <div className="absolute card-slider top-64 ">
-                <div className="card card-sliders shadow-lg ">
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={controls}
+            className="container my-3 relative"
+        >
+            <div className="absolute card-slider top-64">
+                <div className="card card-sliders shadow-lg">
                     <div className="card-body slider-body">
                         <p className="text-rating ml-2">
                             Pengunjung{" "}
-                            <span className=""> ({activeData.visitors}) </span>
+                            <span className="">{activeData.visitors}</span>
                         </p>
                         <div className="texts-card">
-                            <h5 className="fw-bold ">{activeData.title}</h5>
+                            <h5 className="fw-bold">{activeData.title}</h5>
                             <p className="cost fw-bold">Jumlah Dokter</p>
                             <p className="mb-4 text-location">
                                 <img src="img/Location.png" alt="" />{" "}
-                                <span className="cost">
-                                    {" "}
-                                    {activeData.doctors}{" "}
-                                </span>
+                                <span className="cost">{activeData.doctors}</span>
                             </p>
                             <Link href="/login">
                                 <button className="btn !bg-[#1580EB] text-white fw-bold">
@@ -107,20 +127,16 @@ const CustomCarousel: React.FC = () => {
                 data-bs-theme="dark"
             >
                 {carouselData.map((item, idx) => (
-                    <Carousel.Item
-                        key={idx}
-                        className="h-[564px;]"
-                        interval={2000}
-                    >
+                    <Carousel.Item key={idx} className="h-[564px;]" interval={2000}>
                         <img
                             src={item.img}
-                            className="img-c d-block w-100 "
+                            className="img-c d-block w-100"
                             alt={`Slide ${idx}`}
                         />
                     </Carousel.Item>
                 ))}
             </Carousel>
-        </div>
+        </motion.div>
     );
 };
 

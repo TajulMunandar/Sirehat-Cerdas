@@ -3,6 +3,7 @@ import Header from "@/Components/main/NavBar";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head } from "@inertiajs/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
 
 import "../../../css/style.css";
 import "../../../css/main.css";
@@ -21,29 +22,58 @@ export default function LandingPage(): any {
         <GuestLayout>
             <Head title="Tentang" />
             <Header page={page}></Header>
-            <div className="container">
+            <motion.div 
+                className="container"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+            >
                 <div className="text-center mt-10">
-                    <p className="text-md text-[#1580EB] font-semibold ">
+                    <motion.p 
+                        className="text-md text-[#1580EB] font-semibold "
+                        initial={{ x: -100 }}
+                        animate={{ x: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         Frequently Asked Question
-                    </p>
-                    <h2 className="text-4xl font-semibold text-black  leading-relaxed mb-20">
+                    </motion.p>
+                    <motion.h2 
+                        className="text-4xl font-semibold text-black  leading-relaxed mb-20"
+                        initial={{ y: -50 }}
+                        animate={{ y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         Kami <span className="text-[#1580EB]">Melindungi</span>{" "}
                         Anda
-                    </h2>
+                    </motion.h2>
                 </div>
                 <div className="flex justify-center">
                     <div className="w-1/2 px-10">
                         <Accordion></Accordion>
                     </div>
-                    <div className="relative w-1/2">
+                    <motion.div 
+                        className="relative w-1/2"
+                        initial={{ scale: 0.9 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         <img src={group2} alt="Doctors" className="w-full" />
-                    </div>
+                    </motion.div>
                 </div>
-            </div>
-            <div className="container mt-10">
+            </motion.div>
+            <motion.div 
+                className="container mt-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+            >
                 <div className="row">
                     <div className="col">
-                        <div className="card !border-none !bg-[#1580EB] p-3">
+                        <motion.div 
+                            className="card !border-none !bg-[#1580EB] p-3"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <div className="card-body flex justify-between items-center">
                                 <h2 className="!text-white">
                                     Masih Bingung? Chat Personal Admin Kami!
@@ -52,10 +82,10 @@ export default function LandingPage(): any {
                                     Call Contact
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
             <Footer></Footer>
         </GuestLayout>
     );
