@@ -28,6 +28,7 @@ class MobileAuthController extends Controller
                 5 => Kurir::where('id_user', $user->id)->first(),
                 default => null,
             };
+            
             $token = $user->createToken('authToken')->plainTextToken;
 
             return response()->json(['access_token' => $token, 'user_profile' => $user, 'data' => $data], 200);
@@ -58,7 +59,7 @@ class MobileAuthController extends Controller
         $user = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'role' => 6, 
+            'role' => 6,
         ]);
 
         $fotoPath = null;
@@ -89,7 +90,7 @@ class MobileAuthController extends Controller
             6 => Pasien::where('id_user', $user->id)->first(),
             2 => Dokter::where('id_user', $user->id)->first(),
             5 => Kurir::where('id_user', $user->id)->first(),
-            default => null, 
+            default => null,
         };
         return response()->json($data, 200);
     }
