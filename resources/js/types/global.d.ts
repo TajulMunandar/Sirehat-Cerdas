@@ -6,6 +6,5 @@ declare global {
         axios: AxiosInstance;
     }
 
-
     var route: typeof ziggyRoute;
 }
