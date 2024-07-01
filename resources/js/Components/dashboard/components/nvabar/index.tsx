@@ -1,8 +1,6 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { motion } from 'framer-motion';
-
+import { motion } from "framer-motion";
 import avatar from "../../../../../images/avatars/1.png";
 import { Link, usePage } from "@inertiajs/react";
 
@@ -12,26 +10,32 @@ interface NavbarProps {
 
 interface User {
     id: number;
-    role: number;
+    role: string;
     username: string;
     // Tambahkan properti lain yang sesuai dengan struktur user Anda
 }
 
 interface PageProps {
-    user: User;
-    [key: string]: any; // Tambahkan tanda tangan indeks
+    auth: {
+        user: User;
+    };
+    [key: string]: any; // Add index signature
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user } = usePage<PageProps>().props;
+    const { auth } = usePage<PageProps>().props;
+    const user = auth.user;
+
+    console.log("User Data:", user);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
-    const getRoleString = (role: number) => {
-        switch (role) {
+    const getRoleString = (role: string) => {
+        const roleNumber = Number(role);
+        switch (roleNumber) {
             case 0:
                 return "Super Admin";
             case 1:
@@ -54,7 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                 id="layout-navbar"
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ type: 'spring', stiffness: 120 }}
+                transition={{ type: "spring", stiffness: 120 }}
             >
                 <div
                     className="navbar-nav-right d-flex align-items-center"
@@ -130,7 +134,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
                                                         {user.username}
                                                     </span>
                                                     <small className="text-gray-500">
-                                                        {getRoleString(user.role)}
+                                                        {getRoleString(
+                                                            user.role
+                                                        )}
                                                     </small>
                                                 </div>
                                             </div>
