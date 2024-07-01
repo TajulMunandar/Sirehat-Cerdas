@@ -122,7 +122,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
     useEffect(() => {
         // Fetch data from the Flask API using axios
         axios
-            .get<ApiResponse>("http://publikalvinsyahri.my.id/clustering")
+            .get<ApiResponse>("https://publikalvinsyahri.my.id/clustering")
             .then((response) => {
                 setRawData(response.data); // Save the raw response data
             })
