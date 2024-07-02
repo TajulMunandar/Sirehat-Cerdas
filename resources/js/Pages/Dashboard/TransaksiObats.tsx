@@ -20,19 +20,22 @@ interface DashboardTransaksiObatsProps {
 
 interface User {
     id: number;
-    role: number;
-
+    role: string; // Keeping it as string since it's received as a string
+    username: string;
+    // Add other properties that match your user data
 }
 
 interface PageProps {
     user: User;
-    [key: string]: any;
+    [key: string]: any; // Add index signature
 }
 
 const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
     transaksiobats,
 }) => {
     const { user } = usePage<PageProps>().props;
+
+    const userRole = Number(user.role);
 
     const { routers }: any = usePage();
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
@@ -64,18 +67,24 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                     status: 1,
                 };
 
-                await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error Transaksi Obat Online approved/rejected, Gagal Di Approve/Rejected"
-                            );
-                        } else {
-                            toast.success("Transaksi Obat successfully approved/rejected");
-                        }
-                    },
-                });
+                await router.put(
+                    `/dashboard/transaksi-obat/${processItemId}`,
+                    data,
+                    {
+                        onSuccess: (data: any) => {
+                            console.log(data);
+                            if (data.props.status_code == 500) {
+                                toast.error(
+                                    "Error Transaksi Obat Online approved/rejected, Gagal Di Approve/Rejected"
+                                );
+                            } else {
+                                toast.success(
+                                    "Transaksi Obat successfully approved/rejected"
+                                );
+                            }
+                        },
+                    }
+                );
                 setIsApproveModalOpen(false);
             } catch (err) {
                 toast.error(`Error approving loan: ${err}`);
@@ -90,18 +99,24 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                     status: 2,
                 };
 
-                await router.put(`/dashboard/transaksi-obat/${processItemId}`, data, {
-                    onSuccess: (data: any) => {
-                        console.log(data);
-                        if (data.props.status_code == 500) {
-                            toast.error(
-                                "Error Transaksi Obat approved/rejected, Gagal Di Approve/Rejected"
-                            );
-                        } else {
-                            toast.success("Transaksi Obat successfully approved/rejected");
-                        }
-                    },
-                });
+                await router.put(
+                    `/dashboard/transaksi-obat/${processItemId}`,
+                    data,
+                    {
+                        onSuccess: (data: any) => {
+                            console.log(data);
+                            if (data.props.status_code == 500) {
+                                toast.error(
+                                    "Error Transaksi Obat approved/rejected, Gagal Di Approve/Rejected"
+                                );
+                            } else {
+                                toast.success(
+                                    "Transaksi Obat successfully approved/rejected"
+                                );
+                            }
+                        },
+                    }
+                );
                 setIsApproveModalOpen(false);
             } catch (err) {
                 toast.error(`Error disapproving loan: ${err}`);
@@ -170,7 +185,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         headers: TransaksiObatTableHeader,
         data: datas,
         onDetail: handleDetail,
-        ...(user.role !== 0 && { onProcessApproval: handleApproval })
+        ...(userRole !== 0 && { onProcessApproval: handleApproval }),
     };
 
     return (
@@ -243,23 +258,27 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
                                         <p>Keterangan</p>
                                         {datas
                                             .find(
-                                                (item) => item.id === processItemId
+                                                (item) =>
+                                                    item.id === processItemId
                                             )
-                                            ?.transaksiobatdetail.map((detail) => (
-                                                <p>{detail.ket}</p>
-                                            ))}
-
+                                            ?.transaksiobatdetail.map(
+                                                (detail) => (
+                                                    <p>{detail.ket}</p>
+                                                )
+                                            )}
                                     </div>
                                     <div className="row">
                                         <p>Jumlah</p>
                                         {datas
                                             .find(
-                                                (item) => item.id === processItemId
+                                                (item) =>
+                                                    item.id === processItemId
                                             )
-                                            ?.transaksiobatdetail.map((detail) => (
-                                                <p>{detail.jumlah}</p>
-                                            ))}
-
+                                            ?.transaksiobatdetail.map(
+                                                (detail) => (
+                                                    <p>{detail.jumlah}</p>
+                                                )
+                                            )}
                                     </div>
                                 </div>
                             </div>

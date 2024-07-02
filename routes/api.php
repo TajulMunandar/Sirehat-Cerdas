@@ -3,7 +3,9 @@
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\MobileAuthController;
+use App\Http\Controllers\Api\MobileDokterController;
 use App\Http\Controllers\Api\MobileRegistrasiController;
+use App\Http\Controllers\Api\MobileRiwayatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,20 +20,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('/mobile')->group(function () {
-        Route::post('/login', [MobileAuthController::class, 'login']);
-        Route::post('/register', [MobileAuthController::class, 'register']);
-        Route::get('/profile', [MobileAuthController::class, 'profile']);
-        Route::get('/registrasi', [MobileRegistrasiController::class, 'index']);
-        Route::post('/registrasi', [MobileRegistrasiController::class, 'store']);
-    });
-});
-
+Route::post('/login', [MobileAuthController::class, 'login']);
+Route::post('/register', [MobileAuthController::class, 'register']);
+Route::get('/profile', [MobileAuthController::class, 'profile']);
+Route::get('/dokter', [MobileDokterController::class, 'index']);
+Route::post('/riwayat', [MobileRiwayatController::class, 'index']);
+Route::get('/registrasi', [MobileRegistrasiController::class, 'index']);
+Route::post('/registrasi', [MobileRegistrasiController::class, 'store']);
 Route::get('/get-data-kunjungan', [KunjunganController::class, 'GetData']);
 Route::get('/get-data-clustering', [DashboardController::class, 'getClustering']);
-

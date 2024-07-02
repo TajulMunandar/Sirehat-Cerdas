@@ -24,13 +24,14 @@ interface FormGroup {
 
 interface User {
     id: number;
-    role: number;
-
+    role: string; // Keeping it as string since it's received as a string
+    username: string;
+    // Add other properties that match your user data
 }
 
 interface PageProps {
     user: User;
-    [key: string]: any;
+    [key: string]: any; // Add index signature
 }
 
 const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
@@ -39,11 +40,14 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
 }) => {
     const { user } = usePage<PageProps>().props;
 
+    const userRole = Number(user.role);
+
     const initialFormGroups = obats.length
         ? [{ id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }] // Initialize jumlah
         : [{ id_obat: "", ket: "", jumlah: "" }];
 
-    const [formGroups, setFormGroups] = useState<FormGroup[]>(initialFormGroups);
+    const [formGroups, setFormGroups] =
+        useState<FormGroup[]>(initialFormGroups);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
@@ -82,7 +86,9 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
             diagnosa: "",
             tindakan: "1",
         });
-        setFormGroups([{ id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }]);
+        setFormGroups([
+            { id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" },
+        ]);
     };
 
     const handleChange = (
@@ -110,7 +116,10 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
     };
 
     const addFormGroup = () => {
-        setFormGroups([...formGroups, { id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" }]);
+        setFormGroups([
+            ...formGroups,
+            { id_obat: obats[0].id.toString(), ket: "3 X 1", jumlah: "1" },
+        ]);
     };
 
     const removeFormGroup = (index: number) => {
@@ -134,17 +143,23 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
             if (key === "obat_diagnosa") {
                 kunjunganData.obat_diagnosa.forEach((item, index) => {
                     Object.keys(item).forEach((subKey) => {
-                        formData.append(`obat_diagnosa[${index}][${subKey}]`, item[subKey as keyof FormGroup] as string);
+                        formData.append(
+                            `obat_diagnosa[${index}][${subKey}]`,
+                            item[subKey as keyof FormGroup] as string
+                        );
                     });
                 });
             } else {
-                formData.append(key, kunjunganData[key as keyof typeof kunjunganData] as string);
+                formData.append(
+                    key,
+                    kunjunganData[key as keyof typeof kunjunganData] as string
+                );
             }
         });
 
         if (isEditMode && currentItemId) {
             formData.append("_method", "put");
-            console.log(currentItemId)
+            console.log(currentItemId);
             await router.post(
                 `/dashboard/kunjungan/${currentItemId}`,
                 formData,
@@ -163,7 +178,7 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                         closeModal();
                     },
                 }
-            )
+            );
         }
 
         closeModal();
@@ -182,11 +197,8 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                     pauseOnHover={false}
                 />
                 <h3 className="font-bold">Table Kunjungan</h3>
-                {user.role == 0 ? (
-                    <TableNoRow
-                        headers={KunjunganTableHeader}
-                        data={datas}
-                    />
+                {userRole == 0 ? (
+                    <TableNoRow headers={KunjunganTableHeader} data={datas} />
                 ) : (
                     <Table
                         headers={KunjunganTableHeader}
@@ -245,22 +257,35 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                                         handleChange(e, index)
                                                     }
                                                     value={formGroup.id_obat}
-                                                    items={obats.map((obat) => ({
-                                                        text: obat.nama_obat,
-                                                        value: obat.id.toString(),
-                                                    }))}
+                                                    items={obats.map(
+                                                        (obat) => ({
+                                                            text: obat.nama_obat,
+                                                            value: obat.id.toString(),
+                                                        })
+                                                    )}
                                                 />
                                             </div>
                                             <div className="col col-3 mr-2">
                                                 <FormSelect
                                                     name="ket"
                                                     label="Keterangan"
-                                                    onChange={(e) => handleChange(e, index)}
+                                                    onChange={(e) =>
+                                                        handleChange(e, index)
+                                                    }
                                                     value={formGroup.ket}
                                                     items={[
-                                                        { text: "3 X 1", value: "3 X 1" },
-                                                        { text: "2 X 1", value: "2 X 1" },
-                                                        { text: "1 X 1", value: "1 X 1" },
+                                                        {
+                                                            text: "3 X 1",
+                                                            value: "3 X 1",
+                                                        },
+                                                        {
+                                                            text: "2 X 1",
+                                                            value: "2 X 1",
+                                                        },
+                                                        {
+                                                            text: "1 X 1",
+                                                            value: "1 X 1",
+                                                        },
                                                     ]}
                                                 />
                                             </div>
@@ -268,7 +293,9 @@ const DashboardKunjungans: React.FC<DashboardKunjungansProps> = ({
                                                 <FormInput
                                                     type="text"
                                                     name="jumlah"
-                                                    onChange={(e) => handleChange(e, index)}
+                                                    onChange={(e) =>
+                                                        handleChange(e, index)
+                                                    }
                                                     value={formGroup.jumlah}
                                                     label="Jumlah"
                                                     placeholder="Enter Jumlah"

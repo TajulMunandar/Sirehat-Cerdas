@@ -34,7 +34,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "http://127.0.0.1:5001/predict"
+                    "https://predict-kmipn-2024.vercel.app/predict"
                 );
                 const predictionsWithIntegers = response.data.map(
                     (item: any) => ({
@@ -122,7 +122,7 @@ const Dashboard: React.FC<DashboardDoktersProps> = ({
     useEffect(() => {
         // Fetch data from the Flask API using axios
         axios
-            .get<ApiResponse>("http://127.0.0.1:5000/clustering")
+            .get<ApiResponse>("https://publikalvinsyahri.my.id/clustering")
             .then((response) => {
                 setRawData(response.data); // Save the raw response data
             })

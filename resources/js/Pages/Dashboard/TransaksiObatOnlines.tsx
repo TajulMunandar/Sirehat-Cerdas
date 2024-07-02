@@ -20,19 +20,22 @@ interface DashboardTransaksiObatsProps {
 
 interface User {
     id: number;
-    role: number;
-
+    role: string; // Keeping it as string since it's received as a string
+    username: string;
+    // Add other properties that match your user data
 }
 
 interface PageProps {
     user: User;
-    [key: string]: any;
+    [key: string]: any; // Add index signature
 }
 
 const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
     transaksiobatonlines,
 }) => {
     const { user } = usePage<PageProps>().props;
+
+    const userRole = Number(user.role);
 
     const { routers }: any = usePage();
     const [currentItemId, setCurrentItemId] = useState<number | null>(null);
@@ -169,7 +172,7 @@ const DashboardTransaksiObats: React.FC<DashboardTransaksiObatsProps> = ({
         headers: TransaksiObatOnlineTableHeader,
         data: datas,
         onDetail: handleDetail,
-        ...(user.role !== 0 && { onProcessApproval: handleApproval })
+        ...(userRole !== 0 && { onProcessApproval: handleApproval })
     };
 
     return (

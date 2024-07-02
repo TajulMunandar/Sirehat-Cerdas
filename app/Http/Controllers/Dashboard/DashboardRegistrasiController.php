@@ -22,9 +22,9 @@ class DashboardRegistrasiController extends Controller
             $status = session('status');
             $status_code = session('status_code');
             $registrasis = Registrasi::where('status', 0)
-                                    ->with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])
-                                    ->orderBy('no_antrian', 'asc') // Menambahkan pengurutan berdasarkan no_antrian
-                                    ->get();
+                ->with(['Pasien:id,nik,no_kk,no_bpjs,nama,no_hp,alamat,foto'])
+                ->orderBy('no_antrian', 'asc') // Menambahkan pengurutan berdasarkan no_antrian
+                ->get();
             $dokter = Dokter::all();
             $registrasiData = $registrasis->map(function ($registrasi) use ($dokter) {
                 $dokterPoli = $dokter->firstWhere('poli', $registrasi->poli); // Cari dokter dengan poli yang sama
@@ -126,9 +126,8 @@ class DashboardRegistrasiController extends Controller
             Registrasi::where('id', $registrasi->id)->update($validatedData);
 
             return Redirect::route('registrasi.index')->with([
-                'status_code' => 200, 
+                'status_code' => 200,
             ]);
-
         } catch (Exception $e) {
             return Redirect::route('registrasi.index')->with([
                 'status_code' => 500,
