@@ -28,6 +28,6 @@ class Kunjungan extends Model
 
     public function TransaksiObat()
     {
-        return $this->hasMany(TransaksiObat::class);
+        return $this->hasMany(TransaksiObat::class, 'id_kunjungan');
     }
 }
