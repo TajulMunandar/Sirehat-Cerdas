@@ -48,5 +48,9 @@ class DatabaseSeeder extends Seeder
         ]);
         
         \App\Models\Registrasi::factory()->count(5)->belum()->create(['tanggal' => Carbon::today()]);
+
+        $this->call([
+            KonsultasiOnlineSeeder::class,
+        ]);
     }
 }

@@ -9,7 +9,7 @@ CORS(app)
 
 # Function untuk mendapatkan data dari database Laravel
 def getDataFromDatabase():
-    laravel_api_url = "http://127.0.0.1:8000/api/get-data-kunjungan"
+    laravel_api_url = "https://sirehatcerdas.online/api/get-data-kunjungan"
 
     try:
         response = requests.get(laravel_api_url)
@@ -25,7 +25,7 @@ def getDataFromDatabase():
 def predictMovingAverage(data, window_size=7):
     # Extract dates and visitor counts from the data
     dates = [entry["tanggal"] for entry in data]
-    jumlah_kunjungan = [entry["jumlah_kunjungan"] for entry in data]
+    jumlah_kunjungan = [int(entry["jumlah_kunjungan"]) for entry in data]
 
     # Calculate moving average
     moving_averages = []
@@ -87,4 +87,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(port=5000)

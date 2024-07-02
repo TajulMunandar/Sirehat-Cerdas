@@ -16,8 +16,13 @@ class TransaksiObatOnlineDetailFactory extends Factory
      */
     public function definition(): array
     {
+        $keterangan = ['3 X 1', '2 X 1', '1 X 1'];
+
         return [
-            //
+            'id_to_online' => TransaksiObatOnline::factory(),
+            'id_obat' => Obat::inRandomOrder()->first()->id,
+            'ket' => $this->faker->randomElement($keterangan),
+            'jumlah' => $this->faker->numberBetween(4, 8),
         ];
     }
 }
