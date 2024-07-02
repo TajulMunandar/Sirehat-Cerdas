@@ -126,7 +126,7 @@ const DashboardAntarJemputs: React.FC<DashboardAntarJemputProps> = ({
                         statusMapping={statusAntarMapping}
                     />
                 ) : (
-                    <Table
+                    <TableNoRow
                         headers={JemputTableHeader}
                         data={datasJemput}
                         statusMapping={statusJemputMapping}

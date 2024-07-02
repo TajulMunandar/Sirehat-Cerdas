@@ -162,7 +162,7 @@ export default function Login({
                                         alignItems: "center",
                                     }}
                                 >
-                                    <Grid item display={"flex"}>
+                                    {/* <Grid item display={"flex"}>
                                         <Typography
                                             className="text-gray-400"
                                             sx={{
@@ -177,7 +177,7 @@ export default function Login({
                                         >
                                             {"Register"}
                                         </Link>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </Box>
                         </Box>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pasien;
+use App\Models\Dokter;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Registrasi;
@@ -11,10 +12,37 @@ use Exception;
 
 class MobileRegistrasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Registrasi::where('id_pasien', Auth()->user()->pasien->id)->with('dokter:id,nama')->latest()->get(['id', 'no_antrian', 'id_dokter']);
-        return response()->json(['message' => 'Sukses Create Registrasi', 'registrasis' => $data], 200);
+        $user_id = $request->id_user;
+        $pasien = Pasien::where('id_user', $user_id)->first();
+        $registrations = Registrasi::where('id_pasien', $pasien->id)->where('status', 0)->latest()->get(['id', 'poli', 'keluhan', 'tanggal', 'no_antrian']);
+        $today = Carbon::now()->isoFormat('dddd'); // Mengambil hari ini dalam format 'Senin', 'Selasa', dst.
+
+        $registrations->each(function ($registration) use ($today) {
+            $dokter = Dokter::where('poli', $registration->poli)->first();
+            
+            if ($dokter) {
+                $registration->dokter = $dokter->nama;
+
+                // Ambil jadwal dokter hari ini
+                $jadwal_hari_ini = $dokter->jadwal()->where('hari', $today)->first();
+
+                // Masukkan jadwal ke dalam data registration
+                $registration->jadwal_hari_ini = $jadwal_hari_ini ? [
+                    'hari' => $jadwal_hari_ini->hari,
+                    'rentang_waktu' => $jadwal_hari_ini->rentang_waktu,
+                ] : null;
+            } else {
+                $registration->dokter = null;
+                $registration->jadwal_hari_ini = null;
+            }
+        });
+
+        return response()->json([
+            'message' => 'Sukses Create Registrasi',
+            'registrations' => $registrations
+        ]);
     }
 
     public function store(Request $request)

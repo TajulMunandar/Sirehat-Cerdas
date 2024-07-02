@@ -25,7 +25,7 @@ Route::post('/register', [MobileAuthController::class, 'register']);
 Route::get('/profile', [MobileAuthController::class, 'profile']);
 Route::get('/dokter', [MobileDokterController::class, 'index']);
 Route::post('/riwayat', [MobileRiwayatController::class, 'index']);
-Route::get('/registrasi', [MobileRegistrasiController::class, 'index']);
+Route::post('/get-registrasi', [MobileRegistrasiController::class, 'index']);
 Route::post('/registrasi', [MobileRegistrasiController::class, 'store']);
 Route::get('/get-data-kunjungan', [KunjunganController::class, 'GetData']);
 Route::get('/get-data-clustering', [DashboardController::class, 'getClustering']);

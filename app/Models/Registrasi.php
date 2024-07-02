@@ -27,4 +27,9 @@ class Registrasi extends Model
     {
         return $this->hasMany(Kunjungan::class, 'id_registrasi');
     }
+
+    public function dokter()
+{
+    return $this->belongsTo(Dokter::class, 'poli', 'poli');
+}
 }

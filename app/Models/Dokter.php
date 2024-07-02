@@ -25,7 +25,7 @@ class Dokter extends Model
 
     public function Jadwal()
     {
-        return $this->hasMany(Jadwal::class);
+        return $this->hasMany(Jadwal::class, 'id_dokter');
     }
 
     public function KonsultasiOnline()

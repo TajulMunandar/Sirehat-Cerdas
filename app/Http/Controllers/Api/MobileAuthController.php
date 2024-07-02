@@ -20,6 +20,7 @@ class MobileAuthController extends Controller
             'password' => 'required'
         ]);
 
+        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $data = match ($user->role) {
@@ -28,6 +29,7 @@ class MobileAuthController extends Controller
                 5 => Kurir::where('id_user', $user->id)->first(),
                 default => null,
             };
+            return response()->json($user);
             
             $token = $user->createToken('authToken')->plainTextToken;
 
